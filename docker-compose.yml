@@ -1,0 +1,12 @@
+version: "3.2"
+services:
+
+  sql-server-db:
+    container_name: sql-server-db
+    image: "${SQL_SERVER_IMAGE}"
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "SuperS3cret!"
+      ACCEPT_EULA: "Y"
+

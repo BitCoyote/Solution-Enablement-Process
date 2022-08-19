@@ -67,8 +67,9 @@
   "allowJs": true,
 
   "include": [
-    "src/index.tsx",
-    "src/frontend/**/*",
+    "src/server.ts",
+    "./tsconfig.json",
+    "src/backend/**/*",
     "src/shared/**/*"
   ],
   "exclude": [
