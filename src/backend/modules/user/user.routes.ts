@@ -7,6 +7,7 @@ const endpoints: Endpoint[] = [
     method: 'get',
     handler: userController.getUser,
     operationObject: {
+      tags: ['User'],
       description: "Get a user by id. Optionally pass 'me' as the id to get the current user.",
       parameters: [{
         name: 'id',

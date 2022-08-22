@@ -1,9 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import { Counter } from '../features/counter/Counter';
 import './App.css';
-import { useAppSelector } from './app/hooks';
-import { selectOidcUser } from './app/auth/customOidcReducer';
+import { useAppSelector } from './hooks';
+import { selectOidcUser } from './auth/customOidcReducer';
 
 
 function App() {

@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize/types';
-import { initUser, UserModel, userAssociations } from './features/users/user.model';
-import { initRole, roleAssociations, RoleModel } from './features/users/role.model';
-import { initUserRole, UserRoleModel } from './features/users/user-role.model';
-import { initPermission, permissionAssociations, PermissionModel } from './features/users/permission.model';
-import { initRolePermission, RolePermissionModel } from './features/users/role-permission.model';
+import { initUser, UserModel, userAssociations } from './modules/user/user.model';
+import { initRole, roleAssociations, RoleModel } from './modules/user/role.model';
+import { initUserRole, UserRoleModel } from './modules/user/user-role.model';
+import { initPermission, permissionAssociations, PermissionModel } from './modules/user/permission.model';
+import { initRolePermission, RolePermissionModel } from './modules/user/role-permission.model';
 
 export default class Database {
   public User: typeof UserModel;

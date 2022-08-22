@@ -73,7 +73,7 @@
     "src/shared/**/*"
   ],
   "exclude": [
-    "*.test.tsx",
-    "*.test.ts"
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
   ]
 }

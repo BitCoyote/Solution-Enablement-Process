@@ -6,12 +6,11 @@ import endpoints, { Endpoint } from './endpoints';
 export default (
   app: express.Application,
   db: Database
-): express.Application => {
+) => {
   endpoints.forEach((endpoint)=>{
     // Create endpoint in express
     createExpressEndpoint(db,app,endpoint);
   });
-  return app;
 };
 
 const createExpressEndpoint = (db: Database, app: express.Application, endpoint: Endpoint) => {

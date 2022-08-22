@@ -34,25 +34,14 @@ export default async (
           [Op.in]: userRoles.map(ur => ur.roleID)
         }
       },
-      include: [
-        {
-          model: db.RolePermission,
-          as: 'rolePermissions',
-          include: {
-            model: db.Permission,
-            as: 'permission'
-          }
-        }
-      ]
+      include: {
+        model: db.Permission,
+        as: 'permissions',
+        through: { attributes: [] }
+      }
     };
 
-    let roles = await db.Role.findAll(roleOptions);
-    if (roles.length === 0) {
-      roleOptions.where = { id: { [Op.eq]: 0 } };
-      roles = await db.Role.findAll(roleOptions);
-    }
-
-    res.locals.user.roles = [];
+    res.locals.user.roles = await db.Role.findAll(roleOptions);
     next();
   } catch (err) {
     logger.error(err);
@@ -95,8 +84,7 @@ export const mustOwnResource = async (
 
 export const checkForPermission = (
   res: express.Response,
-  permission: string | string[],
-  plantID?: string | null
+  permission: string | string[]
 ) => {
   // Check for a single permission or a list of permisisons. Returns true if at least 1 is found.
   let permissionsToCheck: string[];
@@ -105,17 +93,17 @@ export const checkForPermission = (
   } else {
     permissionsToCheck = [permission];
   }
-  for (let i = 0; i < res.locals.roles.length; i++) {
-    const role = res.locals.roles[i];
+  for (let i = 0; i < res.locals.user.roles.length; i++) {
+    const role = res.locals.user.roles[i];
     if (role.superUser) {
       // Super User, can do anything.
       return true;
     }
-    for (let k = 0; k < role.dataValues.rolePermissions.length; k++) {
-      const rolePermission = role.dataValues.rolePermissions[k].dataValues;
+    for (let k = 0; k < role.dataValues.permissions.length; k++) {
+      const permission = role.dataValues.permissions[k].dataValues;
       if (
         permissionsToCheck.includes(
-          rolePermission.permission.dataValues.title
+          permission.dataValues.title
         )
       ) {
         return true;
@@ -137,7 +125,7 @@ export const checkForPermissionMiddleware = (
       .status(403)
       .send(
         'You are missing the following permission required for this endpoint: ' +
-          permission
+        permission
       );
   }
 };

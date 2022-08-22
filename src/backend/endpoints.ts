@@ -1,7 +1,7 @@
 import express from 'express';
 import Database from './database';
 import { OpenAPIV3 } from 'openapi-types';
-import userEndpoints from './features/users/user.routes';
+import userEndpoints from './modules/user/user.routes';
 
 export interface Endpoint {
     /** The path used for the endpoint. Uses swagger path parameters such as "/users/{id}" */

@@ -2,9 +2,9 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './frontend/app/store';
-import App from './frontend/App';
+import App from './frontend/app/App';
 import reportWebVitals from './frontend/reportWebVitals';
-import './frontend/index.css';
+import './frontend/app/index.css';
 import {
   BrowserRouter,
   Routes,

@@ -26,6 +26,9 @@ export default {
           }]
         }]
       });
+      if (!dbUser) {
+        return res.status(404).send('Cannot find user.')
+      }
       return res.send(dbUser);
     } catch (err) {
       logger.error(err);
