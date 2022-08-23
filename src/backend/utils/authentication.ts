@@ -32,6 +32,7 @@ export default async (
       let existingUser = await db.User.findOne({
         where: { id: res.locals.user.oid }
       });
+
       if (!existingUser && req.path === '/users/me') {
         // Init user here if there is no user in database.
         existingUser = await initUser(res.locals.user, db);

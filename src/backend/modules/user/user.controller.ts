@@ -8,9 +8,6 @@ export default {
     res: express.Response,
     db: Database
   ): Promise<express.Response> => {
-    if (!req.params.id) {
-      return res.status(400).send('No id parameter was passed.')
-    }
     const id = req.params.id === 'me' ? res.locals.user.oid : req.params.id;
     try {
       const dbUser = await db.User.findOne({
@@ -29,7 +26,7 @@ export default {
       if (!dbUser) {
         return res.status(404).send('Cannot find user.')
       }
-      return res.send(dbUser);
+      return res.send(dbUser); 
     } catch (err) {
       logger.error(err);
       return res.status(500).send(err)
