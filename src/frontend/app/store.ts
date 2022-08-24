@@ -1,14 +1,15 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action, PreloadedState, combineReducers } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
-import { loadUser } from 'redux-oidc';
-import userManager from './auth/userManager';
-import customOidcReducer from './auth/customOidcReducer';
 
-export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-    oidc: customOidcReducer
-  },
+// Create the root reducer separately so we can extract the RootState type
+const rootReducer = combineReducers({
+  counter: counterReducer,
+
+})
+
+export const setupStore = (preloadedState?: PreloadedState<RootState>) => configureStore({
+  reducer: rootReducer,
+  preloadedState,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -20,10 +21,10 @@ export const store = configureStore({
     }),
 
 });
-loadUser(store, userManager);
 
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>
+export type AppStore = ReturnType<typeof setupStore>
+export type AppDispatch = AppStore['dispatch'];
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,

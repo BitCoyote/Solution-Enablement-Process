@@ -47,7 +47,6 @@ export const getTestUserTokens = async () => {
 }
 
 const globals = globalThis as any;
-
 // Mock logger util so we don't spit out error logs to stdout on every test
 jest.mock('./utils/logger.ts', () => ({
     debug: jest.fn(),

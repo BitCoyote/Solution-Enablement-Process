@@ -2,16 +2,11 @@ import React from 'react';
 import logo from './logo.svg';
 import { Counter } from '../features/counter/Counter';
 import './App.css';
-import { useAppSelector } from './hooks';
-import { selectOidcUser } from './auth/customOidcReducer';
-
 
 function App() {
-  const user = useAppSelector(selectOidcUser);
   return (
     <div className="App">
       <header className="App-header">
-        <h2>How's it going, {user?.profile.name}?</h2>
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
         <p>
