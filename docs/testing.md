@@ -42,7 +42,7 @@ describe('User module', () => {
       const mockFindOne = jest.fn();
       mockFindOne.mockReturnValue(user);
       globals.db.User.findOne = mockFindOne;
-      // We are actually hitting this endpoint with and of the authentication middleware!
+      // We are actually hitting this endpoint with all of the authentication middleware!
       await (globals.request as SuperTest<Test>)
         .get(`/users/me`)
         .expect(user)
