@@ -5,21 +5,23 @@
 ## Front-End 
 * Typescript
 * React
-* Redux
+* Redux Toolkit
 * Jest
 * React Testing-Library
 * Cypress
 
 ## Back-End
 * Typescript
-* NodeJS v 
+* NodeJS v16.6.0
 * Express
 * SQL Server
 * Sequelize
 * Jest
-* React Testing-Library
+* Supertest
+* Cypress
 
 ## Testing
+See [our testing docs](docs/testing.md)
 
 ## Local Development
 
@@ -60,3 +62,4 @@ Setup your local environment variables.
 * Create a file called `.env` in your root project directory.
 * Copy the contents from `.env.sample` to `.env`.
 * Update any environment variable values as needed.
+* See the [environment docs](docs/environment.md) for a breakdown of what each environment variable is used for.

@@ -3,7 +3,7 @@ import logger from './logger';
 import Database from '../database';
 import initUser from './init-user';
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
-import moment from 'moment';
+import { isBefore, addDays } from 'date-fns'
 const jwt = require('jsonwebtoken');
 /**
  * @function void Express middleware to decode token and attach to res.locals
@@ -41,9 +41,7 @@ export default async (
       if (
         existingUser &&
         (!existingUser.lastActiveDirectoryUpdate ||
-          moment(existingUser.lastActiveDirectoryUpdate)
-            .add(7, 'days')
-            .isBefore(moment()))
+          isBefore(addDays(new Date(existingUser?.lastActiveDirectoryUpdate), 7), new Date()))
       ) {
         //get user active directory info
         const tokenResponse = await getToken();
@@ -94,7 +92,7 @@ const validateToken = async (authHeader: string) => {
   const completeKey = `-----BEGIN CERTIFICATE-----\n${key.x5c[0]}\n-----END CERTIFICATE-----`;
   return jwt.verify(token, completeKey, { algorithms: ['RS256'] });
 };
-const getToken = (): Promise<AxiosResponse<{access_token: string}>> => {
+const getToken = (): Promise<AxiosResponse<{ access_token: string }>> => {
   const data: any = {
     client_id: process.env.REACT_APP_CLIENT_ID,
     client_secret: process.env.CLIENT_SECRET,
@@ -114,5 +112,5 @@ const getToken = (): Promise<AxiosResponse<{access_token: string}>> => {
       .join('&')
   };
 
-  return axios.request<{access_token: string}>(tokenOpts);
+  return axios.request<{ access_token: string }>(tokenOpts);
 };

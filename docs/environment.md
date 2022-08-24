@@ -11,3 +11,13 @@
 ### Back-End Env Variables
 * API_PORT= The port to host the backend API service on
 * CLIENT_SECRET= The client secret for the application in Azure Active Directory
+
+### SQL Server
+* SQL_SERVER_HOST= The hostname of the SQL server to connect to.
+* SQL_SERVER_MODE= Usually "default" but could be "ntlm"
+* SQL_SERVER_DOMAIN= Used for NTLM connection modes only. Defaults to constellation"
+* SQL_SERVER_USER = The login username for the SQL Server user. Defaults to jegdba
+* SQL_SERVER_PASS= SQL Server pass should be stored in Azure key vault or in system env variables for non-local environments
+* SQL_SERVER_PORT= SQL Server port number. Defaults to 1433
+* SQL_SERVER_DB= The name of the SQL Server database. 
+* SQL_SERVER_INSTANCE_NAME= Name of the SQL server instance. Only necessary if dialect options for server require it.
