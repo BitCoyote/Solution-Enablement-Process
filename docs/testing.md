@@ -5,8 +5,8 @@ The testing in this project can be broken down into the following:
 * **Static Analysis** - Typescript, tslint, and eslint will catch typos and type errors as we write and commit code.
 * **Unit Tests** - Generally for one-off functions such as things such as helpers/utils, redux slices, and files in the [shared](src/shared) directory using Jest.
 * **Integration Tests** - For testing functionality that spans multiple files. 
- * For the frontend, this is mainly component testing using Jest and Testing Library.
- * For the backend, this is mainly endpoint testing using Jest and Supertest.
+  * For the frontend, this is mainly component testing using Jest and Testing Library.
+  * For the backend, this is mainly endpoint testing using Jest and Supertest.
 * **End-to-End (E2E) Tests** - For testing the main user flows of the application as a whole, using Cypress.
 
 [More reading on testing](https://kentcdodds.com/blog/static-vs-unit-vs-integration-vs-e2e-tests)
