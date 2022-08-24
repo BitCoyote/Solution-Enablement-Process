@@ -6,7 +6,6 @@ import App from './App';
 describe('App component', () => {
   it('should render react learning link', () => {
     const { getByText } = renderWithProviders(<App />)
-  
     expect(getByText(/learn/i)).toBeInTheDocument();  
   });
 });
