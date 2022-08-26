@@ -10,7 +10,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import Auth from './frontend/app/auth/Auth';
+import Auth from './frontend/features/auth/Auth';
 import { MsalProvider } from "@azure/msal-react";
 import { Configuration, PublicClientApplication } from "@azure/msal-browser";
 const container = document.getElementById('root')!;

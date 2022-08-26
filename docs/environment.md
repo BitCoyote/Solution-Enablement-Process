@@ -6,7 +6,6 @@
 * REACT_APP_CLIENT_ID= Client ID of the application in Azure Active Directory
 * REACT_APP_TENANT_ID= Tenant ID of the tenant in Azure Active Directory
 * REACT_APP_REDIRECT_URI= The main redirect URI used for OAuth2.0, configured in the Azure Active Directory application
-* REACT_APP_SILENT_REDIRECT_URI= An additional redirect URI used for silent renewal of tokens, configured in the Azure Active Directory application
 
 ### Back-End Env Variables
 * API_PORT= The port to host the backend API service on
@@ -22,3 +21,6 @@
 * SQL_SERVER_DB= The name of the SQL Server database. 
 * SQL_SERVER_INSTANCE_NAME= Name of the SQL server instance. Only necessary if dialect options for server require it.
 * SQL_SERVER_DIALECT= SQL Server dialect to use for the database. Usually `mssql` for running the application or `sqlite` for automated testing
+
+### Automated Testing
+* BYPASS_AUTH= When true, skips token validation on the backend authentication middleware. Defaults to `false`. 

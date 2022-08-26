@@ -6,7 +6,6 @@ const endpoints: Endpoint[] = [
     path: '/users/{id}',
     method: 'get',
     handler: userController.getUser,
-    permission: ['GO_SURFING'],
     operationObject: {
       tags: ['User'],
       summary: 'Get user by ID',

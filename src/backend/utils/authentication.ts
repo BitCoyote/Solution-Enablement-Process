@@ -1,10 +1,11 @@
 import express from 'express';
 import logger from './logger';
 import Database from '../models';
-import initUser from './init-user';
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 import { isBefore, addDays } from 'date-fns'
 import { Op } from 'sequelize';
+import { NewUser } from '../../shared/types/User';
+import { UserModel } from '../models/user.model';
 const jwt = require('jsonwebtoken');
 /**
  * @function void Express middleware to decode token and attach to res.locals
@@ -40,39 +41,27 @@ export default async (
     let existingUser = await db.User.findOne({
       where: { id: res.locals.user.oid }
     });
-    if (!existingUser && req.path === '/users/me') {
-      // Init user here if there is no user in database.
-      existingUser = await initUser(res.locals.user, db);
-    }
-    // Update the user's data in the databse from Active Directory once a week
-    if (
-      existingUser &&
-      (!existingUser.lastActiveDirectoryUpdate ||
-        isBefore(addDays(new Date(existingUser?.lastActiveDirectoryUpdate), 7), new Date()))
-    ) {
-      //get user active directory info
-      const tokenResponse = await getToken();
-      const GRAPH_URL = 'https://graph.microsoft.com/v1.0';
-      const usersOpts: AxiosRequestConfig = {
-        url: `${GRAPH_URL}/users/${existingUser.id}`,
-        headers: {
-          authorization: `Bearer ${tokenResponse.data['access_token']}`
-        },
-        params: {
-          $select:
-            'displayName,mail,id,department,officeLocation,givenName,surname,jobTitle'
-        }
+    if (req.path === '/users/me') {
+      // This route is meant to be hit first when the application loads in order to initialize the user.
+      const userToUpsert: NewUser = {
+        id: res.locals.user.oid,
+        familyName: res.locals.user.family_name,
+        givenName: res.locals.user.given_name,
+        upn: res.locals.user.upn || res.locals.user.email || res.locals.user.preferred_username,
+        officeLocation: res.locals.user.officeLocation,
+        email: res.locals.user.mail,
+        department: res.locals.user.department,
+        displayName: res.locals.user.displayName || res.locals.user.name ,
+        surname: res.locals.user.surname,
+        jobTitle: res.locals.user.jobTitle
       };
-
-      const adUserResponse = await axios.request<any>(usersOpts);
-      const adUser = adUserResponse.data;
-      await db.User.update(
-        {
-          ...adUser,
-          lastActiveDirectoryUpdate: new Date()
-        },
-        { where: { id: adUser.id } }
-      );
+      if (existingUser) {
+        // Update the user's data in the database using claims in the token
+        await existingUser.update(userToUpsert);
+      } else {
+        // Init user here if there is no user in database.
+        existingUser = await db.User.create(userToUpsert as any);
+      }
     }
 
     const userRoleOptions = {
@@ -120,26 +109,4 @@ const validateToken = async (authHeader: string) => {
   }
   const completeKey = `-----BEGIN CERTIFICATE-----\n${key.x5c[0]}\n-----END CERTIFICATE-----`;
   return jwt.verify(token, completeKey, { algorithms: ['RS256'] });
-};
-const getToken = (): Promise<AxiosResponse<{ access_token: string }>> => {
-  const data: any = {
-    client_id: process.env.REACT_APP_CLIENT_ID,
-    client_secret: process.env.CLIENT_SECRET,
-    response_mode: 'fragment',
-    scope: 'https://graph.microsoft.com/.default',
-    grant_type: 'client_credentials'
-  };
-
-  const tokenOpts: AxiosRequestConfig = {
-    url: `https://login.microsoftonline.com/${process.env.REACT_APP_TENANT_ID}/oauth2/v2.0/token`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    data: Object.keys(data)
-      .map(key => `${key}=${data[key]}`)
-      .join('&')
-  };
-
-  return axios.request<{ access_token: string }>(tokenOpts);
 };

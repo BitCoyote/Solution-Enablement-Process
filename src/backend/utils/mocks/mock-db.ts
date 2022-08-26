@@ -23,9 +23,9 @@ interface TestData {
  * */
 export const testData: TestData = {
   User: [
-    { ...baseObject, id: 'system', lastActiveDirectoryUpdate: new Date() },
-    { ...baseObject, id: testUserID, lastActiveDirectoryUpdate: new Date() },
-    { ...baseObject, id: 'abc', createdAt: new Date(), updatedAt: new Date(), lastActiveDirectoryUpdate: new Date() }
+    { ...baseObject, id: 'system' },
+    { ...baseObject, id: testUserID },
+    { ...baseObject, id: 'abc' }
   ],
   Role: [
     { ...baseObject, id: 1, name: 'System Admin', superUser: true, description: 'Can do anything!' }
@@ -42,16 +42,11 @@ export const testData: TestData = {
 };
 
 export const seedTables = async (db: Database) => {
-  try {
-    await db.sequelize.transaction(async (t) => {
-      for (const prop in testData) {
-        //@ts-ignore
-        await db[prop].bulkCreate(testData[prop], { transaction: t });
-      }
-
-    });
-  } catch (err) {
-    console.error(err);
-  }
+  await db.sequelize.transaction(async (t) => {
+    for (const prop in testData) {
+      //@ts-ignore
+      await db[prop].bulkCreate(testData[prop], { transaction: t });
+    }
+  });
 }
 

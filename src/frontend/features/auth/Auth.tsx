@@ -2,8 +2,9 @@ import React from 'react';
 import { Outlet } from "react-router-dom";
 import { useIsAuthenticated, useMsalAuthentication, useMsal, useAccount } from "@azure/msal-react";
 import { InteractionType, AccountInfo,SilentRequest } from "@azure/msal-browser";
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch } from '../../app/hooks';
 import axios, { AxiosRequestConfig } from 'axios';
+import { getLoggedInUser } from './authSlice';
 let interceptor: number;
 
 export const Auth = () => {
@@ -19,12 +20,14 @@ export const Auth = () => {
     if (result) {
       // User just started their session
       setRequestInterceptors(result.account as AccountInfo);
+      requestUserData(result.account as AccountInfo);
     }
-  }, [result, dispatch])
+  }, [result])
   React.useEffect(() => {
     if (account) {
       // User is refreshing an existing session
       setRequestInterceptors(account as AccountInfo);
+      requestUserData(account)
     }
   }, [])
   const setRequestInterceptors = (account: AccountInfo) => {
@@ -52,13 +55,15 @@ export const Auth = () => {
   };
 
   // Get user data on from session storage or from database.
-  // const requestUserData = React.useCallback(() => {
-  //   if (user) {
-  //     // dispatch(getUserInfo('me'));
+  const requestUserData = React.useCallback((account: AccountInfo) => {
+    console.log(account)
+    dispatch(getLoggedInUser());
+    // if (user) {
+      // dispatch(getUserInfo('me'));
 
-  //   }
-  // }, [dispatch, user]);
-  // React.useEffect(requestUserData, [user, requestUserData]);
+    // }
+  }, [dispatch]);
+  
   if (error) {
     return <div>An authentication error has occurred. Please refresh your browser.</div>
   } else if (inProgress !== 'none') {

@@ -33,7 +33,7 @@ export default (app: express.Application) => {
     },
     servers: [
       {
-        url: `${process.env.REACT_APP_API_BASE_URL}:${process.env.API_PORT}`
+        url: `${process.env.REACT_APP_API_BASE_URL}`
       }
     ],
     components: {

@@ -34,11 +34,7 @@ export const UserSchema: Sequelize.ModelAttributes = {
     type: Sequelize.STRING,
     allowNull: true
   },
-  lastActiveDirectoryUpdate: {
-    type: Sequelize.DATE,
-    allowNull: true
-  },
-  mail: {
+  email: {
     type: Sequelize.STRING,
     allowNull: true
   },

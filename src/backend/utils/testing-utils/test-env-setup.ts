@@ -9,7 +9,6 @@ const loggedInUserID = '774d6f78-5477-4f71-8f6e-fea599577a50';
 const globals = globalThis as any;
 const port = process.env.SQL_SERVER_PORT || 3001;
 
-console.log(globals)
 // Mock logger util so we don't spit out error logs to stdout on every test
 jest.mock('../logger.ts', () => ({
     debug: jest.fn(),

@@ -22,12 +22,6 @@ export const PermissionSchema: Sequelize.ModelAttributes = {
         type: Sequelize.DATE,
         allowNull: false
     },
-    createdBy: {
-        type: Sequelize.STRING,
-        references: { key: 'id', model: 'User' },
-        onDelete: 'SET NULL',
-        allowNull: true
-    },
     name: {
         type: Sequelize.STRING,
         allowNull: false

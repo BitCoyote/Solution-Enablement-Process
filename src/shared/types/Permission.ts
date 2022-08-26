@@ -1,9 +1,8 @@
+import { SequelizeTimestamps } from "./Sequelize";
+
 /** A seeded Permission in the system */
-export interface Permission {
+export interface Permission extends SequelizeTimestamps {
     id: string;
-    createdAt: Date;
-    updatedAt: Date;
-    createdBy: string;
     name: string;
     description: string;
   }

@@ -37,11 +37,7 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: true
           },
-          lastActiveDirectoryUpdate: {
-            type: Sequelize.DATE,
-            allowNull: true
-          },
-          mail: {
+          email: {
             type: Sequelize.STRING,
             allowNull: true
           },
@@ -114,12 +110,6 @@ module.exports = {
           updatedAt: {
             type: Sequelize.DATE,
             allowNull: false
-          },
-          createdBy: {
-            type: Sequelize.STRING,
-            references: { key: 'id', model: 'User' },
-            onDelete: 'SET NULL',
-            allowNull: true
           },
           name: {
             type: Sequelize.STRING,
