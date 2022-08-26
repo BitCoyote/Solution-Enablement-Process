@@ -17,6 +17,7 @@ The testing in this project can be broken down into the following:
     * To run only the frontend tests, use `npm run test-frontend`.
     * To run only the backend tests, use `npm run test-backend`.
     * To run only the shared tests, use `npm run test-shared`.
+* The test suite will use the env variables defined in `.env.testing`
     
 [jest.config.js](jest.config.js) is configured with multiple projects, allowing us to run tests in different jest environments (`node` for the backend and shared tests, `jsdom` for the frontend tests). The entire test suite will be reported to the `/coverage` folder (git-ignored) when using `npm run test`.
 
@@ -28,28 +29,38 @@ We want to have test coverage for the following:
 * React components (integration)
 * Main user flows (e2e)
 
+## Testing Environment & Database
+When running tests, the environment variables defined in [`.env.testing`](../.env.testing) will be used. Instead of SQL Server, tests will use a SQLite in-memory database that is built as part of the setup in [test-env-setup.ts](../src/backend/utils/testing-utils/test-env-setup.ts). Every test will receieve a fresh database, so there is no need to manage data cleanup between tests. The entire mock database fixture can be found in [mock-db.ts](../src/backend/utils/mocks/mock-db.ts). Data can be added to `testData` for use in tests.
+
+Additionally, [test-env-setup.ts](../src/backend/utils/testing-utils/test-env-setup.ts) exposes a few useful utils to `globalThis`.
+* **app** - The express app created for the current test.
+* **db** - The sequelize database object created for the current test. This can be queried against in tests to verify that object were probably created/edited.
+* **loggedInUserID** - The user id of the user used for testing.
+* **server** - The express server created from ```app.listen(...)```
+* **request** - A supertest object already bootstrapped with the express app and `Authorization` header. This can be used in tests like so:
+   ```
+   await (globals.request as SuperTest<Test>).get(`/users/me`).expect(200);
+### A note on Authentication for testing
+Token validation on the backend is bypassed for automated testing via the `BYPASS_AUTH` environment variable. The test user token and user id is hardcoded in [test-env-setup.ts](../src/backend/utils/testing-utils/test-env-setup.ts).
 ## Writing Integration Tests for Backend Endpoints
-
-The backend endpoints are tested (with all middleware, authentication, etc) using Supertest. We mock database calls because starting, migrating, and seeding a database for every test file would take too much time to reasonably run before commits and in a CI/CD pipeline. The backend tests are preconfigured from [src/backend/test-setup.ts](src/backend/test-setup.ts). At the start of each testing file, the test runner will automatically authenticate with Azure AD using the `TESTING_USER` and `TESTING_PASS` defined in `.env.testing`. The tokens received will automatically be applied when using `globals.request`. For example:
+The backend endpoints are tested (with all middleware, etc) using Supertest. Calls to external 3rd party APIs should be mocked using [msw](https://www.npmjs.com/package/msw).
 ```
-import {SuperTest, Test} from 'supertest';
-describe('User module', () => {
-  const globals = globalThis as any;
-  describe('GET /users/{id}', () => {
-    it('should successfully return a user ', async () => {
-      const user = { id: 'blorg' };
-      // Mock the sequelize database findOne function
-      const mockFindOne = jest.fn();
-      mockFindOne.mockReturnValue(user);
-      globals.db.User.findOne = mockFindOne;
-      // We are actually hitting this endpoint with all of the authentication middleware!
-      await (globals.request as SuperTest<Test>)
-        .get(`/users/me`)
-        .expect(user)
-        .expect(200)
-    });
-  });
+it('should successfully return a user ', async () => {
+    const response = await (globals.request as SuperTest<Test>)
+      .get(`/users/abc`)
+      .expect(200);
+    expect(response.body.id).toEqual('abc');
 });
-
 ```
-This preconfiguration means when using `globals.request`, we do not need to bootstrap an express application and attach a token for every test.
+## Writing Integration Tests for Frontend React Components
+Test react components along with the hooks and actions they use by using `renderWithProviders` from [test-utils](../src/frontend/utils/test-utils.tsx). `renderWithProviders` will wrap the component you are testing with the redux store provider and optionally a pre-loaded state that you supply. For example:
+```
+  const state = {
+    counter: {
+      value: 1,
+      status: 'idle' as 'idle'
+    }
+  }
+ renderWithProviders(<SomeComponent />, { preloadedState: state })
+```
+Because the entire test suite is setup with an express server and database via [test-env-setup.ts](../src/backend/utils/testing-utils/test-env-setup.ts), we can allow the frontend components and actions to make HTTP requests to the backend. HTTP requests to 3rd party API's, however, should be mocked using [msw](https://www.npmjs.com/package/msw).

@@ -1,4 +1,4 @@
-# Front-End Env Variables (Also exposed to backend)
+# Env Variables
 ### General 
 * REACT_APP_API_BASE_URL= The base url for the backend API service
 
@@ -14,10 +14,11 @@
 
 ### SQL Server
 * SQL_SERVER_HOST= The hostname of the SQL server to connect to.
-* SQL_SERVER_MODE= Usually "default" but could be "ntlm"
-* SQL_SERVER_DOMAIN= Used for NTLM connection modes only. Defaults to constellation"
-* SQL_SERVER_USER = The login username for the SQL Server user. Defaults to jegdba
+* SQL_SERVER_MODE= Usually `default` but could be `ntlm`
+* SQL_SERVER_DOMAIN= Used for NTLM connection modes only. Defaults to `constellation`
+* SQL_SERVER_USER = The login username for the SQL Server user. Defaults to `jegdba`
 * SQL_SERVER_PASS= SQL Server pass should be stored in Azure key vault or in system env variables for non-local environments
-* SQL_SERVER_PORT= SQL Server port number. Defaults to 1433
+* SQL_SERVER_PORT= SQL Server port number. Defaults to `1433`
 * SQL_SERVER_DB= The name of the SQL Server database. 
 * SQL_SERVER_INSTANCE_NAME= Name of the SQL server instance. Only necessary if dialect options for server require it.
+* SQL_SERVER_DIALECT= SQL Server dialect to use for the database. Usually `mssql` for running the application or `sqlite` for automated testing

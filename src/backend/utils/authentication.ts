@@ -1,9 +1,10 @@
 import express from 'express';
 import logger from './logger';
-import Database from '../database';
+import Database from '../models';
 import initUser from './init-user';
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 import { isBefore, addDays } from 'date-fns'
+import { Op } from 'sequelize';
 const jwt = require('jsonwebtoken');
 /**
  * @function void Express middleware to decode token and attach to res.locals
@@ -19,60 +20,88 @@ export default async (
   db: Database
 ): Promise<void> => {
   const authFreePaths = [
-    '/api-docs',
-    '/favicon.ico',
+    '/api-docs'
   ];
   if (authFreePaths.some((path: string) => new RegExp(path).test(req.path))) {
     return next();
-  } else {
-    try {
+  }
+  try {
+    const bypassAuth = process.env.BYPASS_AUTH === 'true';
+    // Bypass token validation for automated testing.
+    if (bypassAuth) {
+      const token = (req.headers.authorization as string)?.split(' ')[1];
+      const decoded = jwt.decode(token || 'invalid', { complete: true }) as any;
+      res.locals.user = decoded.payload;
+    } else {
       res.locals.user = await validateToken(
         req.headers.authorization as string
-      );
-      let existingUser = await db.User.findOne({
-        where: { id: res.locals.user.oid }
-      });
-
-      if (!existingUser && req.path === '/users/me') {
-        // Init user here if there is no user in database.
-        existingUser = await initUser(res.locals.user, db);
-      }
-      // Update the user's data in the databse from Active Directory once a week
-      if (
-        existingUser &&
-        (!existingUser.lastActiveDirectoryUpdate ||
-          isBefore(addDays(new Date(existingUser?.lastActiveDirectoryUpdate), 7), new Date()))
-      ) {
-        //get user active directory info
-        const tokenResponse = await getToken();
-        const GRAPH_URL = 'https://graph.microsoft.com/v1.0';
-        const usersOpts: AxiosRequestConfig = {
-          url: `${GRAPH_URL}/users/${existingUser.id}`,
-          headers: {
-            authorization: `Bearer ${tokenResponse.data['access_token']}`
-          },
-          params: {
-            $select:
-              'displayName,mail,id,department,officeLocation,givenName,surname,jobTitle'
-          }
-        };
-
-        const adUserResponse = await axios.request<any>(usersOpts);
-        const adUser = adUserResponse.data;
-        await db.User.update(
-          {
-            ...adUser,
-            lastActiveDirectoryUpdate: new Date()
-          },
-          { where: { id: adUser.id } }
-        );
-      }
-      next();
-    } catch (err) {
-      logger.error(err);
-      res.status(401).send('Unable to authenticate request.');
+      )
     }
+    let existingUser = await db.User.findOne({
+      where: { id: res.locals.user.oid }
+    });
+    if (!existingUser && req.path === '/users/me') {
+      // Init user here if there is no user in database.
+      existingUser = await initUser(res.locals.user, db);
+    }
+    // Update the user's data in the databse from Active Directory once a week
+    if (
+      existingUser &&
+      (!existingUser.lastActiveDirectoryUpdate ||
+        isBefore(addDays(new Date(existingUser?.lastActiveDirectoryUpdate), 7), new Date()))
+    ) {
+      //get user active directory info
+      const tokenResponse = await getToken();
+      const GRAPH_URL = 'https://graph.microsoft.com/v1.0';
+      const usersOpts: AxiosRequestConfig = {
+        url: `${GRAPH_URL}/users/${existingUser.id}`,
+        headers: {
+          authorization: `Bearer ${tokenResponse.data['access_token']}`
+        },
+        params: {
+          $select:
+            'displayName,mail,id,department,officeLocation,givenName,surname,jobTitle'
+        }
+      };
+
+      const adUserResponse = await axios.request<any>(usersOpts);
+      const adUser = adUserResponse.data;
+      await db.User.update(
+        {
+          ...adUser,
+          lastActiveDirectoryUpdate: new Date()
+        },
+        { where: { id: adUser.id } }
+      );
+    }
+
+    const userRoleOptions = {
+      where: {
+        userId: {
+          [Op.eq]: res.locals.user.oid
+        }
+      }
+    };
+    const userRoles = await db.UserRole.findAll(userRoleOptions);
+    const roleOptions: any = {
+      where: {
+        id: {
+          [Op.in]: userRoles.map(ur => ur.roleID)
+        }
+      },
+      include: {
+        model: db.Permission,
+        as: 'permissions',
+        through: { attributes: [] }
+      }
+    };
+    res.locals.user.roles = await db.Role.findAll(roleOptions);
+    next();
+  } catch (err) {
+    logger.error(err);
+    res.status(401).send('Unable to authenticate request.');
   }
+
 };
 
 let keyCache: any[] = [];

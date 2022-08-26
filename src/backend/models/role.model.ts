@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
-import { Role } from '../../../shared/types/Role';
-import Database from '../../database';
+import { Role } from '../../shared/types/Role';
+import Database from './index';
 import { Sequelize as SequelizeType } from 'sequelize/types';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model

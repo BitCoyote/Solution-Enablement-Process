@@ -1,53 +1,4 @@
 import express from 'express';
-import logger from './logger';
-import Database from '../database';
-import { ModelStatic, Op } from 'sequelize';
-
-/**
- * @function void Express middleware to load permissions for user
- * @param {express.Request} req Express request object
- * @param {express.Response} res Express response object
- * @param {express.NextFunction} next Express response object
- * @param {Database} db Database object
- */
-export default async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-  db: Database
-): Promise<void> => {
-  const user: any = res.locals.user;
-
-  const userRoleOptions = {
-    where: {
-      userId: {
-        [Op.eq]: user.oid
-      }
-    }
-  };
-
-  try {
-    const userRoles = await db.UserRole.findAll(userRoleOptions);
-    const roleOptions: any = {
-      where: {
-        id: {
-          [Op.in]: userRoles.map(ur => ur.roleID)
-        }
-      },
-      include: {
-        model: db.Permission,
-        as: 'permissions',
-        through: { attributes: [] }
-      }
-    };
-
-    res.locals.user.roles = await db.Role.findAll(roleOptions);
-    next();
-  } catch (err) {
-    logger.error(err);
-    res.status(500).send(err.message);
-  }
-};
 
 /**
  * @function void Express middleware to check if user owns the resource they are trying to interact with
@@ -99,11 +50,11 @@ export const checkForPermission = (
       // Super User, can do anything.
       return true;
     }
-    for (let k = 0; k < role.dataValues.permissions.length; k++) {
-      const permission = role.dataValues.permissions[k].dataValues;
+    for (let k = 0; k < role.permissions.length; k++) {
+      const permission = role.permissions[k];
       if (
         permissionsToCheck.includes(
-          permission.dataValues.title
+          permission.id
         )
       ) {
         return true;

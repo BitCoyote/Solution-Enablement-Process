@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import { Sequelize as SequelizeType } from 'sequelize/types';
-import { User } from '../../../shared/types/User';
-import Database from '../../database';
+import { User } from '../../shared/types/User';
+import Database from './index';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
 export interface UserModel extends User { }

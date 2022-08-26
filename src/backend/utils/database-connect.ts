@@ -3,7 +3,7 @@ import { Logger } from 'winston';
 import logger from './logger';
 
 let db: Sequelize;
-const init = (): void => {
+const init = async (): Promise<void> => {
   const host = process.env.SQL_SERVER_HOST || 'localhost';
   const mode = process.env.SQL_SERVER_MODE || 'default';
   const domain = process.env.SQL_SERVER_DOMAIN || 'constellation';
@@ -17,7 +17,7 @@ const init = (): void => {
   const options = { requestTimeout: 90000, encrypt: true };
   const logging = (...msg: any): Logger =>
     logger.info(`executed ${msg[0]} duration: ${msg[1]} ms`);
-  const dialect: Dialect = 'mssql';
+  const dialect: Dialect = process.env.SQL_SERVER_DIALECT as Dialect;
   const dialectOptions = { options };
 
   if (mode === 'ntlm') {
@@ -54,22 +54,24 @@ const init = (): void => {
   };
 
   try {
-    if (mode === 'ntlm') {
+    if (dialect === 'sqlite') {
+      db = new Sequelize('sqlite::memory:', {logging: false});  // Don't log sql queries to console for automated testing
+    } else if (mode === 'ntlm') {
       db = new Sequelize(databaseName, '', '', config);
     } else {
       db = new Sequelize(databaseName, userName, password, config);
     }
-    db.authenticate().then(() => {
+    await db.authenticate().then(() => {
       logger.info('Successfully connected to database.');
-    });
+    }).catch((err: any) => console.warn(err));
   } catch (err) {
     logger.error('Could not connect to database. Sequelize error:', err);
   }
 };
 
-export default (): Sequelize => {
+export default async (): Promise<Sequelize> => {
   if (!db) {
-    init();
+    await init();
   }
   return db;
 };

@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
-import { Permission } from '../../../shared/types/Permission';
+import { Permission } from '../../shared/types/Permission';
 import { Sequelize as SequelizeType } from 'sequelize/types';
-import Database from '../../database';
+import Database from './index';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
 export interface PermissionModel extends Permission { }

@@ -1,6 +1,5 @@
 import express from 'express';
-import logger from '../../utils/logger';
-import Database from '../../database';
+import Database from '../../models';
 
 export default {
   getUser: async (
@@ -9,7 +8,6 @@ export default {
     db: Database
   ): Promise<express.Response> => {
     const id = req.params.id === 'me' ? res.locals.user.oid : req.params.id;
-    try {
       const dbUser = await db.User.findOne({
         where: { id },
         include: [{
@@ -27,9 +25,5 @@ export default {
         return res.status(404).send('Cannot find user.')
       }
       return res.send(dbUser); 
-    } catch (err) {
-      logger.error(err);
-      return res.status(500).send(err)
-    }
   }
 };

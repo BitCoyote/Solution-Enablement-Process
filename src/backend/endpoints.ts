@@ -1,5 +1,5 @@
 import express from 'express';
-import Database from './database';
+import Database from './models';
 import { OpenAPIV3 } from 'openapi-types';
 import userEndpoints from './modules/user/user.routes';
 
@@ -12,6 +12,8 @@ export interface Endpoint {
     permission?: string | string[];
     /** The handler function to be called when this endpoint is hit. */
     handler: (req: express.Request, res: express.Response, db: Database) => Promise<express.Response>;
+    /** A list of express middlware functions to be called for this route before the handler. */
+    middleware?: ((req: express.Request, res: express.Response, next: express.NextFunction, db: Database)=>(void | Promise<void>))[]
     /** 
      * The Open API V3 operation object https://swagger.io/specification/#operationObject
      * Can reference existing Typescript interfaces with $ref

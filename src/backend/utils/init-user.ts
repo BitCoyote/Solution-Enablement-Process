@@ -1,4 +1,4 @@
-import Database from '../database';
+import Database from '../models';
 export default async (user: any, db: Database): Promise<any> => {
   // Users are from Active Directory, but are replicated in the database so they can be referenced.
   const newUser = await db.User.create({
@@ -13,6 +13,5 @@ export default async (user: any, db: Database): Promise<any> => {
   //   roleID: 0,
   //   userID: user.oid
   // });
-  // Give user default dashboard for general user role if it exists
   return newUser;
 };

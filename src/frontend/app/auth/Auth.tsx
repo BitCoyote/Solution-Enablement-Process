@@ -1,14 +1,14 @@
 import React from 'react';
 import { Outlet } from "react-router-dom";
 import { useIsAuthenticated, useMsalAuthentication, useMsal, useAccount } from "@azure/msal-react";
-import { InteractionType, AccountInfo } from "@azure/msal-browser";
+import { InteractionType, AccountInfo,SilentRequest } from "@azure/msal-browser";
 import { useAppDispatch } from '../hooks';
 import axios, { AxiosRequestConfig } from 'axios';
 let interceptor: number;
 
 export const Auth = () => {
   const isAuthenticated = useIsAuthenticated();
-  const authRequest = {
+  const authRequest: SilentRequest = {
     scopes: ["openid", "profile"]
   };
   const { instance, accounts, inProgress } = useMsal();
@@ -28,16 +28,15 @@ export const Auth = () => {
     }
   }, [])
   const setRequestInterceptors = (account: AccountInfo) => {
-    instance.acquireTokenSilent({ ...authRequest, account }).then((response) => {
-      // If we have a previous request interceptor, we want to remove it so we can replace it with a new interceptor with new tokens.
-      interceptor !== undefined &&
-        axios.interceptors.request.eject(interceptor);
-      interceptor = axios.interceptors.request.use(
-        setUserHeaders(response.idToken, response.accessToken)
-      );
-    })
+    // If we have a previous request interceptor, we want to remove it so we can replace it with a new interceptor with new tokens.
+    interceptor !== undefined &&
+      axios.interceptors.request.eject(interceptor);
+    interceptor = axios.interceptors.request.use(
+      setUserHeaders(account)
+    );
   }
-  const setUserHeaders = (idToken: string, accessToken: string) => (config: AxiosRequestConfig) => {
+  const setUserHeaders = (account: AccountInfo) => async (config: AxiosRequestConfig) => {
+    const response = await instance.acquireTokenSilent({ ...authRequest, account })
     if (
       config.url &&
       (config.url.startsWith(
@@ -46,8 +45,8 @@ export const Auth = () => {
     ) {
       config.headers = config.headers || {};
       config.headers['Content-Type'] = 'application/json';
-      config.headers.Authorization = `Bearer ${idToken}`;
-      config.headers.access_token = accessToken;
+      config.headers.Authorization = `Bearer ${response.idToken}`;
+      config.headers.access_token = response.accessToken;
     }
     return config;
   };

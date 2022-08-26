@@ -2,7 +2,7 @@ import { Permission } from "./Permission";
 
 /** A user-created Role in the system */
 export interface Role {
-    id: string;
+    id: number;
     createdAt: Date;
     updatedAt: Date;
     createdBy: string;

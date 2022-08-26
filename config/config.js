@@ -5,7 +5,7 @@ const config = {
   'database': process.env.SQL_SERVER_DB,
   'host': process.env.SQL_SERVER_HOST,
   'port': process.env.SQL_SERVER_PORT,
-  'dialect': "mssql",
+  'dialect': process.env.SQL_SERVER_DIALECT,
   logging: console.log,
   dialectOptions: {
     options: {

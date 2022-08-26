@@ -19,7 +19,7 @@ module.exports = {
     moduleNameMapper: {
       '\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
       '\\.(gif|ttf|woff|otf|eot|png|jpg|svg)$': '<rootDir>/__mocks__/fileMock.js'
-    }  
+    }
   },
   {
     "displayName": "backend",
@@ -32,8 +32,8 @@ module.exports = {
       'jsx',
       'ts',
       'tsx',
-    ],  
-    "setupFilesAfterEnv": ['./src/backend/test-setup.ts'],
+    ],
+    "setupFilesAfterEnv": ['./src/backend/utils/testing-utils/test-env-setup.ts'],
     "testMatch": ["<rootDir>/src/backend/**/*.spec.ts"],
     clearMocks: true,
     globals: {
@@ -42,7 +42,7 @@ module.exports = {
       }
     },
     preset: 'ts-jest/presets/js-with-ts',
-  
+
   },
   {
     "displayName": "shared",
@@ -55,7 +55,7 @@ module.exports = {
       'jsx',
       'ts',
       'tsx',
-    ],  
+    ],
     "testMatch": ["<rootDir>/src/shared/**/*.spec.ts"],
     clearMocks: true,
     globals: {
@@ -64,7 +64,7 @@ module.exports = {
       }
     },
     preset: 'ts-jest/presets/js-with-ts',
-  
+
   }],
   coverageReporters: [
     'json',

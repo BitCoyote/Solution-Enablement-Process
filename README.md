@@ -1,6 +1,6 @@
 # Constellation - Just Enough Governance 
 
-* This repository contains both the backend and frontend code for the Constellation "Just Enough Governance" Web Application.
+This repository contains both the backend and frontend code for the Constellation "Just Enough Governance" Web Application.
 
 ## Front-End 
 * Typescript
@@ -20,12 +20,13 @@
 * Supertest
 * Cypress
 
-## Testing
-See [our testing docs](docs/testing.md)
+## Documentation
+* [Testing](docs/testing.md)
+* [Environment](docs/environment.md)
 
 ## Local Development
 
-If this is your first time setting up the application please see the [Local Environment Setup](#local-environment-setup) section to set up your local database.
+If this is your first time setting up the application please see the [Environment Setup](#environment-setup) section before proceeding.
 
 Ensure you are using Node v16.6.0  by typing `node -v` in your terminal. ([Use NVM to manage separate Node versions!](https://github.com/nvm-sh/nvm))
 
@@ -40,7 +41,7 @@ To start the backend, run `npm run dev-backend` in your terminal.
 To start the frontend, run `npm run dev-frontend` in a separate terminal. (`npm run dev-frontend:win` if you are on Windows)
 
 
-### Local Environment Setup
+### Environment Setup
 
 Install SQL Server on your machine.
 * For MacOS:
