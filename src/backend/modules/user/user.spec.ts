@@ -41,8 +41,9 @@ describe('User module', () => {
         .send({ surname: 'Falafel' })
         .expect(200);
       expect(response.body.surname).toEqual('Falafel');
-      expect((await globals.db.User.findByPk(globals.loggedInUserID)).surname).toEqual('Falafel')
+      expect((await globals.db.User.findByPk(globals.loggedInUserID)).surname).toEqual('Falafel');
     });
+
   });
 
 });

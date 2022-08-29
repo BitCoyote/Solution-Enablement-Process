@@ -12,7 +12,7 @@ export const UserSchema: Sequelize.ModelAttributes = {
   id: {
     type: Sequelize.STRING,
     primaryKey: true,
-    allowNull: false
+    allowNull: false    
   },
   createdAt: {
     type: Sequelize.DATE,
@@ -72,7 +72,7 @@ export const initUser = (db: SequelizeType) => {
         if (user.id === 'system') {
           throw new Error('Cannot update system user.')
         }
-      },
+      }
     }
   });
   return UserModel;

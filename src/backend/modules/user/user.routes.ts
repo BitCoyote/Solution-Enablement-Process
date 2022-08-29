@@ -52,7 +52,7 @@ const endpoints: Endpoint[] = [
         content: {
           "application/json": {
             schema: {
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/NewUser"
             }
           }
         }
@@ -63,7 +63,7 @@ const endpoints: Endpoint[] = [
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/UserWithRolesAndPermissions"
+                $ref: "#/components/schemas/User"
               }
             }
           }

@@ -10,8 +10,8 @@ const globals = globalThis as any;
 // port 0 tells express to use the first open port. This prevents a "listen EADDRINUSE: address already in use" error since jest runs tests in parallel.
 const port = 0;
 
-// Mock logger util so we don't spit out error logs to stdout on every test
-jest.mock('../logger.ts', () => ({
+// Mock logger util so we don't spit out logs to stdout on every test
+jest.mock('../logger', () => ({
     debug: jest.fn(),
     error: jest.fn(),
     info: jest.fn()
@@ -32,12 +32,12 @@ beforeEach(async () => {
         // @ts-ignore
         return supertest(globals.app)[method](args).set('Authorization', `Bearer ${fakeIdToken}`);
     };
-    globals.request ={
-            post: hook('post'),
-            get: hook('get'),
-            put: hook('put'),
-            delete: hook('delete'),
-            patch: hook('patch')
+    globals.request = {
+        post: hook('post'),
+        get: hook('get'),
+        put: hook('put'),
+        delete: hook('delete'),
+        patch: hook('patch')
     };
 });
 

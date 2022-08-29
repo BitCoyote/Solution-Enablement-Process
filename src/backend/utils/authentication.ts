@@ -21,14 +21,14 @@ export default async (
   const authFreePaths = [
     '/api-docs'
   ];
-  if (authFreePaths.some((path: string) => new RegExp(path).test(req.path))) {
+  if (authFreePaths.includes(req.path)) {
     return next();
   }
   try {
     const bypassAuth = process.env.BYPASS_AUTH === 'true';
     // Bypass token validation for automated testing.
     if (bypassAuth) {
-      const token = (req.headers.authorization as string)?.split(' ')[1];
+      const token = (req.headers.authorization as string).split(' ')[1];
       const decoded = jwt.decode(token, { complete: true }) as any;
       res.locals.user = decoded.payload;
     } else {
@@ -93,7 +93,7 @@ export default async (
 
 let keyCache: any[] = [];
 export const validateToken = async (authHeader: string) => {
-  const token = authHeader?.split(' ')[1];
+  const token = authHeader.split(' ')[1];
   const decoded = jwt.decode(token, { complete: true }) as any;
   let key = keyCache.find((key: any) => key.kid === decoded.header.kid);
   if (!key) {

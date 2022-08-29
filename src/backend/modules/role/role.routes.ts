@@ -6,11 +6,11 @@ const endpoints: Endpoint[] = [
     path: '/roles',
     method: 'post',
     handler: roleController.createRole,
-    permission: 'MANAGE_ROLES',
+    permission: ['MANAGE_ROLES'],
     operationObject: {
       tags: ['Role'],
       summary: 'Create a role',
-      description: "Create a role",
+      description: "Create a role.",
       requestBody: {
         description: 'The role to create',
         required: true,

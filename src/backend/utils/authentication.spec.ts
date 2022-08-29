@@ -62,7 +62,12 @@ describe('authentication middleware', () => {
             .get(`/users/me`)
             .set('Authorization', `Bearer ${tokens?.idToken}`)
             .expect(200);
-        expect(validateToken).toHaveBeenCalled();
+        // Request again to test cached auth keys
+        await (globals.request as SuperTest<Test>)
+            .get(`/users/me`)
+            .set('Authorization', `Bearer ${tokens?.idToken}`)
+            .expect(200);
+        expect(validateToken).toHaveBeenCalledTimes(2);
         // reset to true
         process.env.BYPASS_AUTH = 'true';
     });
@@ -78,33 +83,33 @@ describe('authentication middleware', () => {
         expect(response.body.roles).toBeDefined();
         expect(response.body.roles[0].permissions).toBeDefined();
     });
-    it('should return a 401 error if the user cannot be authenticated', async () =>{
+    it('should return a 401 error if the user cannot be authenticated', async () => {
         await (globals.request as SuperTest<Test>)
             .get(`/users/me`)
             .set('Authorization', 'Bearer thisisnotavalidtoken')
             .expect(401);
     });
-    describe('for the /users/me path', ()=> {
+    describe('for the /users/me path', () => {
         it('should update the user data when the user already exists in the database', async () => {
             await (globals.request as SuperTest<Test>)
-            .get(`/users/me`)
-            .expect(200);
+                .get(`/users/me`)
+                .expect(200);
             const user = await globals.db.User.findByPk(globals.loggedInUserID);
             // We know the model has been updated if the createdAt and updatedAt times are not equal, because the database is seeded at the start of every test.
             expect(user.createdAt).not.toEqual(user.updatedAt);
-        });    
+        });
         it('should create a user when the user does not exist in the database', async () => {
             // This is for pmalone@y4tk2.onmicrosoft.com, which is a user that does not exist in mock-db.ts
             const unexistingUserToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjJaUXBKM1VwYmpBWVhZR2FYRUpsOGxWMFRPSSJ9.eyJhdWQiOiI0NWNiMzU1NS1hZDdjLTQwYWQtYWQ0OC0zMTQ0MjhkZDJiMjgiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vM2RjN2E4ZDMtMmRiYS00NDQ4LWFkZDItZmJkOTNmMDhmYTRmL3YyLjAiLCJpYXQiOjE2NjE3OTAwMTMsIm5iZiI6MTY2MTc5MDAxMywiZXhwIjoxNjYxNzkzOTEzLCJlbWFpbCI6InBtYWxvbmVAeTR0azIub25taWNyb3NvZnQuY29tIiwiZmFtaWx5X25hbWUiOiJNYWxvbmUiLCJnaXZlbl9uYW1lIjoiUG9zdCIsIm5hbWUiOiJQb3N0IE1hbG9uZSIsIm9pZCI6ImNhYzY1NzQyLTAyZDgtNDkwMC1iZWQyLTU5M2MxYjIzNGRkOSIsInByZWZlcnJlZF91c2VybmFtZSI6InBtYWxvbmVAeTR0azIub25taWNyb3NvZnQuY29tIiwicmgiOiIwLkFYMEEwNmpIUGJvdFNFU3QwdnZaUHdqNlQxVTF5MFY4cmExQXJVZ3hSQ2pkS3lpY0FOOC4iLCJzdWIiOiJUWmhqcjdNVk5BZHhyeFF1REZUZ1pSUjNHLWhLSGtBOVhxY2duaDhPYnhNIiwidGlkIjoiM2RjN2E4ZDMtMmRiYS00NDQ4LWFkZDItZmJkOTNmMDhmYTRmIiwidXRpIjoiRmNSVHJqai14MFNjWWJmQ0hRNHZBQSIsInZlciI6IjIuMCJ9.FafGh6ZZmmdGgypU8AaLGEhaLFSZmF7yzECbqMq3IboqN57ef8FjU9hXORHNTAn74WnzcZr07D9ycROGgTW0W8yrZ0AQRY1Uejbf-2Gu6C_iTQP5iWuDoQp8C3gfNpqbiZb9v-UO-IrEdSIZ-SIttRaGhBFlw6Nhf9WJ6qLw2BHRFyeB-HQ1hI3pvNRHhbj3K-B9GFM9-7onqeHSgB6GjCoRI1M4lOaR-SDTScac8fVZoRNPF15yCjWeKGv3hwCjz0zMlsSluIjZ5QDuHv3sNLDSlKrD7hvLti2sB-_OFQO_8sLcuBSlDPKcZ8thviGqNUmX1RPLQBKILBJgb8Xb4g';
             const unexistingUserID = 'cac65742-02d8-4900-bed2-593c1b234dd9';
             await (globals.request as SuperTest<Test>)
-            .get(`/users/me`)
-            .set('Authorization', `Bearer ${unexistingUserToken}`)
-            .expect(200);
+                .get(`/users/me`)
+                .set('Authorization', `Bearer ${unexistingUserToken}`)
+                .expect(200);
             const user = await globals.db.User.findByPk(unexistingUserID);
             // We know the model has just been created if the createdAt and updatedAt times are equal.
             expect(user.createdAt).toEqual(user.updatedAt);
 
-        });    
+        });
     })
 });

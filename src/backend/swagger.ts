@@ -1,7 +1,7 @@
 import express from 'express';
 import * as swaggerUi from 'swagger-ui-express';
 import { OpenAPIV3 } from "openapi-types";
-import {endpoints} from './routes';
+import { endpoints } from './routes';
 const fs = require('fs');
 const path = require('path');
 export default (app: express.Application) => {
@@ -12,15 +12,15 @@ export default (app: express.Application) => {
       paths[endpoint.path] = {}
     }
     // Setup path and append required permissions list to description
-    let description = endpoint.operationObject.description || '';
+    let description = endpoint.operationObject.description;
     if (endpoint.permission) {
-      description += `\n Requires at least one of the following permissions: [${typeof endpoint.permission === 'string' ? endpoint.permission : endpoint.permission.join(', ')}]`
+      description += `\n Requires at least one of the following permissions: ${endpoint.permission }`
     }
-    (paths[endpoint.path] as OpenAPIV3.PathItemObject)[endpoint.method] = {...endpoint.operationObject, description};
+    (paths[endpoint.path] as OpenAPIV3.PathItemObject)[endpoint.method] = { ...endpoint.operationObject, description };
   });
-  let schema;
+  let schema = {definitions: ''};
   try {
-  // schema.json is generated with the 'build-swagger-docs' npm script. This is what allows us to use Typescript interface declarations in the src/shared/types folder in the swagger docs.
+    // schema.json is generated with the 'build-swagger-docs' npm script. This is what allows us to use Typescript interface declarations in the src/shared/types folder in the swagger docs.
     schema = JSON.parse(fs.readFileSync(path.join(__dirname, '../../schema.json')));
   } catch (err) {
     // No schema file exists, continue on.
@@ -44,7 +44,7 @@ export default (app: express.Application) => {
           bearerFormat: 'JWT'
         }
       },
-      schemas: schema ? JSON.parse(JSON.stringify(schema.definitions).replace(/\#\/definitions/g, '#/components/schemas')) : null
+      schemas: JSON.parse(JSON.stringify(schema.definitions).replace(/\#\/definitions/g, '#/components/schemas'))
     },
     security: [
       {

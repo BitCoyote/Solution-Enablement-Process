@@ -8,9 +8,10 @@ import databaseUtil from './utils/database-connect';
 import cors from 'cors';
 import compression from 'compression';
 import swagger from './swagger';
+import { Sequelize } from 'sequelize/types';
 
 export const createApp = async () => {
-    const db = new Database(await databaseUtil());
+    const db = new Database(await databaseUtil() as Sequelize);
     const app = express();
     app.use(compression());
     app.use(cors());
