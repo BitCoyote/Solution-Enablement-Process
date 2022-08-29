@@ -1,7 +1,7 @@
 import express from 'express';
 import * as swaggerUi from 'swagger-ui-express';
 import { OpenAPIV3 } from "openapi-types";
-import endpoints from './endpoints';
+import {endpoints} from './routes';
 const fs = require('fs');
 const path = require('path');
 export default (app: express.Application) => {

@@ -1,11 +1,9 @@
 import express from 'express';
 import logger from './logger';
 import Database from '../models';
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
-import { isBefore, addDays } from 'date-fns'
+import axios from 'axios';
 import { Op } from 'sequelize';
 import { NewUser } from '../../shared/types/User';
-import { UserModel } from '../models/user.model';
 const jwt = require('jsonwebtoken');
 /**
  * @function void Express middleware to decode token and attach to res.locals
@@ -31,7 +29,7 @@ export default async (
     // Bypass token validation for automated testing.
     if (bypassAuth) {
       const token = (req.headers.authorization as string)?.split(' ')[1];
-      const decoded = jwt.decode(token || 'invalid', { complete: true }) as any;
+      const decoded = jwt.decode(token, { complete: true }) as any;
       res.locals.user = decoded.payload;
     } else {
       res.locals.user = await validateToken(
@@ -51,7 +49,7 @@ export default async (
         officeLocation: res.locals.user.officeLocation,
         email: res.locals.user.mail,
         department: res.locals.user.department,
-        displayName: res.locals.user.displayName || res.locals.user.name ,
+        displayName: res.locals.user.displayName || res.locals.user.name,
         surname: res.locals.user.surname,
         jobTitle: res.locals.user.jobTitle
       };
@@ -94,9 +92,9 @@ export default async (
 };
 
 let keyCache: any[] = [];
-const validateToken = async (authHeader: string) => {
+export const validateToken = async (authHeader: string) => {
   const token = authHeader?.split(' ')[1];
-  const decoded = jwt.decode(token || 'invalid', { complete: true }) as any;
+  const decoded = jwt.decode(token, { complete: true }) as any;
   let key = keyCache.find((key: any) => key.kid === decoded.header.kid);
   if (!key) {
     // If the key cannot be found in existing key cache, request the keys again and update the cache.

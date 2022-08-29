@@ -24,3 +24,5 @@
 
 ### Automated Testing
 * BYPASS_AUTH= When true, skips token validation on the backend authentication middleware. Defaults to `false`. 
+* TESTING_USER= The testing user used for non-mocked calls to the Microsoft API during tests. This should always be a user on a developer tenant. 
+* TESTING_PASS= The password for the testing user.

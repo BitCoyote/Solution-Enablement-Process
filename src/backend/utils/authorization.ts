@@ -5,7 +5,7 @@ import express from 'express';
  * @param {express.Request} req Express request object
  * @param {express.Response} res Express response object
  * @param {express.NextFunction} next Express response object
- * @param {any} resourcePromise A resourceModel such as db.Dashboard
+ * @param {any} resourcePromise A resourceModel such as db.User
  * @param {string | number} resourceID The id (primary key) of the resource to check
  */
 export const mustOwnResource = async (
@@ -15,25 +15,38 @@ export const mustOwnResource = async (
   resourceModel: any,
   resourceID: string | number
 ) => {
-  try {
-    const resource = await resourceModel.findByPk(resourceID);
-    if (!resource) {
-      return res.status(404).send('Unable to find resource.');
-    }
-    if (
-      resource.userID === res.locals.user.oid ||
-      resource.createdBy === res.locals.user.oid
-    ) {
-      next();
-    } else {
-      return res.status(403).send('Unauthorized');
-    }
-  } catch (err) {
-    return res.status(500).send(err.message)
+  const resource = await resourceModel.findByPk(resourceID);
+  if (!resource) {
+    return res.status(404).send('Unable to find resource.');
+  }
+  if (
+    resource.userID === res.locals.user.oid ||
+    resource.createdBy === res.locals.user.oid || resource.id === res.locals.user.oid
+  ) {
+    next();
+  } else {
+    return res.status(403).send('Unauthorized');
   }
 };
 
-export const checkForPermission = (
+export const checkForPermissionMiddleware = (
+  res: express.Response,
+  next: express.NextFunction,
+  permission: string | string[]
+) => {
+  if (checkForPermission(res, permission)) {
+    next();
+  } else {
+    return res
+      .status(403)
+      .send(
+        'You are missing the following permission required for this endpoint: ' +
+        permission
+      );
+  }
+};
+
+const checkForPermission = (
   res: express.Response,
   permission: string | string[]
 ) => {
@@ -63,21 +76,3 @@ export const checkForPermission = (
   }
   return false;
 };
-
-export const checkForPermissionMiddleware = (
-  res: express.Response,
-  next: express.NextFunction,
-  permission: string | string[]
-) => {
-  if (checkForPermission(res, permission)) {
-    next();
-  } else {
-    return res
-      .status(403)
-      .send(
-        'You are missing the following permission required for this endpoint: ' +
-        permission
-      );
-  }
-};
-
