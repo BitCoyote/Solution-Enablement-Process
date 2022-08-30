@@ -43,7 +43,7 @@ To start the frontend, run `npm run dev-frontend` in a separate terminal. (`npm 
 
 ### Environment Setup
 
-Install SQL Server on your machine.
+Install SQL Server on your machine:
 
 * For MacOS:
   * [Article for installing SQL Server on MacOS via docker container](https://adamwilbert.com/blog/2018/3/26/get-started-with-sql-server-on-macos-complete-with-a-native-gui)
@@ -55,16 +55,16 @@ Install SQL Server on your machine.
 * For Windows:
   * Install [SQL Server Developer Edition](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
   * Additionally, [SSMS is recommended](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15).
+  * Once installed, under "Protocols for MSSQLServer" in SQL Server Configuration Manager:
+    * Enable TCP/IP connections 
+    * Open your database port (1433 by default)
 
-Setup your local database server and database.
+Setup your local sql server login and database using Azure Data Studio or SSMS:
 
-* Create a SQL Server login user named `jegdba` with owner permissions.
+* Create a SQL Server login user named `jegdba` with owner permissions and specify a password. (This must match SQL_SERVER_USER and SQL_SERVER_PASS in `.env`).
 * Create a database called `jeg-db`.
-* Under "Protocols for MSSQLServer" in SQL Server Configuration Manager:
-  * Enable TCP/IP connections 
-  * Open your database port (1433 by default)
 
-Setup your local environment variables.
+Setup your local environment variables:
 
 * Create a file called `.env` in your root project directory.
 * Copy the contents from `.env.sample` to `.env`.
