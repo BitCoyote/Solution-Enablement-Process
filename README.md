@@ -50,6 +50,7 @@ Install SQL Server on your machine.
   * The repository contains a [docker-compose.yml](docker-compose.yml)
  for running a SQL server on MacOS.
   * This docker compose uses image `mcr.microsoft.com/mssql/server:2022-latest` which requires [registration](https://info.microsoft.com/ww-landing-sql-server-2022.html?culture=en-us&country=US)
+  * [Azure Data Studio](https://docs.microsoft.com/en-us/sql/azure-data-studio/download-azure-data-studio?view=sql-server-ver16) can be used to create a database.
 
 * For Windows:
   * Install [SQL Server Developer Edition](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
