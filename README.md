@@ -61,7 +61,7 @@ Install SQL Server on your machine:
 
 Setup your local sql server login and database using Azure Data Studio or SSMS:
 
-* Create a SQL Server login user named `jegdba` with owner permissions and specify a password. (This must match SQL_SERVER_USER and SQL_SERVER_PASS in `.env`).
+* Create a SQL Server login user with owner permissions and specify a password. (This must match SQL_SERVER_USER and SQL_SERVER_PASS in `.env`).
 * Create a database called `jeg-db`.
 
 Setup your local environment variables:
