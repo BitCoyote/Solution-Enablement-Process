@@ -21,7 +21,7 @@ export default async (
   const authFreePaths = [
     '/api-docs'
   ];
-  if (authFreePaths.includes(req.path)) {
+  if (authFreePaths.some((path: string) => new RegExp(path).test(req.path))) {
     return next();
   }
   try {
