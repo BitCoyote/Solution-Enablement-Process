@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import type { RenderOptions } from '@testing-library/react'
 import type { PreloadedState } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
-import { AppStore, RootState, setupStore } from '../app/store'
+import { AppStore, RootState, setupStore } from '../src/frontend/app/store'
 
 
 // This type interface extends the default options for render from RTL, as well

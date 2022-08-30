@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
-import { fetchCount } from './counterAPI';
 
 export interface CounterState {
   value: number;
@@ -18,9 +17,11 @@ const initialState: CounterState = {
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
 export const incrementAsync = createAsyncThunk(
-  'counter/fetchCount',
+  'counter/incrementAsync',
   async (amount: number) => {
-    const response = await fetchCount(amount);
+    const response = await new Promise<{ data: number }>((resolve) =>
+      setTimeout(() => resolve({ data: amount }), 300)
+    );
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -74,11 +75,11 @@ export const selectCount = (state: RootState) => state.counter.value;
 // Here's an example of conditionally dispatching actions based on current state.
 export const incrementIfOdd =
   (amount: number): AppThunk =>
-  (dispatch, getState) => {
-    const currentValue = selectCount(getState());
-    if (currentValue % 2 === 1) {
-      dispatch(incrementByAmount(amount));
-    }
-  };
+    (dispatch, getState) => {
+      const currentValue = selectCount(getState());
+      if (currentValue % 2 === 1) {
+        dispatch(incrementByAmount(amount));
+      }
+    };
 
 export default counterSlice.reducer;

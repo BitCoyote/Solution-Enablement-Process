@@ -30,9 +30,9 @@ We want to have test coverage for the following:
 * Main user flows (e2e)
 
 ## Testing Environment & Database
-When running tests, the environment variables defined in [`.env.testing`](../.env.testing) will be used. Instead of SQL Server, tests will use a SQLite in-memory database that is built as part of the setup in [test-env-setup.ts](../src/backend/utils/testing-utils/test-env-setup.ts). Every test will receieve a fresh database, so there is no need to manage data cleanup between tests. The entire mock database fixture can be found in [mock-db.ts](../src/backend/utils/mocks/mock-db.ts). Data can be added to `testData` for use in tests.
+When running tests, the environment variables defined in [`.env.testing`](../.env.testing) will be used. Instead of SQL Server, tests will use a SQLite in-memory database that is built as part of the setup in [test-env-setup.ts](../testing-test-env-setup.backend.ts). Every test will receieve a fresh database, so there is no need to manage data cleanup between tests. The entire mock database fixture can be found in [mock-db.ts](../testing/mocks/mock-db.ts). Data can be added to `testData` for use in tests.
 
-Additionally, [test-env-setup.ts](../src/backend/utils/testing-utils/test-env-setup.ts) exposes a few useful utils to `globalThis`.
+Additionally, [test-env-setup.ts](../testing-test-env-setup.backend.ts) exposes a few useful utils to `globalThis`.
 * **app** - The express app created for the current test.
 * **db** - The sequelize database object created for the current test. This can be queried against in tests to verify that object were probably created/edited.
 * **loggedInUserID** - The user id of the user used for testing.
@@ -41,7 +41,7 @@ Additionally, [test-env-setup.ts](../src/backend/utils/testing-utils/test-env-se
    ```
    await (globals.request as SuperTest<Test>).get(`/users/me`).expect(200);
 ### A note on Authentication for testing
-Token validation on the backend is bypassed for automated testing via the `BYPASS_AUTH` environment variable. The test user token and user id is hardcoded in [test-env-setup.ts](../src/backend/utils/testing-utils/test-env-setup.ts).
+Token validation on the backend is bypassed for automated testing via the `BYPASS_AUTH` environment variable. The test user token and user id is hardcoded in [test-env-setup.ts](../testing-test-env-setup.backend.ts).
 ## Writing Integration Tests for Backend Endpoints
 The backend endpoints are tested (with all middleware, etc) using Supertest. Calls to external 3rd party APIs should be mocked using [msw](https://www.npmjs.com/package/msw).
 ```
@@ -63,4 +63,4 @@ Test react components along with the hooks and actions they use by using `render
   }
  renderWithProviders(<SomeComponent />, { preloadedState: state })
 ```
-Because the entire test suite is setup with an express server and database via [test-env-setup.ts](../src/backend/utils/testing-utils/test-env-setup.ts), we can allow the frontend components and actions to make HTTP requests to the backend. HTTP requests to 3rd party API's, however, should be mocked using [msw](https://www.npmjs.com/package/msw).
+Because the entire test suite is setup with an express server and database via [test-env-setup.ts](../testing-test-env-setup.backend.ts), we can allow the frontend components and actions to make HTTP requests to the backend. HTTP requests to 3rd party API's, however, should be mocked using [msw](https://www.npmjs.com/package/msw).

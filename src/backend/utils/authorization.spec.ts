@@ -1,7 +1,7 @@
 import { SuperTest, Test } from 'supertest';
 import express from 'express';
 import * as authorization from './authorization';
-import { mockRequest, mockResponse, mockNext } from './mocks/express-mocks';
+import { mockRequest, mockResponse, mockNext } from '../../../testing/mocks/express-mocks';
 const globals = globalThis as any;
 
 describe('authorization', () => {

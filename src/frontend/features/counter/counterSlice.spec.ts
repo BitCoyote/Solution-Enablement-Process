@@ -3,18 +3,42 @@ import counterReducer, {
   increment,
   decrement,
   incrementByAmount,
+  incrementAsync,
+  selectCount,
 } from './counterSlice';
+import { AppStore, setupStore } from '../../app/store';
 
-describe('counter reducer', () => {
+describe('counterSlice', () => {
+  let store: AppStore;
   const initialState: CounterState = {
     value: 3,
     status: 'idle',
   };
-  it('should handle initial state', () => {
-    expect(counterReducer(undefined, { type: 'unknown' })).toEqual({
-      value: 0,
-      status: 'idle',
-    });
+
+  beforeEach(() => {
+    store = setupStore();
+  });
+
+  it('should handle fulfilled incrementAsync', async () => {
+    const amount = 10;
+    await store.dispatch(incrementAsync(amount));
+    const count = store.getState().counter.value
+    expect(count).toEqual(amount);
+    expect(selectCount(store.getState())).toEqual(amount);
+    expect(store.getState().counter.status).toEqual('idle');
+  });
+
+  it('should handle rejected incrementAsync', async () => {
+    // await store.dispatch(incrementAsync(1));
+    // const count = store.getState().counter.status
+    // expect(count).toEqual(amount);
+    // expect(selectCount(store.getState())).toEqual(amount);
+  });
+  it('should handle pending incrementAsync', async () => {
+    // await store.dispatch(incrementAsync(1));
+    // const count = store.getState().counter.value
+    // expect(count).toEqual(amount);
+    // expect(selectCount(store.getState())).toEqual(amount);
   });
 
   it('should handle increment', () => {

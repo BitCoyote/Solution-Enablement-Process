@@ -20,14 +20,14 @@ export const Auth = () => {
     if (result) {
       // User just started their session
       setRequestInterceptors(result.account as AccountInfo);
-      requestUserData(result.account as AccountInfo);
+      requestUserData();
     }
   }, [result])
   React.useEffect(() => {
     if (account) {
       // User is refreshing an existing session
       setRequestInterceptors(account as AccountInfo);
-      requestUserData(account)
+      requestUserData()
     }
   }, [])
   const setRequestInterceptors = (account: AccountInfo) => {
@@ -55,13 +55,8 @@ export const Auth = () => {
   };
 
   // Get user data on from session storage or from database.
-  const requestUserData = React.useCallback((account: AccountInfo) => {
-    console.log(account)
+  const requestUserData = React.useCallback(() => {
     dispatch(getLoggedInUser());
-    // if (user) {
-      // dispatch(getUserInfo('me'));
-
-    // }
   }, [dispatch]);
   
   if (error) {

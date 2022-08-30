@@ -1,7 +1,7 @@
-import { Permission } from "../../../shared/types/Permission";
-import { Role, RolePermission } from "../../../shared/types/Role";
-import { User, UserRole } from "../../../shared/types/User";
-import Database from "../../models";
+import { Permission } from "../../src/shared/types/Permission";
+import { Role, RolePermission } from "../../src/shared/types/Role";
+import { User, UserRole } from "../../src/shared/types/User";
+import Database from "../../src/backend/models";
 const testUserID = '774d6f78-5477-4f71-8f6e-fea599577a50';
 
 const baseObject = {

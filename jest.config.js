@@ -16,10 +16,21 @@ module.exports = {
     transform: {
       '^.+\\.(t|j)sx?$': 'ts-jest',
     },
+    clearMocks: true,
+    "setupFilesAfterEnv": ['./testing/test-env-setup.frontend.ts'],
+    "globalSetup": './testing/test-global-setup.frontend.ts',
+    "globalTeardown": './testing/test-global-teardown.frontend.ts',
     moduleNameMapper: {
-      '\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
-      '\\.(gif|ttf|woff|otf|eot|png|jpg|svg)$': '<rootDir>/__mocks__/fileMock.js'
-    }
+      '\\.(css|less|sass|scss)$': '<rootDir>/testing/mocks/styleMock.js',
+      '\\.(gif|ttf|woff|otf|eot|png|jpg|svg)$': '<rootDir>/testing/mocks/fileMock.js'
+    },
+    globals: {
+      'ts-jest': {
+        tsconfig: 'tsconfig.test.json',
+      }
+    },
+    preset: 'ts-jest/presets/js-with-ts',
+
   },
   {
     "displayName": "backend",
@@ -33,7 +44,7 @@ module.exports = {
       'ts',
       'tsx',
     ],
-    "setupFilesAfterEnv": ['./src/backend/utils/testing-utils/test-env-setup.ts'],
+    "setupFilesAfterEnv": ['./testing/test-env-setup.backend.ts'],
     "testMatch": ["<rootDir>/src/backend/**/*.spec.ts"],
     clearMocks: true,
     globals: {

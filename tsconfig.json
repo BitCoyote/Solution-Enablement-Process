@@ -65,12 +65,14 @@
     "resolveJsonModule": true
   },
   "allowJs": true,
-
   "include": [
     "src/index.tsx",
     "src/frontend/**/*",
-    "src/shared/**/*"
-, "__mocks__"  ],
+    "src/shared/**/*",
+    "testing/mocks/fileMock.js",
+    "testing/mocks/styleMock.js",
+    "testing/test-utils.tsx"
+  ],
   "exclude": [
     "**/*.spec.ts",
     "**/*.spec.tsx"
