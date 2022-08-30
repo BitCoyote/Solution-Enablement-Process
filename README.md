@@ -44,15 +44,17 @@ To start the frontend, run `npm run dev-frontend` in a separate terminal. (`npm 
 ### Environment Setup
 
 Install SQL Server on your machine.
+
 * For MacOS:
- * [Article for installing SQL Server on MacOS via docker container](https://adamwilbert.com/blog/2018/3/26/get-started-with-sql-server-on-macos-complete-with-a-native-gui)
- * The repository contains a [docker-compose.yml](docker-compose.yml)
+  * [Article for installing SQL Server on MacOS via docker container](https://adamwilbert.com/blog/2018/3/26/get-started-with-sql-server-on-macos-complete-with-a-native-gui)
+  * The repository contains a [docker-compose.yml](docker-compose.yml)
  for running a SQL server on MacOS.
 * For Windows:
- * Install [SQL Server Developer Edition](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
- *Additionally, [SSMS is recommended](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15).
+  * Install [SQL Server Developer Edition](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+  * Additionally, [SSMS is recommended](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15).
 
 Setup your local database server and database.
+
 * Create a SQL Server login user named `jegdba` with owner permissions.
 * Create a database called `jeg-db`.
 * Under "Protocols for MSSQLServer" in SQL Server Configuration Manager:
@@ -60,6 +62,7 @@ Setup your local database server and database.
  * Open your database port (1433 by default)
 
 Setup your local environment variables.
+
 * Create a file called `.env` in your root project directory.
 * Copy the contents from `.env.sample` to `.env`.
 * Update any environment variable values as needed.
