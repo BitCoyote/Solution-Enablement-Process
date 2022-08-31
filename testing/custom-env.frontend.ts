@@ -1,4 +1,3 @@
-import { isThursday } from "date-fns";
 import { createApp } from "../src/backend";
 import { seedTables } from "./mocks/mock-db";
 require('dotenv').config({ path: '.env.testing' })

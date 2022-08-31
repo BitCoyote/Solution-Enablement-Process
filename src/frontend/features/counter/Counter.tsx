@@ -11,7 +11,7 @@ import {
 } from './counterSlice';
 import styles from './Counter.module.css';
 
-export function Counter() {
+export default () => {
 
   const count = useAppSelector(selectCount);
   const dispatch = useAppDispatch();
@@ -47,18 +47,21 @@ export function Counter() {
         />
         <button
           className={styles.button}
+          aria-label="Add amount"
           onClick={() => dispatch(incrementByAmount(incrementValue))}
         >
           Add Amount
         </button>
         <button
           className={styles.asyncButton}
+          aria-label="Add async"
           onClick={() => dispatch(incrementAsync(incrementValue))}
         >
           Add Async
         </button>
         <button
           className={styles.button}
+          aria-label="Add if odd"
           onClick={() => dispatch(incrementIfOdd(incrementValue))}
         >
           Add If Odd
