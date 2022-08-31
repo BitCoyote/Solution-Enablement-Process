@@ -4,7 +4,7 @@ import '@testing-library/jest-dom'
 import App from './App';
 
 describe('App component', () => {
-  it('should render with a preloaded state when given', () => {
+  it('should render with a preloaded state when given', async () => {
     const state = {
       counter: {
         value: 1,

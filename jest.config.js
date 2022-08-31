@@ -11,15 +11,13 @@ module.exports = {
   coverageDirectory: '<rootDir>/coverage/jest',
   projects: [{
     "displayName": "frontend",
-    testEnvironment: 'jsdom',
+    testEnvironment: './testing/custom-env.frontend.ts',
     "testMatch": ["<rootDir>/src/frontend/**/*.spec.ts", "<rootDir>/src/frontend/**/*.spec.tsx"],
     transform: {
       '^.+\\.(t|j)sx?$': 'ts-jest',
     },
     clearMocks: true,
     "setupFilesAfterEnv": ['./testing/test-env-setup.frontend.ts'],
-    "globalSetup": './testing/test-global-setup.frontend.ts',
-    "globalTeardown": './testing/test-global-teardown.frontend.ts',
     moduleNameMapper: {
       '\\.(css|less|sass|scss)$': '<rootDir>/testing/mocks/styleMock.js',
       '\\.(gif|ttf|woff|otf|eot|png|jpg|svg)$': '<rootDir>/testing/mocks/fileMock.js'
