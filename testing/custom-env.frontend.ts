@@ -2,7 +2,6 @@ import { createApp } from "../src/backend";
 import { seedTables } from "./mocks/mock-db";
 require('dotenv').config({ path: '.env.testing' })
 
-// my-custom-environment
 const JsdomEnvironment = require('jest-environment-jsdom').default;
 
 class CustomEnvironment extends JsdomEnvironment {

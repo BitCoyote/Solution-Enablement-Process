@@ -1,8 +1,8 @@
-import { SuperTest, Test } from 'supertest';
 import express from 'express';
 import * as authorization from './authorization';
 import { mockRequest, mockResponse, mockNext } from '../../../testing/mocks/express-mocks';
-const globals = globalThis as any;
+import { BackendTestingGlobals } from '../../../testing/types';
+const globals = globalThis as unknown as BackendTestingGlobals;
 
 describe('authorization', () => {
     let req: express.Request, res: express.Response, next: express.NextFunction;
