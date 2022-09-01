@@ -1,7 +1,7 @@
 {
-  "name": "constellation-jeg",
+  "name": "constellation-sep",
   "version": "1.0.1",
-  "description": "Constellation - Just Enough Governance",
+  "description": "Constellation - Solution Enablement Process",
   "main": "public/index.js",
   "directories": {
     "test": "test"
@@ -24,7 +24,10 @@
     "seed:undo": "npx sequelize-cli db:seed:undo",
     "dev-frontend": "PORT=3000 react-scripts start",
     "dev-frontend:win": "react-scripts start",
-    "build-frontend": "react-scripts build"
+    "build-frontend": "react-scripts build",
+    "docker:db:up": "docker compose up -d",
+    "docker:db:down": "docker compose down",
+    "docker:db:init": "source .env && docker compose exec -i sep-db /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER_HOST -U $SQL_SERVER_USER -P $SQL_SERVER_PASS -Q \"CREATE DATABASE $SQL_SERVER_DB\""
   },
   "jest-junit": {
     "outputDirectory": "./coverage/junit"

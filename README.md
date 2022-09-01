@@ -1,8 +1,8 @@
-# Constellation - Just Enough Governance 
+# Constellation - Solution Enablement Process
 
-This repository contains both the backend and frontend code for the Constellation "Just Enough Governance" Web Application.
+This repository contains both the backend and frontend code for the Constellation "Solution Enablement Process" Web Application.
 
-## Front-End 
+## Front-End
 * Typescript
 * React
 * Redux Toolkit
@@ -46,6 +46,10 @@ To start the frontend, run `npm run dev-frontend` in a separate terminal. (`npm 
 Install SQL Server on your machine:
 
 * For MacOS:
+  * Make sure you have [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) installed.
+  * You can start the database server by running `npm run docker:db:up`
+  * You can stop the database server by running `npm run docker:db:down`
+  * When you start the database server for the first time you will also need to run `npm run docker:db:init`. This will create the database from your `.env` settings. I recommend running as the SA user so that you don't need to worry about creating database users and permissions.
   * [Article for installing SQL Server on MacOS via docker container](https://adamwilbert.com/blog/2018/3/26/get-started-with-sql-server-on-macos-complete-with-a-native-gui)
   * The repository contains a [docker-compose.yml](docker-compose.yml)
  for running a SQL server on MacOS.
@@ -56,13 +60,13 @@ Install SQL Server on your machine:
   * Install [SQL Server Developer Edition](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
   * Additionally, [SSMS is recommended](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15).
   * Once installed, under "Protocols for MSSQLServer" in SQL Server Configuration Manager:
-    * Enable TCP/IP connections 
+    * Enable TCP/IP connections
     * Open your database port (1433 by default)
 
 Setup your local sql server login and database using Azure Data Studio or SSMS:
 
 * Create a SQL Server login user with owner permissions and specify a password. (This must match SQL_SERVER_USER and SQL_SERVER_PASS in `.env`).
-* Create a database called `jeg-db`.
+* Create a database called `sep_dev`.
 
 Setup your local environment variables:
 

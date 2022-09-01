@@ -1,5 +1,5 @@
 # Env Variables
-### General 
+### General
 * REACT_APP_API_BASE_URL= The base url for the backend API service
 
 ### Oauth Settings
@@ -13,13 +13,13 @@
 
 ### SQL Server
 * SQL_SERVER_HOST= The hostname of the SQL server to connect to.
-* SQL_SERVER_USER = The login username for the SQL Server user. Defaults to `jegdba`
+* SQL_SERVER_USER = The login username for the SQL Server user. Defaults to `sepdba`
 * SQL_SERVER_PASS= SQL Server pass should be stored in Azure key vault or in system env variables for non-local environments
 * SQL_SERVER_PORT= SQL Server port number. Defaults to `1433`
-* SQL_SERVER_DB= The name of the SQL Server database. 
+* SQL_SERVER_DB= The name of the SQL Server database.
 * SQL_SERVER_DIALECT= SQL Server dialect to use for the database. Usually `mssql` for running the application or `sqlite` for automated testing
 
 ### Automated Testing
-* BYPASS_AUTH= When true, skips token validation on the backend authentication middleware. Defaults to `false`. 
-* TESTING_USER= The testing user used for non-mocked calls to the Microsoft API during tests. This should always be a user on a developer tenant. 
+* BYPASS_AUTH= When true, skips token validation on the backend authentication middleware. Defaults to `false`.
+* TESTING_USER= The testing user used for non-mocked calls to the Microsoft API during tests. This should always be a user on a developer tenant.
 * TESTING_PASS= The password for the testing user.
