@@ -28,7 +28,7 @@ This repository contains both the backend and frontend code for the Constellatio
 
 If this is your first time setting up the application please see the [Environment Setup](#environment-setup) section before proceeding.
 
-Ensure you are using Node v16.6.0  by typing `node -v` in your terminal. ([Use NVM to manage separate Node versions!](https://github.com/nvm-sh/nvm))
+Ensure you are using Node v16.6.0  by typing `node -v` in your terminal. Use [NVM](https://github.com/nvm-sh/nvm) or [NVM-Windows](https://github.com/coreybutler/nvm-windows) to manage separate Node versions!
 
 From the project root folder, run `npm install` to install dependencies for both frontend and backend.
 
