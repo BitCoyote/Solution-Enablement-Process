@@ -54,19 +54,19 @@ export const Auth = () => {
     return config;
   };
 
-  // Get user data on from session storage or from database.
+  // Get user data from database.
   const requestUserData = React.useCallback(() => {
     dispatch(getLoggedInUser());
   }, [dispatch]);
   
   if (error) {
-    return <div>An authentication error has occurred. Please refresh your browser.</div>
+    return <div aria-label="Authentication error">An authentication error has occurred. Please refresh your browser.</div>
   } else if (inProgress !== 'none') {
     return <div>Redirecting...</div>
   } else if (isAuthenticated) {
     return <Outlet />;
   } else {
-    return null;
+    return <div aria-label="Unknown error">An unknown error has occurred. Please refresh your browser.</div>
   }
 };
 
