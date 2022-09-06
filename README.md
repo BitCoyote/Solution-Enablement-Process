@@ -3,22 +3,20 @@
 This repository contains both the backend and frontend code for the Constellation "Solution Enablement Process" Web Application.
 
 ## Front-End
-* Typescript
-* React
-* Redux Toolkit
-* Jest
-* React Testing-Library
-* Cypress
+* [Typescript](https://www.typescriptlang.org/)
+* [React](https://reactjs.org/)
+* [Redux Toolkit](https://redux-toolkit.js.org/)
+* [Jest](https://jestjs.io/)
+* [React Testing-Library](https://testing-library.com/docs/react-testing-library/intro)
 
 ## Back-End
-* Typescript
-* NodeJS v16.6.0
-* Express
-* SQL Server
-* Sequelize
-* Jest
-* Supertest
-* Cypress
+* [Typescript](https://www.typescriptlang.org/)
+* [NodeJS v16.6.0](https://nodejs.org/en/)
+* [Express](https://expressjs.com/)
+* [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+* [Sequelize](https://sequelize.org/)
+* [Jest](https://jestjs.io/)
+* [Supertest](https://www.npmjs.com/package/supertest)
 
 ## Documentation
 * [Testing](docs/testing.md)

@@ -7,7 +7,7 @@ The testing in this project can be broken down into the following:
 * **Integration Tests** - For testing functionality that spans multiple files. 
   * For the frontend, this is mainly component testing using Jest and Testing Library.
   * For the backend, this is mainly endpoint testing using Jest and Supertest.
-* **End-to-End (E2E) Tests** - For testing the main user flows of the application as a whole, using Cypress. (TODO)
+* **End-to-End (E2E) Tests** - For testing the main user flows of the application as a whole.
 
 [More reading on testing](https://kentcdodds.com/blog/static-vs-unit-vs-integration-vs-e2e-tests)
 
