@@ -32,21 +32,25 @@ We want to have test coverage for the following:
 ## Testing Environment & Database
 When running tests, the environment variables defined in [`.env.testing`](../.env.testing) will be used. Instead of SQL Server, tests will use a SQLite in-memory database that is built as part of the setup in [test-env-setup.ts](../testing-test-env-setup.backend.ts). Every test will receieve a fresh database, so there is no need to manage data cleanup between tests. The entire mock database fixture can be found in [mock-db.ts](../testing/mocks/mock-db.ts). Data can be added to `testData` for use in tests.
 
-Additionally, [test-env-setup.ts](../testing-test-env-setup.backend.ts) exposes a few useful utils to `globalThis`.
+Additionally, the setup scripts in the [testing folder](../testing) expose a handful useful utils to `globalThis`.
 * **app** - The express app created for the current test.
 * **db** - The sequelize database object created for the current test. This can be queried against in tests to verify that object were probably created/edited.
 * **loggedInUserID** - The user id of the user used for testing.
 * **server** - The express server created from ```app.listen(...)```
+* **port** - The port the express server is running on. A random port is always chosen for each test because tests run in parallel.
+* **idToken** - The id token being used for authentication. This is an old hard-coded token.
+* **accessToken** - The access token being used for authentication. This is an old hard-coded token.
+* **port** - The port the express server is running on. A random port is always chosen for each test because tests run in parallel.
 * **request** - A supertest object already bootstrapped with the express app and `Authorization` header. This can be used in tests like so:
    ```
-   await (globals.request as SuperTest<Test>).get(`/users/me`).expect(200);
+   await globals.request.get(`/users/me`).expect(200);
 ### A note on Authentication for testing
 Token validation on the backend is bypassed for automated testing via the `BYPASS_AUTH` environment variable. The test user token and user id is hardcoded in [test-env-setup.ts](../testing-test-env-setup.backend.ts).
 ## Writing Integration Tests for Backend Endpoints
 The backend endpoints are tested (with all middleware, etc) using Supertest. Calls to external 3rd party APIs should be mocked using [msw](https://www.npmjs.com/package/msw).
 ```
 it('should successfully return a user ', async () => {
-    const response = await (globals.request as SuperTest<Test>)
+    const response = await globals.request
       .get(`/users/abc`)
       .expect(200);
     expect(response.body.id).toEqual('abc');
