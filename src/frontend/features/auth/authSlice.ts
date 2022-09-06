@@ -19,9 +19,10 @@ const initialState: AuthState = {
 export const getLoggedInUser = createAsyncThunk(
     'auth/getLoggedInUser',
     async () => {
-        const response = await axios.get<UserWithRolesAndPermissions>(`${process.env.REACT_APP_API_BASE_URL as string}/users/me`);
-        // The value we return becomes the `fulfilled` action payload
-        return response.data;
+            const response = await axios.get<UserWithRolesAndPermissions>(`${process.env.REACT_APP_API_BASE_URL as string}/users/me`);
+            // The value we return becomes the `fulfilled` action payload
+            return response.data;
+    
     }
 );
 

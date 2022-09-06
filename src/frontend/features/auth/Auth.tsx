@@ -13,7 +13,7 @@ export const Auth = () => {
     scopes: ["openid", "profile"]
   };
   const { instance, accounts, inProgress } = useMsal();
-  const account = useAccount(accounts[0] || {});
+  const account = useAccount(accounts[0]);
   const { result, error } = useMsalAuthentication(InteractionType.Redirect, authRequest);
   const dispatch = useAppDispatch();
   React.useEffect(() => {
@@ -27,7 +27,7 @@ export const Auth = () => {
     if (account) {
       // User is refreshing an existing session
       setRequestInterceptors(account as AccountInfo);
-      requestUserData()
+      requestUserData();
     }
   }, [])
   const setRequestInterceptors = (account: AccountInfo) => {
@@ -39,14 +39,14 @@ export const Auth = () => {
     );
   }
   const setUserHeaders = (account: AccountInfo) => async (config: AxiosRequestConfig) => {
-    const response = await instance.acquireTokenSilent({ ...authRequest, account })
+    const response = await instance.acquireTokenSilent({ ...authRequest, account });
     if (
       config.url &&
       (config.url.startsWith(
         process.env.REACT_APP_API_BASE_URL as string
       ))
     ) {
-      config.headers = config.headers || {};
+      config.headers = {...config.headers};
       config.headers['Content-Type'] = 'application/json';
       config.headers.Authorization = `Bearer ${response.idToken}`;
       config.headers.access_token = response.accessToken;
@@ -55,7 +55,7 @@ export const Auth = () => {
   };
 
   // Get user data from database.
-  const requestUserData = React.useCallback(() => {
+  const requestUserData = React.useCallback(async () => {
     dispatch(getLoggedInUser());
   }, [dispatch]);
   

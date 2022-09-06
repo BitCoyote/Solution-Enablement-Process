@@ -1,6 +1,6 @@
 import { BackendTestingGlobals } from '../../../../testing/types';
 import { RoleModel } from '../../models/role.model';
-describe('User module', () => {
+describe('Role module', () => {
     const globals = globalThis as unknown as BackendTestingGlobals;
 
     describe('POST /roles', () => {

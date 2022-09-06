@@ -27,7 +27,7 @@ const getTestUserTokens = async () => {
         };
 
         return pca.acquireTokenSilent(silentRequest).catch((error) => {
-            console.log(error);
+            console.error(error);
         });
     } else { // fall back to username password if there is no account
         const usernamePasswordRequest = {
@@ -37,7 +37,7 @@ const getTestUserTokens = async () => {
         };
 
         return pca.acquireTokenByUsernamePassword(usernamePasswordRequest).catch((error) => {
-            console.log(error);
+            console.error(error);
         });
     }
 }

@@ -7,6 +7,8 @@ interface TestingGlobals {
     db: Database,
     app: Express,
     loggedInUserID: string,
+    idToken: string,
+    accessToken: string
 }
 
 export interface BackendTestingGlobals extends TestingGlobals {

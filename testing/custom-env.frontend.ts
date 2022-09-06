@@ -12,19 +12,22 @@ class CustomEnvironment extends JsdomEnvironment {
     async setup() {
         await super.setup();
         this.global.setupApp = async () => {
-            const { app, db } = await createApp();
+            return new Promise(async (resolve:any)=> {
+                const { app, db } = await createApp();
+                await db.sequelize.sync({ force: true }).catch((err: any) => console.warn(err));
+                await seedTables(db);
+                this.global.app = app;
+                this.global.db = db;
 
-            // Create server on port so frontend tests can hit the backend api. 
-            // Pass 0 to pick a random available port because tests run in parellel.
-            this.global.server  = await app.listen(0);
-            const port = (this.global.server.address() as any).port;
-            await db.sequelize.sync({ force: true }).catch((err: any) => console.warn(err));
-            await seedTables(db);
-
-            this.global.port = port;
-            this.global.app = app;
-            this.global.db = db;
+                // Create server on port so frontend tests can hit the backend api. 
+                // Pass 0 to pick a random available port because tests run in parallel.
+                this.global.server  = app.listen(0, ()=>{
+                    this.global.port = (this.global.server.address() as any).port;
+                    resolve();
+                });
+        
     
+            })
         }
         this.global.teardownApp = async () => {
             await this.global.server.close();

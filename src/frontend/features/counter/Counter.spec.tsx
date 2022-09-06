@@ -20,14 +20,8 @@ describe('Counter component', () => {
     it('should add 1 to the count when the "+" button is clicked', async () => {
         const { getByText, getByLabelText } = renderWithProviders(<Counter />, { preloadedState: initialState });
         expect(getByText(initialState.counter.value)).toBeInTheDocument();
-        // const incrementAmount = (getByLabelText("Set increment amount") as HTMLInputElement).value;
-        // expect( getByLabelText("Set increment amount")).toHaveValue('2');
         await fireEvent.click(getByLabelText("Increment value"));
         expect(getByText(initialState.counter.value + 1)).toBeInTheDocument();
-
-        // const newCount = initialState.counter.value + parseInt(incrementAmount);
-        // console.log(newCount)
-        // expect(getByText(newCount)).toBeInTheDocument();
     });
     it('should subtract 1 from the count when the "-" button is clicked', async () => {
         const { getByText, getByLabelText } = renderWithProviders(<Counter />, { preloadedState: initialState });
