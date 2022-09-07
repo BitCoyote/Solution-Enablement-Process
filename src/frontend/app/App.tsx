@@ -2,15 +2,15 @@ import React from 'react';
 import logo from './logo.svg';
 import Counter from '../features/counter/Counter';
 import './App.css';
-import { useAppSelector } from './hooks';
-import { selectUser } from '../features/auth/authSlice';
+import { useGetUserQuery } from '../services/sepAPI';
 
 function App() {
-  const user = useAppSelector(selectUser)
+  const { data: loggedInUser } = useGetUserQuery('me');
+
   return (
     <div className="App">
       <header className="App-header">
-        <h3>What's up, {user?.displayName}?</h3>
+        <h3>What's up, {loggedInUser?.displayName}?</h3>
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
         <p>

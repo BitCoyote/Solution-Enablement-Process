@@ -1,16 +1,19 @@
 import { configureStore, ThunkAction, Action, PreloadedState, combineReducers } from '@reduxjs/toolkit';
-import authReducer from '../features/auth/authSlice';
 import counterReducer from '../features/counter/counterSlice';
+import { sepAPI } from '../services/sepAPI';
 
 // Create the root reducer separately so we can extract the RootState type
 const rootReducer = combineReducers({
   counter: counterReducer,
-  auth: authReducer
+  [sepAPI.reducerPath]: sepAPI.reducer
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => configureStore({
   reducer: rootReducer,
-  preloadedState
+  preloadedState,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(sepAPI.middleware),
+
 });
 
 export type RootState = ReturnType<typeof rootReducer>
@@ -21,4 +24,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   RootState,
   unknown,
   Action<string>
->;
+  >;

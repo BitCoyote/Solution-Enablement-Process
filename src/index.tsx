@@ -12,18 +12,10 @@ import {
 } from "react-router-dom";
 import Auth from './frontend/features/auth/Auth';
 import { MsalProvider } from "@azure/msal-react";
-import { Configuration, PublicClientApplication } from "@azure/msal-browser";
+import pca from './frontend/app/msal';
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 const store = setupStore();
-const msalConfig: Configuration = {
-  auth: {
-    clientId: process.env.REACT_APP_CLIENT_ID as string,
-    authority: `https://login.microsoftonline.com/${process.env.REACT_APP_TENANT_ID}`,
-    redirectUri: process.env.REACT_APP_REDIRECT_URI as string
-  }
-};
-const pca = new PublicClientApplication(msalConfig);
 
 root.render(
   <Provider store={store}>

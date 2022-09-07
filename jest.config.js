@@ -25,7 +25,8 @@ module.exports = {
     globals: {
       'ts-jest': {
         tsconfig: 'tsconfig.test.json',
-      }
+      },
+      crypto: require("crypto")
     },
     preset: 'ts-jest/presets/js-with-ts',
 
