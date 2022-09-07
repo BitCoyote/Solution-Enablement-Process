@@ -35,24 +35,34 @@ steps:
 - script: |
     npm run build-backend
   displayName: 'Build backend'
-
-- script: |
-    npm run build-frontend
-  displayName: 'Build frontend'
   
 - task: CopyFiles@2
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)/dist'
-    contents: '*' 
+    contents: '**/*' 
     targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
-  displayName: 'Copy backend'
+  displayName: 'Copy backend build files'
 
 - task: CopyFiles@2
   inputs:
-    sourceFolder: '$(Build.SourcesDirectory)/build'
-    contents: '*' 
-    targetFolder: $(Build.ArtifactStagingDirectory)/npm-frontend
-  displayName: 'Copy frontend'
+    sourceFolder: '$(Build.SourcesDirectory)/config'
+    contents: '**/*' 
+    targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
+  displayName: 'Copy backend database config'
+
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(Build.SourcesDirectory)/migrations'
+    contents: '**/*' 
+    targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
+  displayName: 'Copy migrations'
+
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(Build.SourcesDirectory)/seeders'
+    contents: '**/*' 
+    targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
+  displayName: 'Copy seeders'
 
 - task: CopyFiles@2
   inputs:
@@ -61,6 +71,23 @@ steps:
     targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
   displayName: 'Copy package.json for backend'
 
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)/npm-backend'
+    artifactName: backend
+  displayName: 'Publish backend artifact'
+
+- script: |
+    npm run build-frontend
+  displayName: 'Build frontend'
+
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(Build.SourcesDirectory)/build'
+    contents: '**/*' 
+    targetFolder: $(Build.ArtifactStagingDirectory)/npm-frontend
+  displayName: 'Copy frontend'
+
 - task: CopyFiles@2
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)'
@@ -68,11 +95,6 @@ steps:
     targetFolder: $(Build.ArtifactStagingDirectory)/npm-frontend
   displayName: 'Copy package.json for frontend'
 
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)/npm-backend'
-    artifactName: backend
-  displayName: 'Publish backend artifact'
 
 - task: PublishPipelineArtifact@1
   inputs:
