@@ -43,16 +43,16 @@ steps:
 - task: CopyFiles@2
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)/dist'
-    contents: '*.tgz' 
+    contents: '*' 
     targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
-  displayName: 'Copy npm package for backend'
+  displayName: 'Copy backend'
 
 - task: CopyFiles@2
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)/build'
-    contents: '*.tgz' 
+    contents: '*' 
     targetFolder: $(Build.ArtifactStagingDirectory)/npm-frontend
-  displayName: 'Copy npm package for frontend'
+  displayName: 'Copy frontend'
 
 - task: CopyFiles@2
   inputs:
