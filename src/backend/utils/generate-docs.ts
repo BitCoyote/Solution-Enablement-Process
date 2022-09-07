@@ -8,8 +8,11 @@ const config = {
 };
 
 const schema = createGenerator(config).createSchema('*');
-
+const distDirectory = path.join(__dirname, '../../../dist')
+if (!fs.existsSync(distDirectory)) {
+    fs.mkdirSync(distDirectory);
+}
 const schemaString = JSON.stringify(schema, null, 2);
-fs.writeFile(path.join(__dirname, '../../../dist/schema.json'), schemaString, (err:any) => {
+fs.writeFile(distDirectory + '/schema.json', schemaString, (err: any) => {
     if (err) throw err;
 });
