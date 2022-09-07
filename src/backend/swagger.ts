@@ -1,24 +1,29 @@
 import express from 'express';
 import * as swaggerUi from 'swagger-ui-express';
 import { OpenAPIV3 } from "openapi-types";
-import { endpoints } from './routes';
+import { paths, CustomOperationObject } from './routes';
 const fs = require('fs');
 const path = require('path');
 export default (app: express.Application) => {
   // Create Open API documentation for all the endpoints in the application.
-  const paths: OpenAPIV3.PathsObject = {};
-  endpoints.forEach((endpoint) => {
-    if (!paths[endpoint.path]) {
-      paths[endpoint.path] = {}
+  // const paths: OpenAPIV3.PathsObject = {};
+  const swaggerPaths = JSON.parse(JSON.stringify(paths))
+  for (const path in swaggerPaths) {
+    for (const method in swaggerPaths[path]) {
+      const operationObject = (swaggerPaths[path] as OpenAPIV3.PathItemObject)[method as OpenAPIV3.HttpMethods] as any;
+      let description = operationObject.description;
+      if (operationObject.permission) {
+        // Append required permissions list to description
+        description += `\n Requires at least one of the following permissions: ${operationObject.permission}`
+      }
+      operationObject.description = description;
+      delete operationObject.handler;
+      delete operationObject.middleware;
+      delete operationObject.permission;
+      (swaggerPaths[path] as OpenAPIV3.PathItemObject)[method as OpenAPIV3.HttpMethods] = operationObject;
     }
-    // Setup path and append required permissions list to description
-    let description = endpoint.operationObject.description;
-    if (endpoint.permission) {
-      description += `\n Requires at least one of the following permissions: ${endpoint.permission }`
-    }
-    (paths[endpoint.path] as OpenAPIV3.PathItemObject)[endpoint.method] = { ...endpoint.operationObject, description };
-  });
-  let schema = {definitions: ''};
+  }
+  let schema = { definitions: '' };
   try {
     // schema.json is generated with the 'build-swagger-docs' npm script. This is what allows us to use Typescript interface declarations in the src/shared/types folder in the swagger docs.
     schema = JSON.parse(fs.readFileSync(path.join(__dirname, '../../schema.json')));
@@ -51,7 +56,7 @@ export default (app: express.Application) => {
         bearerAuth: []
       }
     ],
-    paths
+    paths: swaggerPaths
   };
 
   // API documentation endpoint

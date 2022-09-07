@@ -1,13 +1,11 @@
 import userController from './user.controller';
-import { Endpoint } from '../../routes';
+import { Paths } from '../../routes';
 import { mustOwnResource } from '../../utils/authorization';
 
-const endpoints: Endpoint[] = [
-  {
-    path: '/users/{id}',
-    method: 'get',
-    handler: userController.getUser,
-    operationObject: {
+const paths: Paths = {
+  "/users/{id}": {
+    "get": {
+      handler: userController.getUser,
       tags: ['User'],
       summary: 'Get user by ID',
       description: "Get a user by id. Optionally pass 'me' as the id to get the current user.",
@@ -28,16 +26,12 @@ const endpoints: Endpoint[] = [
           }
         }
       }
-    }
-  },
-  {
-    path: '/users/{id}',
-    method: 'patch',
-    handler: userController.updateUser,
-    middleware: [
-      (req, res, next, db) => { mustOwnResource(req, res, next, db.User, req.params.id as string) }
-    ],
-    operationObject: {
+    },
+    "patch": {
+      handler: userController.updateUser,
+      middleware: [
+        (req, res, next, db) => { mustOwnResource(req, res, next, db.User, req.params.id as string) }
+      ],
       tags: ['User'],
       summary: 'Update user by ID',
       description: "Update a user by id.",
@@ -69,8 +63,10 @@ const endpoints: Endpoint[] = [
           }
         }
       }
-    }
-  }
 
-];
-export default endpoints;
+    }
+
+  }
+};
+
+export default paths;

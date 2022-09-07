@@ -1,13 +1,11 @@
 import roleController from './role.controller';
-import { Endpoint } from '../../routes';
+import { Paths } from '../../routes';
 
-const endpoints: Endpoint[] = [
-  {
-    path: '/roles',
-    method: 'post',
-    handler: roleController.createRole,
-    permission: ['MANAGE_ROLES'],
-    operationObject: {
+const paths: Paths = {
+  '/roles': {
+    "post": {
+      handler: roleController.createRole,
+      permission: ['MANAGE_ROLES'],
       tags: ['Role'],
       summary: 'Create a role',
       description: "Create a role.",
@@ -36,6 +34,6 @@ const endpoints: Endpoint[] = [
       }
     }
   }
+};
 
-];
-export default endpoints;
+export default paths;
