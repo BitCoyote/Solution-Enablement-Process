@@ -3,21 +3,25 @@ import logo from './logo.svg';
 import Counter from '../features/counter/Counter';
 import './App.css';
 import { useGetUserQuery } from '../services/sepAPI';
+import { useAccount } from '@azure/msal-react';
 
 function App() {
   const { data: loggedInUser } = useGetUserQuery('me');
-
+  const account = useAccount();
   return (
     <div className="App">
       <header className="App-header">
         <h3>What's up, {loggedInUser?.displayName}?</h3>
+        <h4>
+          You have the following roles:{' '}
+          {account?.idTokenClaims?.roles?.join(', ')}
+        </h4>
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <span>
-
           <span>Learn </span>
           <a
             className="App-link"

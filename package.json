@@ -18,6 +18,7 @@
     "test-frontend": "jest frontend --verbose --colors --detectOpenHandles",
     "test-shared": "jest shared --verbose --colors --detectOpenHandles",
     "test": "jest --verbose --coverage --ci --verbose --colors --detectOpenHandles",
+    "lint-staged": "lint-staged",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
     "seed": "npx sequelize-cli db:seed:all",
@@ -43,8 +44,7 @@
     "src/**/*.{ts,tsx}": [
       "prettier --single-quote --write",
       "eslint --ext js,jsx,ts,tsx --max-warnings 0",
-      "tsc --skipLibCheck --noEmit -esModuleInterop true --target es2022 --resolveJsonModule --moduleResolution node",
-      "git add"
+      "tsc --jsx react-jsx --skipLibCheck --noEmit -esModuleInterop true --target es2020 --resolveJsonModule --moduleResolution node"
     ]
   },
   "dependencies": {
