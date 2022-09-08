@@ -17,7 +17,7 @@
     "test-backend": "jest backend --verbose --colors --detectOpenHandles",
     "test-frontend": "jest frontend --verbose --colors --detectOpenHandles",
     "test-shared": "jest shared --verbose --colors --detectOpenHandles",
-    "test": "jest --verbose --coverage --ci --verbose --colors --detectOpenHandles",
+    "test": "jest --verbose --coverage --ci --colors --detectOpenHandles",
     "lint-staged": "lint-staged",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
