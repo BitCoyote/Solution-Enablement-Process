@@ -1,25 +1,16 @@
 import React from 'react';
 import { Outlet } from "react-router-dom";
-import { useAccount, useIsAuthenticated, useMsal, useMsalAuthentication } from "@azure/msal-react";
+import { useIsAuthenticated, useMsal, useMsalAuthentication } from "@azure/msal-react";
 import { useGetUserQuery } from '../../services/sepAPI';
 import { InteractionType } from '@azure/msal-browser';
 import { authRequest } from '../../../frontend/app/msal';
-import pca from '../../app/msal';
 export const Auth = () => {
   const isAuthenticated = useIsAuthenticated();
-  const { inProgress, accounts } = useMsal();
+  const { inProgress } = useMsal();
   const { data: loggedInUser, error: getUserError, isLoading } = useGetUserQuery('me', {
     skip: !isAuthenticated
   });
   const { error: msalError } = useMsalAuthentication(InteractionType.Redirect, authRequest);
-  const accountToUse = accounts.find((account) => account.tenantId === process.env.REACT_APP_TENANT_ID);
-  const account = useAccount();
-  React.useEffect(() => {
-    if (!account && accountToUse) {
-      // If there is no active account, set one.
-      pca.setActiveAccount(accountToUse);
-    }
-  }, [accountToUse, account, pca.setActiveAccount])
 
   if (msalError) {
     return <p aria-label="Authentication error">An authentication error has occurred. Please refresh your browser.</p>

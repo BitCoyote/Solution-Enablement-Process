@@ -43,7 +43,7 @@
     "src/**/*.{ts,tsx}": [
       "prettier --single-quote --write",
       "eslint --ext js,jsx,ts,tsx --max-warnings 0",
-      "tsc --skipLibCheck --noEmit -esModuleInterop true --target es2020 --resolveJsonModule --moduleResolution node",
+      "tsc --skipLibCheck --noEmit -esModuleInterop true --target es2022 --resolveJsonModule --moduleResolution node",
       "git add"
     ]
   },

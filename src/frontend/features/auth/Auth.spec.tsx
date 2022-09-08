@@ -14,10 +14,8 @@ jest.mock('@azure/msal-react', () => {
         'useIsAuthenticated': () => false,
         'useMsalAuthentication': () => ({ error: null }),
         'useMsal': () => ({
-            inProgress: 'none',
-            accounts: []
-        }),
-        'useAccount': () => null
+            inProgress: 'none'
+        })
     }
 });
 describe('Auth component', () => {
@@ -39,8 +37,7 @@ describe('Auth component', () => {
     });
     it('Should show "Redirecting..." when MSAL is in progress.', async () => {
         jest.spyOn(msalReact, 'useMsal').mockReturnValueOnce({
-            inProgress: 'ssoSilent',
-            accounts: []
+            inProgress: 'ssoSilent'
         } as unknown as IMsalContext);
         const { getByText } = renderWithProviders(<Auth />);
         expect(getByText('Redirecting...')).toBeInTheDocument();
@@ -53,11 +50,6 @@ describe('Auth component', () => {
     });
     it('should request the logged-in user data when authenticated', async () => {
         msalReact.useIsAuthenticated = jest.fn(()=>true);
-        jest.spyOn(msalReact, 'useMsal').mockReturnValueOnce({
-            inProgress: 'none',
-            accounts: [{tenantId: process.env.REACT_APP_TENANT_ID}]
-        } as unknown as IMsalContext);
-
         const { store, queryByText, queryByLabelText } = renderWithProviders(<Auth />);
         await waitFor(() => {
             expect(queryByText('Loading user...')).not.toBeInTheDocument();

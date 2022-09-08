@@ -13,8 +13,7 @@ jest.mock('../src/frontend/app/msal', () => ({
         idToken: fakeIdToken,
         accessToken: fakeAccessToken
     }),
-    getAllAccounts: ()=>([{}]),
-    setActiveAccount: ()=>{}
+    getAllAccounts: ()=>([{}])
 }))
 
 beforeEach(async () => {

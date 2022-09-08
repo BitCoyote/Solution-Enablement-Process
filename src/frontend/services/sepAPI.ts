@@ -1,6 +1,6 @@
 import { AccountInfo } from "@azure/msal-browser";
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { User, UserWithRolesAndPermissions } from '../../shared/types/User'
+import { UserWithRolesAndPermissions } from '../../shared/types/User'
 import pca, { authRequest } from '../app/msal';
 import type {
     BaseQueryFn,
@@ -24,16 +24,12 @@ const dynamicBaseQuery: BaseQueryFn<
     unknown,
     FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-    // Provide a dynamic base query that attaches the correct base url. 
+    // provide a dynamic base query that attaches the correct base url. 
     // This is necessary for easily integration testing with the backend because the REACT_APP_API_BASE_URL is dynamic and changes at the start of every test.
     const urlEnd = args;
-    // const urlEnd = typeof args === 'string' ? args : args.url;
-    // construct a dynamically generated portion of the url
-    const adjustedUrl = `${process.env.REACT_APP_API_BASE_URL}/${urlEnd}`
-    const adjustedArgs = adjustedUrl;
-    // const adjustedArgs = typeof args === 'string' ? adjustedUrl : { ...args, url: adjustedUrl }
+    const adjustedUrl = `${process.env.REACT_APP_API_BASE_URL}/${urlEnd}`;
     // provide the amended url and other params to the raw base query
-    return rawBaseQuery(adjustedArgs, api, extraOptions);
+    return rawBaseQuery(adjustedUrl as string, api, extraOptions)
 }
 
 let keepUnusedDataFor = 60;
@@ -46,20 +42,11 @@ if (process.env.NODE_ENV === 'test') {
 export const sepAPI = createApi({
     reducerPath: 'sepAPI',
     baseQuery: dynamicBaseQuery,
-    keepUnusedDataFor,
+    keepUnusedDataFor, 
     endpoints: (builder) => ({
         getUser: builder.query<UserWithRolesAndPermissions, string>({
             query: (id) => `users/${id}`
         }),
-        // updateUser: builder.mutation<User, Partial<User> & Pick<User, 'id'>>({
-        //     query: ({ id, ...patch }) => {
-        //         return {
-        //             url: `users/${id}`,
-        //             method: 'PATCH',
-        //             body: patch,
-        //         }
-        //     },
-        // })
     }),
 });
 // Export hooks for usage in functional components, which are
