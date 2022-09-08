@@ -20,18 +20,6 @@ describe('counterSlice', () => {
   beforeEach(() => {
     store = setupStore();
   });
-  it('should set status to "loading" when rejected', async () => {
-    Promise.resolve()
-    const pendingIncrementAsync = createAsyncThunk(
-      'counter/incrementAsync',
-      async () => {
-        return new Promise(() => { });
-      }
-    );
-    store.dispatch(pendingIncrementAsync());
-    const status = store.getState().counter.status
-    expect(status).toEqual('loading');
-  });
 
   it('should handle increment', () => {
     const actual = counterReducer(initialState, increment());
@@ -48,10 +36,22 @@ describe('counterSlice', () => {
     expect(actual.value).toEqual(5);
   });
   describe('incrementAsync', () => {
+    it('should set status to "loading" when pending', async () => {
+      Promise.resolve();
+      const pendingIncrementAsync = createAsyncThunk(
+        'counter/incrementAsync',
+        async () => {
+          return new Promise(() => ({}));
+        }
+      );
+      store.dispatch(pendingIncrementAsync());
+      const status = store.getState().counter.status;
+      expect(status).toEqual('loading');
+    });
     it('should update the count and status when fulfilled', async () => {
       const amount = 10;
       await store.dispatch(incrementAsync(amount));
-      const count = store.getState().counter.value
+      const count = store.getState().counter.value;
       expect(count).toEqual(amount);
       expect(selectCount(store.getState())).toEqual(amount);
       expect(store.getState().counter.status).toEqual('idle');
@@ -60,29 +60,28 @@ describe('counterSlice', () => {
       const rejectedIncrementAsync = createAsyncThunk(
         'counter/incrementAsync',
         async () => {
-          throw Error()
+          throw Error();
         }
       );
       await store.dispatch(rejectedIncrementAsync());
-      const status = store.getState().counter.status
+      const status = store.getState().counter.status;
       expect(status).toEqual('failed');
     });
+  });
 
-  })
   describe('incrementIfOdd', () => {
     it('should increment the count if the current count is odd', () => {
       store.dispatch(incrementIfOdd(4));
-      const count = store.getState().counter.value
+      const count = store.getState().counter.value;
       expect(count).toEqual(0);
       expect(selectCount(store.getState())).toEqual(0);
     });
     it('should not increment the count if the current count is even', () => {
-      store = setupStore({counter: {value: 1, status: 'idle'}});
+      store = setupStore({ counter: { value: 1, status: 'idle' } });
       store.dispatch(incrementIfOdd(4));
-      const count = store.getState().counter.value
+      const count = store.getState().counter.value;
       expect(count).toEqual(5);
       expect(selectCount(store.getState())).toEqual(5);
-
     });
   });
 });
