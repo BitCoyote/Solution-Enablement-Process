@@ -36,7 +36,8 @@
     // "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
     // "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "src/frontend/custom.d.ts"
     ],
     "jsx": "react",
     /* Module Resolution Options */

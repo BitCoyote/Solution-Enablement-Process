@@ -1,6 +1,6 @@
 import React from 'react';
-import { renderWithProviders } from '../../../testing/test-utils'
-import '@testing-library/jest-dom'
+import { renderWithProviders } from '../../../testing/test-utils';
+import '@testing-library/jest-dom';
 import App from './App';
 import { sepAPI } from '../services/sepAPI';
 import { FrontendTestingGlobals } from '../../../testing/types';
@@ -8,10 +8,13 @@ import { waitFor } from '@testing-library/react';
 const globals = globalThis as unknown as FrontendTestingGlobals;
 
 describe('App component', () => {
-
-  it('should render react learning link', async () => {
-    const { getByText, store } = renderWithProviders(<App />)
+  it('should render react learning link  and get the logged-in user information', async () => {
+    const { getByText, store } = renderWithProviders(<App />);
     expect(getByText(/learn/i)).toBeInTheDocument();
-    await waitFor(() => expect(sepAPI.endpoints.getUser.select('me')(store.getState()).data?.id).toEqual(globals.loggedInUserID));
+    await waitFor(() =>
+      expect(
+        sepAPI.endpoints.getUser.select('me')(store.getState()).data?.id
+      ).toEqual(globals.loggedInUserID)
+    );
   });
 });
