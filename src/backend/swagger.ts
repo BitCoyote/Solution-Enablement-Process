@@ -5,6 +5,7 @@ import { paths, CustomOperationObject } from './routes';
 const fs = require('fs');
 const path = require('path');
 export default (app: express.Application) => {
+  console.log('test to try to hit pre-commit hook')
   // Create Open API documentation for all the endpoints in the application.
   // const paths: OpenAPIV3.PathsObject = {};
   const swaggerPaths = JSON.parse(JSON.stringify(paths))
