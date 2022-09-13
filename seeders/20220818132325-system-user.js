@@ -4,7 +4,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     // Seed the database with a "system" user to be the owner of future seeded data that requires a reference to the User table.
     const now = new Date();
-    return queryInterface.bulkInsert('User', [{
+    return queryInterface.bulkInsert('Users', [{
       createdAt: now,
       updatedAt: now,
       id: 'system'
@@ -20,7 +20,7 @@ module.exports = {
      */
      return queryInterface.sequelize.transaction((t) => {
       return Promise.all([
-        queryInterface.bulkDelete('User',  {
+        queryInterface.bulkDelete('Users',  {
           id: 'system'
         }, { transaction: t }),
       ]);

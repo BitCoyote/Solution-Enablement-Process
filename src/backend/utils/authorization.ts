@@ -21,7 +21,8 @@ export const mustOwnResource = async (
   }
   if (
     resource.userID === res.locals.user.oid ||
-    resource.createdBy === res.locals.user.oid || resource.id === res.locals.user.oid
+    resource.createdBy === res.locals.user.oid ||
+    resource.id === res.locals.user.oid
   ) {
     next();
   } else {
@@ -29,49 +30,38 @@ export const mustOwnResource = async (
   }
 };
 
-export const checkForPermissionMiddleware = (
+export const checkForRoleMiddleware = (
   res: express.Response,
   next: express.NextFunction,
-  permission: string | string[]
+  role: string | string[]
 ) => {
-  if (checkForPermission(res, permission)) {
+  if (checkForRole(res, role)) {
     next();
   } else {
     return res
       .status(403)
       .send(
-        'You are missing the following permission required for this endpoint: ' +
-        permission
+        'You are missing the following role required for this endpoint: ' + role
       );
   }
 };
 
-const checkForPermission = (
-  res: express.Response,
-  permission: string | string[]
-) => {
-  // Check for a single permission or a list of permisisons. Returns true if at least 1 is found.
-  let permissionsToCheck: string[];
-  if (typeof permission === 'object') {
-    permissionsToCheck = permission;
+const checkForRole = (res: express.Response, role: string | string[]) => {
+  // Check for a single role or a list of roles. Returns true if at least 1 is found.
+  let rolesToCheck: string[];
+  if (typeof role === 'object') {
+    rolesToCheck = role;
   } else {
-    permissionsToCheck = [permission];
+    rolesToCheck = [role];
   }
   for (let i = 0; i < res.locals.user.roles.length; i++) {
     const role = res.locals.user.roles[i];
-    if (role.superUser) {
+    if (role === 'SUPER_USER') {
       // Super User, can do anything.
       return true;
     }
-    for (let k = 0; k < role.permissions.length; k++) {
-      const permission = role.permissions[k];
-      if (
-        permissionsToCheck.includes(
-          permission.id
-        )
-      ) {
-        return true;
-      }
+    if (rolesToCheck.includes(role)) {
+      return true;
     }
   }
   return false;

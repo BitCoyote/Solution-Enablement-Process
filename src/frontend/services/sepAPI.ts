@@ -1,6 +1,6 @@
 import { AccountInfo } from '@azure/msal-browser';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { UserWithRolesAndPermissions } from '../../shared/types/User';
+import { User } from '../../shared/types/User';
 import pca, { authRequest } from '../app/msal';
 import type {
   BaseQueryFn,
@@ -51,7 +51,7 @@ export const sepAPI = createApi({
   baseQuery: dynamicBaseQuery,
   keepUnusedDataFor,
   endpoints: (builder) => ({
-    getUser: builder.query<UserWithRolesAndPermissions, string>({
+    getUser: builder.query<User, string>({
       query: (id) => `users/${id}`,
     }),
     // updateUser: builder.mutation<User, Partial<User> & Pick<User, 'id'>>({
