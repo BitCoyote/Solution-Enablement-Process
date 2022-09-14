@@ -29,12 +29,11 @@ const dynamicBaseQuery: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   // Provide a dynamic base query that attaches the correct base url.
   // This is necessary for easily integration testing with the backend because the REACT_APP_API_BASE_URL is dynamic and changes at the start of every test.
-  const urlEnd = args;
-  // const urlEnd = typeof args === 'string' ? args : args.url;
+  const urlEnd = typeof args === 'string' ? args : args.url;
   // construct a dynamically generated portion of the url
   const adjustedUrl = `${process.env.REACT_APP_API_BASE_URL}/${urlEnd}`;
-  const adjustedArgs = adjustedUrl;
-  // const adjustedArgs = typeof args === 'string' ? adjustedUrl : { ...args, url: adjustedUrl }
+  const adjustedArgs =
+    typeof args === 'string' ? adjustedUrl : { ...args, url: adjustedUrl };
   // provide the amended url and other params to the raw base query
   return rawBaseQuery(adjustedArgs, api, extraOptions);
 };
