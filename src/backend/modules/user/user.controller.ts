@@ -1,7 +1,7 @@
 import express from 'express';
 import Database from '../../models';
 
-export default {
+const userController = {
   getUser: async (
     req: express.Request,
     res: express.Response,
@@ -10,19 +10,9 @@ export default {
     const id = req.params.id === 'me' ? res.locals.user.oid : req.params.id;
     const dbUser = await db.User.findOne({
       where: { id },
-      include: [{
-        model: db.Role,
-        as: 'roles',
-        through: { attributes: [] },
-        include: [{
-          model: db.Permission,
-          as: 'permissions',
-          through: { attributes: [] }
-        }]
-      }]
     });
     if (!dbUser) {
-      return res.status(404).send('Cannot find user.')
+      return res.status(404).send('Cannot find user.');
     }
     return res.send(dbUser);
   },
@@ -39,3 +29,5 @@ export default {
     return res.send(user);
   },
 };
+
+export default userController;

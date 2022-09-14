@@ -3,70 +3,75 @@ import { Paths } from '../../routes';
 import { mustOwnResource } from '../../utils/authorization';
 
 const paths: Paths = {
-  "/users/{id}": {
-    "get": {
+  '/users/{id}': {
+    get: {
       handler: userController.getUser,
       tags: ['User'],
       summary: 'Get user by ID',
-      description: "Get a user by id. Optionally pass 'me' as the id to get the current user.",
-      parameters: [{
-        name: 'id',
-        in: 'path',
-        required: true
-      }],
+      description:
+        "Get a user by id. Optionally pass 'me' as the id to get the current user.",
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+        },
+      ],
       responses: {
-        "200": {
-          "description": "A single user with their roles and permissions included.",
+        '200': {
+          description: 'A single user.',
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                $ref: "#/components/schemas/UserWithRolesAndPermissions"
-              }
-            }
-          }
-        }
-      }
+                $ref: '#/components/schemas/User',
+              },
+            },
+          },
+        },
+      },
     },
-    "patch": {
+    patch: {
       handler: userController.updateUser,
       middleware: [
-        (req, res, next, db) => { mustOwnResource(req, res, next, db.User, req.params.id as string) }
+        (req, res, next, db) => {
+          mustOwnResource(req, res, next, db.User, req.params.id as string);
+        },
       ],
       tags: ['User'],
       summary: 'Update user by ID',
-      description: "Update a user by id.",
-      parameters: [{
-        name: 'id',
-        in: 'path',
-        required: true
-      }],
+      description: 'Update a user by id.',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+        },
+      ],
       requestBody: {
         description: 'The user fields to update',
         required: true,
         content: {
-          "application/json": {
+          'application/json': {
             schema: {
-              $ref: "#/components/schemas/NewUser"
-            }
-          }
-        }
+              $ref: '#/components/schemas/NewUser',
+            },
+          },
+        },
       },
       responses: {
-        "200": {
-          "description": "A single user with their roles and permissions included.",
+        '200': {
+          description: 'A single user.',
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                $ref: "#/components/schemas/User"
-              }
-            }
-          }
-        }
-      }
-
-    }
-
-  }
+                $ref: '#/components/schemas/User',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export default paths;

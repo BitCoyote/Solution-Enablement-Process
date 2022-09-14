@@ -14,14 +14,14 @@ const swagger = (app: express.Application) => {
         method as OpenAPIV3.HttpMethods
       ] as any;
       let description = operationObject.description;
-      if (operationObject.permission) {
-        // Append required permissions list to description
-        description += `\n Requires at least one of the following permissions: ${operationObject.permission}`;
+      if (operationObject.role) {
+        // Append required role list to description
+        description += `\n Requires at least one of the following roles: ${operationObject.role}`;
       }
       operationObject.description = description;
       delete operationObject.handler;
       delete operationObject.middleware;
-      delete operationObject.permission;
+      delete operationObject.role;
       (swaggerPaths[path] as OpenAPIV3.PathItemObject)[
         method as OpenAPIV3.HttpMethods
       ] = operationObject;
