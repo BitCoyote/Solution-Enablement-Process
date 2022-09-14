@@ -1,14 +1,14 @@
 import Sequelize from 'sequelize';
 import { Sequelize as SequelizeType } from 'sequelize/types';
-import { SEP } from '../../shared/types/SEP';
+import { Attachment } from '../../shared/types/Attachment';
 import Database from './index';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
-export interface SEPModel extends SEP {}
-export class SEPModel extends Sequelize.Model {}
+export interface AttachmentModel extends Attachment {}
+export class AttachmentModel extends Sequelize.Model {}
 
 /** The sequelize schema for this model */
-export const SEPSchema: Sequelize.ModelAttributes = {
+export const AttachmentSchema: Sequelize.ModelAttributes = {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -31,33 +31,47 @@ export const SEPSchema: Sequelize.ModelAttributes = {
       model: 'Users',
     },
   },
-  reviewNotes: {
-    type: Sequelize.STRING(2048),
-    allowNull: true,
-  },
   name: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  phase: {
+  link: {
     type: Sequelize.STRING,
+    allowNull: false,
+  },
+  mimeType: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  attachableType: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  attachableID: {
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
 };
 
 /** Initializes this model for use */
-export const initSEP = (db: SequelizeType) => {
-  SEPModel.init(SEPSchema, {
+export const initAttachment = (db: SequelizeType) => {
+  AttachmentModel.init(AttachmentSchema, {
     sequelize: db,
-    modelName: 'SEP',
+    modelName: 'Attachment',
   });
-  return SEPModel;
+  return AttachmentModel;
 };
 
 /** Creates all the table associations for this model */
-export const sepAssociations = (db: Database) => {
-  db.SEP.belongsTo(db.User, {
-    foreignKey: 'createdBy',
-    as: 'creator',
+export const attachmentAssociations = (db: Database) => {
+  db.Attachment.belongsTo(db.SEP, {
+    foreignKey: 'attachableID',
+    constraints: false,
+    as: 'sep',
+  });
+  db.Attachment.belongsTo(db.Task, {
+    foreignKey: 'attachableID',
+    constraints: false,
+    as: 'task',
   });
 };

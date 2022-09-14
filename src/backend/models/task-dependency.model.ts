@@ -34,7 +34,7 @@ export const TaskDependencySchema: Sequelize.ModelAttributes = {
     },
   },
   status: {
-    type: Sequelize.ENUM('todo', 'inReview', 'changesRequested', 'complete'),
+    type: Sequelize.STRING,
     allowNull: false,
   },
 };

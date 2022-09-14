@@ -45,7 +45,7 @@ export const initDepartmentContact = (db: SequelizeType) => {
 };
 
 /** Creates all the table associations for this model */
-export const DepartmentContactAssociations = (db: Database) => {
+export const departmentContactAssociations = (db: Database) => {
   db.DepartmentContact.belongsTo(db.Department, {
     foreignKey: 'departmentID',
     as: 'department',

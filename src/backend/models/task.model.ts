@@ -64,11 +64,11 @@ export const TaskSchema: Sequelize.ModelAttributes = {
     },
   },
   phase: {
-    type: Sequelize.ENUM('initial', 'design', 'implement'),
+    type: Sequelize.STRING,
     allowNull: false,
   },
   status: {
-    type: Sequelize.ENUM('todo', 'inReview', 'changesRequested', 'complete'),
+    type: Sequelize.STRING,
     allowNull: false,
   },
   enabled: {
