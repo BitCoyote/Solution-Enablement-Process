@@ -43,7 +43,7 @@ module.exports = {
                     allowNull: false,
                   },
                   phase: {
-                    type: Sequelize.ENUM('knockout','initial', 'design', 'implement', 'complete'),
+                    type: Sequelize.STRING,
                     allowNull: false
                   },
                 }, { transaction: t }),

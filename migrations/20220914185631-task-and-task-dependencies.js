@@ -71,20 +71,11 @@ module.exports = {
                     },
                   },
                   phase: {
-                    type: Sequelize.ENUM(
-                      'initial',
-                      'design',
-                      'implement'
-                    ),
+                    type: Sequelize.STRING,
                     allowNull: false,
                   },
                   status: {
-                    type: Sequelize.ENUM(
-                      'todo',
-                      'inReview',
-                      'changesRequested',
-                      'complete'
-                    ),
+                    type: Sequelize.STRING,
                     allowNull: false,
                   },
                   enabled: {
@@ -130,12 +121,7 @@ module.exports = {
                     },
                   },
                   status: {
-                    type: Sequelize.ENUM(
-                      'todo',
-                      'inReview',
-                      'changesRequested',
-                      'complete'
-                    ),
+                    type: Sequelize.STRING,
                     allowNull: false,
                   }
                 }, { transaction: t }),

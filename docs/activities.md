@@ -8,6 +8,7 @@ For auditing and tracking purposes, most actions taken upon an SEP will be recor
 * SEP.Phase.Updated.Initial
 * SEP.Phase.Updated.Design
 * SEP.Phase.Updated.Implement
+* SEP.Phase.Updated.Complete
 * Task.Status.Updated.Todo
 * Task.Status.Updated.NeedsReview
 * Task.Status.Updated.ChangesRequested

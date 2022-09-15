@@ -1,5 +1,5 @@
 /** Sequelize will automatically apply createdAt and updatedAt timestamps to objects when they are created or updated.  */
 export interface SequelizeTimestamps {
-    createdAt: Date;
-    updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }

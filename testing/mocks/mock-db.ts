@@ -3,8 +3,8 @@ import Database from "../../src/backend/models";
 const testUserID = '774d6f78-5477-4f71-8f6e-fea599577a50';
 
 const baseObject = {
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: '2022-09-13 19:13:31.5850000 +00:00',
+  updatedAt: '2022-09-13 19:13:31.5850000 +00:00',
   createdBy: 'system'
 };
 // This file acts as a fixture for mock data inserted into the database to be used for automated testing.
