@@ -43,6 +43,10 @@ export const UserKnockoutAnswerSchema: Sequelize.ModelAttributes = {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
+  knockoutQuestionTemplateID: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
 };
 
 /** Initializes this model for use */

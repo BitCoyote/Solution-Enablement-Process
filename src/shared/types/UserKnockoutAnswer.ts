@@ -2,6 +2,7 @@ import { SequelizeTimestamps } from './Sequelize';
 
 export interface NewUserKnockoutAnswer {
   knockoutAnswerTemplateID: number;
+  knockoutQuestionTemplateID: number;
   sepID: number;
 }
 

@@ -82,6 +82,10 @@ module.exports = {
                     type: Sequelize.INTEGER,
                     allowNull: false,
                   },
+                  knockoutQuestionTemplateID: {
+                    type: Sequelize.INTEGER,
+                    allowNull: false,
+                  },
                 }, { transaction: t }),
             ]);
         });
