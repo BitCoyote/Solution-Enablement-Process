@@ -8,7 +8,7 @@ export enum AttacheableType {
 export interface NewAttachment {
   name: string;
   mimeType: string;
-  link: string;
+  url: string;
   attachableType: AttacheableType;
   attachableID: number;
 }
