@@ -31,6 +31,10 @@ export const TaskSchema: Sequelize.ModelAttributes = {
       model: 'Users',
     },
   },
+  taskTemplateID: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+  },
   assignedUserID: {
     type: Sequelize.STRING,
     allowNull: false,

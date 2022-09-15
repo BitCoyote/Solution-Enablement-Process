@@ -27,6 +27,7 @@ export interface NewTask {
 export interface Task extends NewTask, SequelizeTimestamps {
   id: number;
   createdBy: string;
+  taskTemplateID: number;
   assignedUserID: string;
   status: TaskStatus;
 }

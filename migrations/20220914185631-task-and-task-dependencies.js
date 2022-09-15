@@ -34,6 +34,10 @@ module.exports = {
                       model: 'Users',
                     },
                   },
+                  taskTemplateID: {
+                    type: Sequelize.INTEGER,
+                    allowNull: true
+                  },
                   assignedUserID: {
                     type: Sequelize.STRING,
                     allowNull: false,
