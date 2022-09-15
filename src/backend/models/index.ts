@@ -11,12 +11,19 @@ import {
   initDepartmentContact,
   DepartmentContactModel,
 } from './department-contact.model';
+import { initTask, TaskModel, taskAssociations } from './task.model';
+import {
+  initTaskDependency,
+  TaskDependencyModel,
+} from './task-dependency.model';
 export default class Database {
   public User: typeof UserModel;
   public SEP: typeof SEPModel;
   public UserKnockoutAnswer: typeof UserKnockoutAnswerModel;
   public Department: typeof DepartmentModel;
   public DepartmentContact: typeof DepartmentContactModel;
+  public Task: typeof TaskModel;
+  public TaskDependency: typeof TaskDependencyModel;
   public sequelize: Sequelize;
   constructor(db: Sequelize) {
     // Initialize sequelize models
@@ -25,9 +32,12 @@ export default class Database {
     this.UserKnockoutAnswer = initUserKnockoutAnswer(db);
     this.Department = initDepartment(db);
     this.DepartmentContact = initDepartmentContact(db);
+    this.Task = initTask(db);
+    this.TaskDependency = initTaskDependency(db);
     this.sequelize = db;
     // Setup table assocations (must occur after all models are initialized)
     sepAssociations(this);
     userKnockoutAnswerAssociations(this);
+    taskAssociations(this);
   }
 }
