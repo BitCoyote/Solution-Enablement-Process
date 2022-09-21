@@ -1,3 +1,4 @@
+import { DepartmentID } from './Department';
 import { SequelizeTimestamps } from './Sequelize';
 
 export enum TaskStatus {
@@ -8,36 +9,48 @@ export enum TaskStatus {
 }
 
 export enum TaskPhase {
-  initial = 'initial',
+  initiate = 'initiate',
   design = 'design',
   implement = 'implement',
 }
 
-export interface NewTask {
+export interface Task extends SequelizeTimestamps {
+  id: number;
+  createdBy: string;
+  status: TaskStatus;
   name: string;
   description?: string;
   sepID: number;
-  departmentID: number;
-  defaultReviewerID: string;
+  departmentID?: DepartmentID;
+  defaultReviewerID?: string;
   review: boolean;
   enabled: boolean;
+  assignedUserID?: string;
+  taskTemplateID?: number;
   phase: TaskPhase;
 }
 
-export interface Task extends NewTask, SequelizeTimestamps {
+export interface TaskTemplate {
   id: number;
-  createdBy: string;
-  taskTemplateID: number;
-  assignedUserID: string;
-  status: TaskStatus;
+  defaultReviewerID?: string;
+  defaultAssignee?: 'requestor' | string | null;
+  phase: TaskPhase;
+  departmentID?: DepartmentID;
+  review: boolean;
+  name: string;
+  description?: string;
 }
 
-export interface TaskUpdateBody {
-  name?: string;
-  description?: string;
-  departmentID?: number;
-  defaultReviewerID?: number;
-  review?: boolean;
-  enabled?: boolean;
-  phase?: TaskPhase;
+//task [taskID] must be at least in status [status] for task [dependentTaskID] to start
+export interface TaskDependency extends SequelizeTimestamps {
+  taskID: number;
+  dependentTaskID: number;
+  status: TaskStatus;
+  taskDependencyTemplateID?: number;
+}
+
+export interface TaskDependencyTemplate {
+  taskTemplateID: number;
+  dependentTaskTemplateID: number;
+  status: TaskStatus;
 }

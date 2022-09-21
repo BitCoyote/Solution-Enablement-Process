@@ -31,16 +31,16 @@ export const SEPSchema: Sequelize.ModelAttributes = {
       model: 'Users',
     },
   },
-  reviewNotes: {
-    type: Sequelize.STRING(2048),
-    allowNull: true,
-  },
   name: {
     type: Sequelize.STRING,
     allowNull: false,
   },
   phase: {
     type: Sequelize.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: Sequelize.STRING(2048),
     allowNull: false,
   },
 };

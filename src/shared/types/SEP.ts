@@ -2,25 +2,27 @@ import { SequelizeTimestamps } from './Sequelize';
 
 export enum SEPPhase {
   knockout = 'knockout',
-  initial = 'initial',
+  initiate = 'initiate',
   design = 'design',
   implement = 'implement',
   complete = 'complete',
 }
 
-export interface NewSEP {
-  name: string;
-}
-
-export interface SEP extends NewSEP, SequelizeTimestamps {
+export interface SEP extends SequelizeTimestamps {
   id: number;
+  name: string;
+  description?: string;
   createdBy: string;
   phase: SEPPhase;
-  reviewNotes?: string;
   deletedAt?: string;
 }
 
 export interface SEPUpdateBody {
   name?: string;
-  reviewNotes?: string;
+  description?: string;
+}
+
+export interface CreateSEPBody {
+  name: string;
+  description?: string;
 }

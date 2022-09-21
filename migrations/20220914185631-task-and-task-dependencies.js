@@ -40,23 +40,15 @@ module.exports = {
                   },
                   assignedUserID: {
                     type: Sequelize.STRING,
-                    allowNull: false,
-                    references: {
-                      key: 'id',
-                      model: 'Users',
-                    },
+                    allowNull: true
                   },
                   defaultReviewerID: {
                     type: Sequelize.STRING,
-                    allowNull: false,
-                    references: {
-                      key: 'id',
-                      model: 'Users',
-                    },
+                    allowNull: true
                   },
                   departmentID: {
-                    type: Sequelize.INTEGER,
-                    allowNull: false,
+                    type: Sequelize.STRING,
+                    allowNull: true,
                     references: {
                       key: 'id',
                       model: 'Departments',
@@ -120,6 +112,10 @@ module.exports = {
                       model: 'Tasks',
                     },
                   },
+                  taskDependencyTemplateID: {
+                    allowNull: true,
+                    type: Sequelize.INTEGER
+                  },                
                   status: {
                     type: Sequelize.STRING,
                     allowNull: false,

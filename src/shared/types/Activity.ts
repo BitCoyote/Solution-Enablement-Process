@@ -13,7 +13,7 @@ export enum ActivityAction {
   'Comment.Updated' = 'Comment.Updated',
   'Comment.Deleted' = 'Comment.Deleted',
   'SEP.Phase.Updated.Knockout' = 'SEP.Phase.Updated.Knockout',
-  'SEP.Phase.Updated.Initial' = 'SEP.Phase.Updated.Initial',
+  'SEP.Phase.Updated.Initiate' = 'SEP.Phase.Updated.Initiate',
   'SEP.Phase.Updated.Design' = 'SEP.Phase.Updated.Design',
   'SEP.Phase.Updated.Implement' = 'SEP.Phase.Updated.Implement',
   'SEP.Phase.Updated.Complete' = 'SEP.Phase.Updated.Complete',

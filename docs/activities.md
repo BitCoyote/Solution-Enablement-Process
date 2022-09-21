@@ -18,5 +18,3 @@ For auditing and tracking purposes, most actions taken upon an SEP will be recor
 * Task.Disabled
 * Attachment.Created
 * Attachment.Deleted
-* UserKnockoutAnswer.Created
-* UserKnockoutAnswer.Updated

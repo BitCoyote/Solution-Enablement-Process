@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import { Sequelize as SequelizeType } from 'sequelize/types';
-import { TaskDependency } from '../../shared/types/TaskDependency';
+import { TaskDependency } from '../../shared/types/Task';
 // import Database from './index';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
@@ -36,6 +36,10 @@ export const TaskDependencySchema: Sequelize.ModelAttributes = {
   status: {
     type: Sequelize.STRING,
     allowNull: false,
+  },
+  taskDependencyTemplateID: {
+    allowNull: true,
+    type: Sequelize.INTEGER,
   },
 };
 

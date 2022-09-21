@@ -1,54 +1,47 @@
-export enum KnockoutQuestionAnswerType {
-  'single' = 'single',
-  'multiple' = 'multiple',
+import { DataField } from './DataField';
+import { SequelizeTimestamps } from './Sequelize';
+
+export enum KnockoutFollowupTemplateType {
+  'KnockoutScreenTemplate' = 'KnockoutScreenTemplate',
+  'TaskTemplate' = 'TaskTemplate',
 }
-export enum FollowupType {
-  'KnockoutQuestionTemplate' = 'KnockoutQuestionTemplate',
+export enum KnockoutFollowupType {
+  'KnockoutScreen' = 'KnockoutScreen',
   'TaskTemplate' = 'TaskTemplate',
 }
 
-export interface KnockoutQuestionTemplate {
+export interface KnockoutScreen extends SequelizeTimestamps {
   id: number;
-  question: string;
+  name: string;
   description?: string;
-  answerType: KnockoutQuestionAnswerType;
-  starter: boolean;
+  starter?: boolean;
+  knockoutScreenTemplateID?: number;
+  sepID: number;
 }
-export interface KnockoutAnswerTemplate {
+
+export interface KnockoutFollowup extends SequelizeTimestamps {
+  value: string;
+  dataFieldID: number;
+  followupID: number;
+  followupType: KnockoutFollowupType;
+  knockoutFollowupTemplateID?: number;
+  sepID: number;
+}
+
+export interface KnockoutScreenTemplate {
   id: number;
-  answer: string;
+  name: string;
   description?: string;
-  knockoutQuestionTemplateID: number;
+  starter?: boolean;
 }
-export interface KnockoutFollowup {
-  knockoutAnswerTemplateID: number;
-  followupType: FollowupType;
+
+export interface KnockoutFollowupTemplate {
+  value: string;
+  dataFieldTemplateID: number;
+  followupType: KnockoutFollowupTemplateType;
   followupID: number;
 }
 
-export interface KnockoutAnswer {
-  knockoutAnswerTemplateID: number;
-  answer: string;
-  description?: string;
+export interface KnockoutScreenWithDataFields extends KnockoutScreen {
+  dataFields: DataField[];
 }
-export interface KnockoutQuestion {
-  question: string;
-  description?: string;
-  knockoutQuestionTemplateID: number;
-  answers: KnockoutAnswer[];
-  answerType: KnockoutQuestionAnswerType;
-  selectedAnswers: number[];
-}
-
-// interface KnockoutFollowupWithQuestions extends KnockoutFollowup {
-//     question?: KnockoutQuestionTemplateWithAnswers;
-//     task?: TaskTemplate;
-// }
-
-// interface KnockoutAnswerTemplateWithFollowups extends KnockoutAnswerTemplate {
-//     followups: KnockoutFollowupWithQuestions[];
-// }
-
-// interface KnockoutQuestionTemplateWithAnswers extends KnockoutQuestionTemplate {
-//     answers: KnockoutAnswerTemplateWithFollowups[];
-// }

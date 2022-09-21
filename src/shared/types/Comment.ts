@@ -1,3 +1,4 @@
+import { DepartmentID } from './Department';
 import { SequelizeTimestamps } from './Sequelize';
 
 export enum CommentableType {
@@ -10,7 +11,7 @@ export interface NewComment {
   commentableID: number;
   comment: string;
   replyCommentID?: number;
-  departmentID?: number;
+  departmentID?: DepartmentID;
 }
 
 export interface Comment extends NewComment, SequelizeTimestamps {
