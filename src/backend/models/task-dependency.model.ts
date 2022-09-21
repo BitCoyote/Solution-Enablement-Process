@@ -9,6 +9,12 @@ export class TaskDependencyModel extends Sequelize.Model {}
 
 /** The sequelize schema for this model */
 export const TaskDependencySchema: Sequelize.ModelAttributes = {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false,

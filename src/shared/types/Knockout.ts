@@ -20,6 +20,7 @@ export interface KnockoutScreen extends SequelizeTimestamps {
 }
 
 export interface KnockoutFollowup extends SequelizeTimestamps {
+  id: number;
   value: string;
   dataFieldID: number;
   followupID: number;

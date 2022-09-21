@@ -88,6 +88,12 @@ module.exports = {
                   },
                 }, { transaction: t }),
                 queryInterface.createTable('TaskDependencies', {
+                  id: {
+                    type: Sequelize.INTEGER,
+                    primaryKey: true,
+                    autoIncrement: true,
+                    allowNull: false,
+                  },
                   createdAt: {
                     type: Sequelize.DATE,
                     allowNull: false,

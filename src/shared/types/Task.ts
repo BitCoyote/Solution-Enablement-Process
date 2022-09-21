@@ -43,6 +43,7 @@ export interface TaskTemplate {
 
 //task [taskID] must be at least in status [status] for task [dependentTaskID] to start
 export interface TaskDependency extends SequelizeTimestamps {
+  id: number;
   taskID: number;
   dependentTaskID: number;
   status: TaskStatus;
