@@ -17,7 +17,7 @@ module.exports = {
     return queryInterface.bulkInsert('Departments', departments.map((dept) => ({
       createdAt: now,
       updatedAt: now,
-      name: dept.name
+      id: dept.name
     })));
 
   },
