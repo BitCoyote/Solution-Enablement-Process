@@ -19,11 +19,417 @@ import { DepartmentID } from '../../shared/types/Department';
  *  The knockout question data will be hardcoded here for the MVP of this project.
  */
 
-const getAllTaskTemplatesByDeptIDs = (deptNames: DepartmentID[]) => {
+const getAllTaskTemplatesByDeptIDs = (
+  taskTemplates: TaskTemplate[],
+  deptNames: DepartmentID[]
+) => {
   return taskTemplates.filter((taskTemplate) =>
     deptNames.includes(taskTemplate.departmentID as DepartmentID)
   );
 };
+
+export const taskTemplates: TaskTemplate[] = [
+  {
+    id: 1,
+    phase: TaskPhase.initiate,
+    departmentID: DepartmentID.legal,
+    review: true,
+    name: 'Please provide more more detail around data that will be in scope for this review.',
+    defaultAssignee: 'requestor',
+    description: `
+    For help with my review, please provide:
+
+  1. Describe the software (what should we call this? – software, system, what?), its purpose
+  
+  2. Is there a vendor involved with this software? 
+  Vendor is MCC. 
+   
+  3. Will any Constellation data be shared with the vendor through use of this software?
+  
+  4. Does the software allow access to other Constellation databases or sources of information?
+   
+  5. If yes to Question 3 or 4, what type of data?
+  
+  6. Will any export controlled information (ECI) be inserted into or accessible from the software?
+  
+  If there is ECI, please answer these questions, as well:
+  7. If ECI is involved, explain how data is managed (explain carefully how it  is shared or not shared with the vendor) and how and where any data used in the software is stored.
+  
+  8. Is the vendor a foreign company vendor?
+  
+  9. What is the nationality of the developers/support personnel and where are the vendor personnel located (what country)?
+  
+  10. If data is shared with the vendor, where is it stored?  On prem?  In a cloud?  Which cloud?
+  
+  Attachments of data samples or field descriptions are also welcome.`,
+  },
+  {
+    id: 2,
+    phase: TaskPhase.implement,
+    departmentID: DepartmentID.legal,
+    review: false,
+    name: 'Please update the APM data classification and regulatory information.',
+  },
+  {
+    id: 3,
+    phase: TaskPhase.implement,
+    departmentID: DepartmentID.po,
+    review: false,
+    name: 'Please update the APM data classification and regulatory information.',
+  },
+  {
+    id: 4,
+    phase: TaskPhase.initiate,
+    departmentID: DepartmentID.sec,
+    review: true,
+    name: 'Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)',
+    defaultAssignee: 'requestor',
+    description: `Please download the most recent CSRM from <CSRM URL>. You will need to complete the first tab. Then Send the CSRM to complete the remaining questions. Please tell them not to spend more than about a minute on each question. If there are problems with any answers we will circle back with the vendor after the Security Review. Please attach the completed CSRM to this task when ready.`,
+  },
+  {
+    id: 5,
+    phase: TaskPhase.initiate,
+    departmentID: DepartmentID.sec,
+    review: true,
+    name: 'Please complete the Project Security Questionaire (PSQ)',
+    defaultAssignee: 'requestor',
+    description: `Please download the most recent PSQ from <PSQ URL>. You can attached the completed PSQ to this task when ready.`,
+  },
+  {
+    id: 6,
+    phase: TaskPhase.implement,
+    departmentID: DepartmentID.sec,
+    review: false,
+    name: 'Please create a Security Exception for this request. See Detail for more information.',
+    defaultAssignee: 'requestor',
+    description: `Security Exceptions are submitted in the ServiceNow system. <url> <Free form>`,
+  },
+  {
+    id: 7,
+    phase: TaskPhase.design,
+    departmentID: DepartmentID.sec,
+    review: true,
+    name: 'Please provide Security with the device to perform penetration testing.',
+    defaultAssignee: 'requestor',
+  },
+  {
+    id: 8,
+    phase: TaskPhase.design,
+    departmentID: DepartmentID.ea,
+    review: true,
+    name: 'Please provide a Level 2 (Conceptial/Logical) Diagram',
+    description:
+      'Please provide a logical diagram depicting conceptual interactions with other applications systems and shared services. Please attach the diagram to this task when complete. See our resources on creating architecture diagrams (url) for sample diagrams and insturctions.',
+    defaultAssignee: 'requestor',
+  },
+  {
+    id: 9,
+    phase: TaskPhase.design,
+    departmentID: DepartmentID.ea,
+    review: true,
+    name: 'Please provide a Level 3 (Physical) Diagram',
+    description:
+      'Please provide  a physical diagram depicting details of physical compenents and infrastructure supporting the project deployment. Please attach the diagram to this task when complete. See our resources on creating architecture diagrams (url) for sample diagrams and insturctions. ',
+    defaultAssignee: 'requestor',
+  },
+  {
+    id: 10,
+    phase: TaskPhase.implement,
+    departmentID: DepartmentID.ea,
+    review: false,
+    name: 'Please update APL. See Details for more information.',
+  },
+  {
+    id: 11,
+    phase: TaskPhase.implement,
+    departmentID: DepartmentID.ea,
+    review: false,
+    name: 'Engage Production Readiness Process to determine if a Production Readiness Review is required.',
+    description:
+      'See Production Readiness Engagement URL <url> to determine requirements for presenting this effort for Production Readiness Review.',
+    defaultAssignee: 'requestor',
+  },
+  {
+    id: 12,
+    phase: TaskPhase.implement,
+    departmentID: DepartmentID.ea,
+    review: false,
+    name: 'Review request with the DR Team',
+    description:
+      'Contact the DR Team <DR Team Distribution List> to verify DR requirements are met for this request.',
+    defaultAssignee: 'requestor',
+  },
+  {
+    id: 13,
+    phase: TaskPhase.implement,
+    departmentID: DepartmentID.ea,
+    review: false,
+    name: 'Review request with the Application Monitoring Team',
+    description:
+      'Contact the Application Monitoring Team <App Mon Team Distribution List> to assure appropriate monitoring is in place for this request. ',
+    defaultAssignee: 'requestor',
+  },
+  {
+    id: 14,
+    phase: TaskPhase.implement,
+    departmentID: DepartmentID.ea,
+    review: false,
+    name: 'Map/update Production Infrastructure in ServiceNow CMDB',
+    description:
+      'Map all Production Ingrastructure Objects in ServiceNow CMDB (Including IaaS/PaaS)',
+    defaultAssignee: 'requestor',
+  },
+  {
+    id: 15,
+    phase: TaskPhase.initiate,
+    departmentID: DepartmentID.sa,
+    review: false,
+    name: 'Solution Architect Review Complete',
+  },
+  {
+    id: 16,
+    phase: TaskPhase.initiate,
+    departmentID: DepartmentID.po,
+    review: false,
+    name: 'Portfolio Owner Review Complete',
+  },
+  {
+    id: 17,
+    phase: TaskPhase.initiate,
+    departmentID: DepartmentID.legal,
+    review: false,
+    name: 'Legal Review Complete',
+  },
+  {
+    id: 18,
+    phase: TaskPhase.initiate,
+    departmentID: DepartmentID.tps,
+    review: false,
+    name: 'Review SRA',
+  },
+  {
+    id: 19,
+    phase: TaskPhase.initiate,
+    departmentID: DepartmentID.tps,
+    review: false,
+    name: 'TPS Review Complete',
+  },
+  {
+    id: 20,
+    phase: TaskPhase.design,
+    departmentID: DepartmentID.supply,
+    review: false,
+    name: 'Supply Review Complete',
+  },
+  {
+    id: 21,
+    phase: TaskPhase.initiate,
+    departmentID: DepartmentID.sec,
+    review: false,
+    name: 'Initiate Review Complete',
+  },
+  {
+    id: 22,
+    phase: TaskPhase.design,
+    departmentID: DepartmentID.sec,
+    review: false,
+    name: 'Design Review Complete',
+  },
+  {
+    id: 23,
+    phase: TaskPhase.initiate,
+    departmentID: DepartmentID.ea,
+    review: false,
+    name: 'Initiate Review Complete',
+  },
+  {
+    id: 24,
+    phase: TaskPhase.design,
+    departmentID: DepartmentID.ea,
+    review: false,
+    name: 'Design Review Complete',
+  },
+  {
+    id: 25,
+    phase: TaskPhase.design,
+    departmentID: DepartmentID.ncs,
+    review: false,
+    name: 'Design Review Complete',
+  },
+];
+
+export const taskDependencyTemplates: TaskDependencyTemplate[] = [
+  {
+    dependentTaskTemplateID: 4, // Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)
+    taskTemplateID: 17, // Legal review complete
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 10, // update apl
+    taskTemplateID: 22, // Design review complete (Security)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 10, // update apl
+    taskTemplateID: 24, // Design review complete (EA)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 10, // update apl
+    taskTemplateID: 25, // Design review complete (NCS)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 11, // production readiness
+    taskTemplateID: 22, // Design review complete (Security)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 11, // production readiness
+    taskTemplateID: 24, // Design review complete (EA)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 11, // production readiness
+    taskTemplateID: 25, // Design review complete (NCS)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 12, // DR team review
+    taskTemplateID: 22, // Design review complete (Security)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 12, // DR team review
+    taskTemplateID: 24, // Design review complete (EA)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 12, // DR team review
+    taskTemplateID: 25, // Design review complete (NCS)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 13, // app monitoring
+    taskTemplateID: 22, // Design review complete (Security)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 13, // app monitoring
+    taskTemplateID: 24, // Design review complete (EA)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 13, // app monitoring
+    taskTemplateID: 25, // Design review complete (NCS)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 14, // Update ServiceNow
+    taskTemplateID: 22, // Design review complete (Security)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 14, // Update ServiceNow
+    taskTemplateID: 24, // Design review complete (EA)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 14, // Update ServiceNow
+    taskTemplateID: 25, // Design review complete (NCS)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 18, // Review SRA
+    taskTemplateID: 17, // legal review complete
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 19, // TPS Review Complete
+    taskTemplateID: 18, // Review SRA
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 20, // Supply Review Complete
+    taskTemplateID: 21, // Initiate Review Complete (Security)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 20, // Supply Review Complete
+    taskTemplateID: 23, // Initiate Review Complete (EA)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 20, // Supply Review Complete
+    taskTemplateID: 18, // Review SRA
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 20, // Supply Review Complete
+    taskTemplateID: 4, // Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
+    taskTemplateID: 17, // Legal Review complete
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
+    taskTemplateID: 19, // TPS Review complete
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
+    taskTemplateID: 4, // Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
+    taskTemplateID: 5, // Please complete the Project Security Questionaire (PSQ)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 22, // Design Review Complete (Security)
+    taskTemplateID: 21, // Initiate Review Complete (Security)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 22, // Design Review Complete (Security)
+    taskTemplateID: 7, // Please provide Security with the device to perform penetration testing.
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 23, // Initiate Review Complete (EA)
+    taskTemplateID: 16, // Portfolio Owner Review Complete
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 23, // Initiate Review Complete (EA)
+    taskTemplateID: 17, // Legal Review Complete
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 23, // Initiate Review Complete (EA)
+    taskTemplateID: 19, // TPS Review Complete
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 24, // Design Review Complete (EA)
+    taskTemplateID: 23, // Initiate Review Complete (EA)
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 24, // Design Review Complete (EA)
+    taskTemplateID: 8, // Please provide a Level 2 (Conceptial/Logical) Diagram
+    status: TaskStatus.complete,
+  },
+  {
+    dependentTaskTemplateID: 24, // Design Review Complete (EA)
+    taskTemplateID: 9, // Please provide a Level 3 (Physical) Diagram
+    status: TaskStatus.complete,
+  },
+];
 
 export const knockoutScreens: KnockoutScreenTemplate[] = [
   {
@@ -458,7 +864,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   /*
    ** TASK FOLLOWUPS
    */
-  ...getAllTaskTemplatesByDeptIDs([
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
     DepartmentID.po,
     DepartmentID.sec,
     DepartmentID.supply,
@@ -468,13 +874,15 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     followupType: KnockoutFollowupTemplateType.TaskTemplate,
     followupID: taskTemplate.id,
   })),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.tps]).map((taskTemplate) => ({
-    dataFieldTemplateID: 4, // Was the Application internally developed?
-    value: 'false',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
-    followupID: taskTemplate.id,
-  })),
-  ...getAllTaskTemplatesByDeptIDs([
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.tps]).map(
+    (taskTemplate) => ({
+      dataFieldTemplateID: 4, // Was the Application internally developed?
+      value: 'false',
+      followupType: KnockoutFollowupTemplateType.TaskTemplate,
+      followupID: taskTemplate.id,
+    })
+  ),
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
     DepartmentID.legal,
     DepartmentID.tps,
     DepartmentID.sec,
@@ -485,7 +893,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     followupType: KnockoutFollowupTemplateType.TaskTemplate,
     followupID: taskTemplate.id,
   })),
-  ...getAllTaskTemplatesByDeptIDs([
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
     DepartmentID.legal,
     DepartmentID.tps,
     DepartmentID.sec,
@@ -496,7 +904,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     followupType: KnockoutFollowupTemplateType.TaskTemplate,
     followupID: taskTemplate.id,
   })),
-  ...getAllTaskTemplatesByDeptIDs([
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
     DepartmentID.legal,
     DepartmentID.tps,
     DepartmentID.sec,
@@ -507,41 +915,49 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     followupType: KnockoutFollowupTemplateType.TaskTemplate,
     followupID: taskTemplate.id,
   })),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.sa]).map((taskTemplate) => ({
-    dataFieldTemplateID: 10, // Is this service currently in use by other approved applications with the same data classification?
-    value: 'true',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
-    followupID: taskTemplate.id,
-  })),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.po, DepartmentID.supply]).map(
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.sa]).map(
     (taskTemplate) => ({
-      dataFieldTemplateID: 11, // Will it require additional licensing?
+      dataFieldTemplateID: 10, // Is this service currently in use by other approved applications with the same data classification?
       value: 'true',
       followupType: KnockoutFollowupTemplateType.TaskTemplate,
       followupID: taskTemplate.id,
     })
   ),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.sa]).map((taskTemplate) => ({
-    dataFieldTemplateID: 12, // Is this a Constellation Standard IaaS Configuration??
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
+    DepartmentID.po,
+    DepartmentID.supply,
+  ]).map((taskTemplate) => ({
+    dataFieldTemplateID: 11, // Will it require additional licensing?
     value: 'true',
     followupType: KnockoutFollowupTemplateType.TaskTemplate,
     followupID: taskTemplate.id,
   })),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.po, DepartmentID.supply]).map(
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.sa]).map(
     (taskTemplate) => ({
-      dataFieldTemplateID: 13, // Will it require additional licensing? (IaaS)
+      dataFieldTemplateID: 12, // Is this a Constellation Standard IaaS Configuration??
       value: 'true',
       followupType: KnockoutFollowupTemplateType.TaskTemplate,
       followupID: taskTemplate.id,
     })
   ),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.sa]).map((taskTemplate) => ({
-    dataFieldTemplateID: 14, // Does this align to the Mobile 2.0 Strategy?
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
+    DepartmentID.po,
+    DepartmentID.supply,
+  ]).map((taskTemplate) => ({
+    dataFieldTemplateID: 13, // Will it require additional licensing? (IaaS)
     value: 'true',
     followupType: KnockoutFollowupTemplateType.TaskTemplate,
     followupID: taskTemplate.id,
   })),
-  ...getAllTaskTemplatesByDeptIDs([
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.sa]).map(
+    (taskTemplate) => ({
+      dataFieldTemplateID: 14, // Does this align to the Mobile 2.0 Strategy?
+      value: 'true',
+      followupType: KnockoutFollowupTemplateType.TaskTemplate,
+      followupID: taskTemplate.id,
+    })
+  ),
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
     DepartmentID.po,
     DepartmentID.supply,
     DepartmentID.tps,
@@ -551,23 +967,25 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     followupType: KnockoutFollowupTemplateType.TaskTemplate,
     followupID: taskTemplate.id,
   })),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.sa, DepartmentID.po]).map(
-    (taskTemplate) => ({
-      dataFieldTemplateID: 16, // Does the integration use one of the standard integration platforms?
-      value: 'true',
-      followupType: KnockoutFollowupTemplateType.TaskTemplate,
-      followupID: taskTemplate.id,
-    })
-  ),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.sa, DepartmentID.po]).map(
-    (taskTemplate) => ({
-      dataFieldTemplateID: 17, // Is the destination data classification equal or greater than the source data classification?
-      value: 'true',
-      followupType: KnockoutFollowupTemplateType.TaskTemplate,
-      followupID: taskTemplate.id,
-    })
-  ),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.supply]).map(
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
+    DepartmentID.sa,
+    DepartmentID.po,
+  ]).map((taskTemplate) => ({
+    dataFieldTemplateID: 16, // Does the integration use one of the standard integration platforms?
+    value: 'true',
+    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupID: taskTemplate.id,
+  })),
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
+    DepartmentID.sa,
+    DepartmentID.po,
+  ]).map((taskTemplate) => ({
+    dataFieldTemplateID: 17, // Is the destination data classification equal or greater than the source data classification?
+    value: 'true',
+    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupID: taskTemplate.id,
+  })),
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.supply]).map(
     (taskTemplate) => ({
       dataFieldTemplateID: 18, // Will this require additional licensing? (Integration)
       value: 'true',
@@ -575,31 +993,34 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
       followupID: taskTemplate.id,
     })
   ),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.supply, DepartmentID.sec]).map(
-    (taskTemplate) => ({
-      dataFieldTemplateID: 20, // IAM Type
-      value: 'Citrix or vendor access',
-      followupType: KnockoutFollowupTemplateType.TaskTemplate,
-      followupID: taskTemplate.id,
-    })
-  ),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.sa, DepartmentID.sec]).map(
-    (taskTemplate) => ({
-      dataFieldTemplateID: 20, // IAM Type
-      value: 'Single Sign-on',
-      followupType: KnockoutFollowupTemplateType.TaskTemplate,
-      followupID: taskTemplate.id,
-    })
-  ),
-  ...getAllTaskTemplatesByDeptIDs([DepartmentID.legal, DepartmentID.sec]).map(
-    (taskTemplate) => ({
-      dataFieldTemplateID: 20, // IAM Type
-      value: 'External Data Sharing',
-      followupType: KnockoutFollowupTemplateType.TaskTemplate,
-      followupID: taskTemplate.id,
-    })
-  ),
-  ...getAllTaskTemplatesByDeptIDs([
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
+    DepartmentID.supply,
+    DepartmentID.sec,
+  ]).map((taskTemplate) => ({
+    dataFieldTemplateID: 20, // IAM Type
+    value: 'Citrix or vendor access',
+    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupID: taskTemplate.id,
+  })),
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
+    DepartmentID.sa,
+    DepartmentID.sec,
+  ]).map((taskTemplate) => ({
+    dataFieldTemplateID: 20, // IAM Type
+    value: 'Single Sign-on',
+    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupID: taskTemplate.id,
+  })),
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
+    DepartmentID.legal,
+    DepartmentID.sec,
+  ]).map((taskTemplate) => ({
+    dataFieldTemplateID: 20, // IAM Type
+    value: 'External Data Sharing',
+    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupID: taskTemplate.id,
+  })),
+  ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
     DepartmentID.sa,
     DepartmentID.sec,
     DepartmentID.po,
@@ -610,406 +1031,4 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     followupType: KnockoutFollowupTemplateType.TaskTemplate,
     followupID: taskTemplate.id,
   })),
-];
-export const taskTemplates: TaskTemplate[] = [
-  {
-    id: 1,
-    phase: TaskPhase.initiate,
-    departmentID: DepartmentID.legal,
-    review: true,
-    name: 'Please provide more more detail around data that will be in scope for this review.',
-    defaultAssignee: 'requestor',
-    description: `
-    For help with my review, please provide:
-
-  1. Describe the software (what should we call this? – software, system, what?), its purpose
-  
-  2. Is there a vendor involved with this software? 
-  Vendor is MCC. 
-   
-  3. Will any Constellation data be shared with the vendor through use of this software?
-  
-  4. Does the software allow access to other Constellation databases or sources of information?
-   
-  5. If yes to Question 3 or 4, what type of data?
-  
-  6. Will any export controlled information (ECI) be inserted into or accessible from the software?
-  
-  If there is ECI, please answer these questions, as well:
-  7. If ECI is involved, explain how data is managed (explain carefully how it  is shared or not shared with the vendor) and how and where any data used in the software is stored.
-  
-  8. Is the vendor a foreign company vendor?
-  
-  9. What is the nationality of the developers/support personnel and where are the vendor personnel located (what country)?
-  
-  10. If data is shared with the vendor, where is it stored?  On prem?  In a cloud?  Which cloud?
-  
-  Attachments of data samples or field descriptions are also welcome.`,
-  },
-  {
-    id: 2,
-    phase: TaskPhase.implement,
-    departmentID: DepartmentID.legal,
-    review: false,
-    name: 'Please update the APM data classification and regulatory information.',
-  },
-  {
-    id: 3,
-    phase: TaskPhase.implement,
-    departmentID: DepartmentID.po,
-    review: false,
-    name: 'Please update the APM data classification and regulatory information.',
-  },
-  {
-    id: 4,
-    phase: TaskPhase.initiate,
-    departmentID: DepartmentID.sec,
-    review: true,
-    name: 'Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)',
-    defaultAssignee: 'requestor',
-    description: `Please download the most recent CSRM from <CSRM URL>. You will need to complete the first tab. Then Send the CSRM to complete the remaining questions. Please tell them not to spend more than about a minute on each question. If there are problems with any answers we will circle back with the vendor after the Security Review. Please attach the completed CSRM to this task when ready.`,
-  },
-  {
-    id: 5,
-    phase: TaskPhase.initiate,
-    departmentID: DepartmentID.sec,
-    review: true,
-    name: 'Please complete the Project Security Questionaire (PSQ)',
-    defaultAssignee: 'requestor',
-    description: `Please download the most recent PSQ from <PSQ URL>. You can attached the completed PSQ to this task when ready.`,
-  },
-  {
-    id: 6,
-    phase: TaskPhase.implement,
-    departmentID: DepartmentID.sec,
-    review: false,
-    name: 'Please create a Security Exception for this request. See Detail for more information.',
-    defaultAssignee: 'requestor',
-    description: `Security Exceptions are submitted in the ServiceNow system. <url> <Free form>`,
-  },
-  {
-    id: 7,
-    phase: TaskPhase.design,
-    departmentID: DepartmentID.sec,
-    review: true,
-    name: 'Please provide Security with the device to perform penetration testing.',
-    defaultAssignee: 'requestor',
-  },
-  {
-    id: 8,
-    phase: TaskPhase.design,
-    departmentID: DepartmentID.ea,
-    review: true,
-    name: 'Please provide a Level 2 (Conceptial/Logical) Diagram',
-    description:
-      'Please provide a logical diagram depicting conceptual interactions with other applications systems and shared services. Please attach the diagram to this task when complete. See our resources on creating architecture diagrams (url) for sample diagrams and insturctions.',
-    defaultAssignee: 'requestor',
-  },
-  {
-    id: 9,
-    phase: TaskPhase.design,
-    departmentID: DepartmentID.ea,
-    review: true,
-    name: 'Please provide a Level 3 (Physical) Diagram',
-    description:
-      'Please provide  a physical diagram depicting details of physical compenents and infrastructure supporting the project deployment. Please attach the diagram to this task when complete. See our resources on creating architecture diagrams (url) for sample diagrams and insturctions. ',
-    defaultAssignee: 'requestor',
-  },
-  {
-    id: 10,
-    phase: TaskPhase.implement,
-    departmentID: DepartmentID.ea,
-    review: false,
-    name: 'Please update APL. See Details for more information.',
-  },
-  {
-    id: 11,
-    phase: TaskPhase.implement,
-    departmentID: DepartmentID.ea,
-    review: false,
-    name: 'Engage Production Readiness Process to determine if a Production Readiness Review is required.',
-    description:
-      'See Production Readiness Engagement URL <url> to determine requirements for presenting this effort for Production Readiness Review.',
-    defaultAssignee: 'requestor',
-  },
-  {
-    id: 12,
-    phase: TaskPhase.implement,
-    departmentID: DepartmentID.ea,
-    review: false,
-    name: 'Review request with the DR Team',
-    description:
-      'Contact the DR Team <DR Team Distribution List> to verify DR requirements are met for this request.',
-    defaultAssignee: 'requestor',
-  },
-  {
-    id: 13,
-    phase: TaskPhase.implement,
-    departmentID: DepartmentID.ea,
-    review: false,
-    name: 'Review request with the Application Monitoring Team',
-    description:
-      'Contact the Application Monitoring Team <App Mon Team Distribution List> to assure appropriate monitoring is in place for this request. ',
-    defaultAssignee: 'requestor',
-  },
-  {
-    id: 14,
-    phase: TaskPhase.implement,
-    departmentID: DepartmentID.ea,
-    review: false,
-    name: 'Map/update Production Infrastructure in ServiceNow CMDB',
-    description:
-      'Map all Production Ingrastructure Objects in ServiceNow CMDB (Including IaaS/PaaS)',
-    defaultAssignee: 'requestor',
-  },
-  {
-    id: 15,
-    phase: TaskPhase.initiate,
-    departmentID: DepartmentID.sa,
-    review: false,
-    name: 'Solution Architect Review Complete',
-  },
-  {
-    id: 16,
-    phase: TaskPhase.initiate,
-    departmentID: DepartmentID.po,
-    review: false,
-    name: 'Portfolio Owner Review Complete',
-  },
-  {
-    id: 17,
-    phase: TaskPhase.initiate,
-    departmentID: DepartmentID.legal,
-    review: false,
-    name: 'Legal Review Complete',
-  },
-  {
-    id: 18,
-    phase: TaskPhase.initiate,
-    departmentID: DepartmentID.tps,
-    review: false,
-    name: 'Review SRA',
-  },
-  {
-    id: 19,
-    phase: TaskPhase.initiate,
-    departmentID: DepartmentID.tps,
-    review: false,
-    name: 'TPS Review Complete',
-  },
-  {
-    id: 20,
-    phase: TaskPhase.design,
-    departmentID: DepartmentID.supply,
-    review: false,
-    name: 'Supply Review Complete',
-  },
-  {
-    id: 21,
-    phase: TaskPhase.initiate,
-    departmentID: DepartmentID.sec,
-    review: false,
-    name: 'Initiate Review Complete',
-  },
-  {
-    id: 22,
-    phase: TaskPhase.design,
-    departmentID: DepartmentID.sec,
-    review: false,
-    name: 'Design Review Complete',
-  },
-  {
-    id: 23,
-    phase: TaskPhase.initiate,
-    departmentID: DepartmentID.ea,
-    review: false,
-    name: 'Initiate Review Complete',
-  },
-  {
-    id: 24,
-    phase: TaskPhase.design,
-    departmentID: DepartmentID.ea,
-    review: false,
-    name: 'Design Review Complete',
-  },
-  {
-    id: 25,
-    phase: TaskPhase.design,
-    departmentID: DepartmentID.ncs,
-    review: false,
-    name: 'Design Review Complete',
-  },
-];
-
-export const taskDependencyTemplates: TaskDependencyTemplate[] = [
-  {
-    dependentTaskTemplateID: 4, // Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)
-    taskTemplateID: 17, // Legal review complete
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 10, // update apl
-    taskTemplateID: 22, // Design review complete (Security)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 10, // update apl
-    taskTemplateID: 24, // Design review complete (EA)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 10, // update apl
-    taskTemplateID: 25, // Design review complete (NCS)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 11, // production readiness
-    taskTemplateID: 22, // Design review complete (Security)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 11, // production readiness
-    taskTemplateID: 24, // Design review complete (EA)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 11, // production readiness
-    taskTemplateID: 25, // Design review complete (NCS)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 12, // DR team review
-    taskTemplateID: 22, // Design review complete (Security)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 12, // DR team review
-    taskTemplateID: 24, // Design review complete (EA)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 12, // DR team review
-    taskTemplateID: 25, // Design review complete (NCS)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 13, // app monitoring
-    taskTemplateID: 22, // Design review complete (Security)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 13, // app monitoring
-    taskTemplateID: 24, // Design review complete (EA)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 13, // app monitoring
-    taskTemplateID: 25, // Design review complete (NCS)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 14, // Update ServiceNow
-    taskTemplateID: 22, // Design review complete (Security)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 14, // Update ServiceNow
-    taskTemplateID: 24, // Design review complete (EA)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 14, // Update ServiceNow
-    taskTemplateID: 25, // Design review complete (NCS)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 18, // Review SRA
-    taskTemplateID: 17, // legal review complete
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 19, // TPS Review Complete
-    taskTemplateID: 18, // Review SRA
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 20, // Supply Review Complete
-    taskTemplateID: 21, // Initiate Review Complete (Security)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 20, // Supply Review Complete
-    taskTemplateID: 23, // Initiate Review Complete (EA)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 20, // Supply Review Complete
-    taskTemplateID: 18, // Review SRA
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 20, // Supply Review Complete
-    taskTemplateID: 4, // Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
-    taskTemplateID: 17, // Legal Review complete
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
-    taskTemplateID: 19, // TPS Review complete
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
-    taskTemplateID: 4, // Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
-    taskTemplateID: 5, // Please complete the Project Security Questionaire (PSQ)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 22, // Design Review Complete (Security)
-    taskTemplateID: 21, // Initiate Review Complete (Security)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 22, // Design Review Complete (Security)
-    taskTemplateID: 7, // Please provide Security with the device to perform penetration testing.
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 23, // Initiate Review Complete (EA)
-    taskTemplateID: 16, // Portfolio Owner Review Complete
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 23, // Initiate Review Complete (EA)
-    taskTemplateID: 17, // Legal Review Complete
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 23, // Initiate Review Complete (EA)
-    taskTemplateID: 19, // TPS Review Complete
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 24, // Design Review Complete (EA)
-    taskTemplateID: 23, // Initiate Review Complete (EA)
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 24, // Design Review Complete (EA)
-    taskTemplateID: 8, // Please provide a Level 2 (Conceptial/Logical) Diagram
-    status: TaskStatus.complete,
-  },
-  {
-    dependentTaskTemplateID: 24, // Design Review Complete (EA)
-    taskTemplateID: 9, // Please provide a Level 3 (Physical) Diagram
-    status: TaskStatus.complete,
-  },
 ];
