@@ -431,7 +431,7 @@ export const taskDependencyTemplates: TaskDependencyTemplate[] = [
   },
 ];
 
-export const knockoutScreens: KnockoutScreenTemplate[] = [
+export const knockoutScreenTemplates: KnockoutScreenTemplate[] = [
   {
     id: 1,
     name: "Let's get started! What kind of request is this?",

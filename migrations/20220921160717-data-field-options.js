@@ -10,6 +10,12 @@ module.exports = {
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
     return queryInterface.createTable('DataFieldOptions', {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },    
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
