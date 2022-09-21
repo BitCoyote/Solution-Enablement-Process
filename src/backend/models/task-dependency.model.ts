@@ -37,10 +37,6 @@ export const TaskDependencySchema: Sequelize.ModelAttributes = {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  taskDependencyTemplateID: {
-    allowNull: true,
-    type: Sequelize.INTEGER,
-  },
 };
 
 /** Initializes this model for use */

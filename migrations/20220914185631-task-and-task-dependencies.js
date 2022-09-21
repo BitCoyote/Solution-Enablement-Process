@@ -112,10 +112,6 @@ module.exports = {
                       model: 'Tasks',
                     },
                   },
-                  taskDependencyTemplateID: {
-                    allowNull: true,
-                    type: Sequelize.INTEGER
-                  },                
                   status: {
                     type: Sequelize.STRING,
                     allowNull: false,
