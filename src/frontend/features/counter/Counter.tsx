@@ -8,7 +8,7 @@ import {
   incrementAsync,
   incrementIfOdd,
   selectCount,
-} from './counterSlice';
+} from '../../services/conterSlice/counterSlice';
 import styles from './Counter.module.css';
 
 const Counter = () => {

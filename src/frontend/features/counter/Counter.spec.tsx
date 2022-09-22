@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithProviders } from '../../../../testing/test-utils'
 import '@testing-library/jest-dom'
 import Counter from './Counter';
-import { CounterState } from './counterSlice';
+import { CounterState } from '../../services/conterSlice/counterSlice';
 import { fireEvent } from '@testing-library/react';
 
 describe('Counter component', () => {
