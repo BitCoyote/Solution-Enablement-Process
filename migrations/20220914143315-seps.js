@@ -44,7 +44,7 @@ module.exports = {
                   },
                   description: {
                     type: Sequelize.STRING(2048),
-                    allowNull: false,
+                    allowNull: true,
                   },                
                 }, { transaction: t }),
             ]);
