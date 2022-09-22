@@ -10,9 +10,8 @@ export class DepartmentModel extends Sequelize.Model {}
 /** The sequelize schema for this model */
 export const DepartmentSchema: Sequelize.ModelAttributes = {
   id: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     primaryKey: true,
-    autoIncrement: true,
     allowNull: false,
   },
   createdAt: {
@@ -21,10 +20,6 @@ export const DepartmentSchema: Sequelize.ModelAttributes = {
   },
   updatedAt: {
     type: Sequelize.DATE,
-    allowNull: false,
-  },
-  name: {
-    type: Sequelize.STRING,
     allowNull: false,
   },
 };

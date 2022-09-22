@@ -87,7 +87,7 @@ module.exports = {
             },
           },
           departmentID: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             allowNull: true,
             references: {
               key: 'id',
@@ -139,7 +139,7 @@ module.exports = {
             allowNull: true,
           },
           data: {
-            type: Sequelize.STRING(2048),
+            type: Sequelize.STRING,
             allowNull: true,
           },
           trackableType: {

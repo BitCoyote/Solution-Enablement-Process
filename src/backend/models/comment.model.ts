@@ -40,7 +40,7 @@ export const CommentSchema: Sequelize.ModelAttributes = {
     },
   },
   departmentID: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: true,
     references: {
       key: 'id',

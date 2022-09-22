@@ -34,10 +34,6 @@ module.exports = {
                       model: 'Users'
                     }
                   },
-                  reviewNotes: {
-                    type: Sequelize.STRING(2048),
-                    allowNull: true
-                  },                
                   name: {
                     type: Sequelize.STRING,
                     allowNull: false,
@@ -46,42 +42,10 @@ module.exports = {
                     type: Sequelize.STRING,
                     allowNull: false
                   },
-                }, { transaction: t }),
-                queryInterface.createTable('UserKnockoutAnswers', {
-                  id: {
-                    type: Sequelize.INTEGER,
-                    primaryKey: true,
-                    autoIncrement: true,
-                    allowNull: false,
-                  },
-                  createdAt: {
-                    type: Sequelize.DATE,
-                    allowNull: false,
-                  },
-                  updatedAt: {
-                    type: Sequelize.DATE,
-                    allowNull: false,
-                  },
-                  createdBy: {
-                    type: Sequelize.STRING,
-                    allowNull: false,
-                    references: {
-                      key: 'id',
-                      model: 'Users'
-                    }
-                  },
-                  sepID: {
-                    type: Sequelize.INTEGER,
-                    allowNull: false,
-                    references: {
-                      key: 'id',
-                      model: 'SEPs'
-                    }
-                  },
-                  knockoutAnswerTemplateID: {
-                    type: Sequelize.INTEGER,
-                    allowNull: false,
-                  },
+                  description: {
+                    type: Sequelize.STRING(2048),
+                    allowNull: true,
+                  },                
                 }, { transaction: t }),
             ]);
         });
