@@ -50,6 +50,7 @@ export interface TaskDependency extends SequelizeTimestamps {
 }
 
 export interface TaskDependencyTemplate {
+  id: number;
   taskTemplateID: number;
   dependentTaskTemplateID: number;
   status: TaskStatus;

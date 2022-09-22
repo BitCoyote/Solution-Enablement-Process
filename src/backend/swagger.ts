@@ -6,7 +6,6 @@ const fs = require('fs');
 const path = require('path');
 const swagger = (app: express.Application) => {
   // Create Open API documentation for all the endpoints in the application.
-  // const paths: OpenAPIV3.PathsObject = {};
   const swaggerPaths = JSON.parse(JSON.stringify(paths));
   for (const path in swaggerPaths) {
     for (const method in swaggerPaths[path]) {
@@ -40,7 +39,7 @@ const swagger = (app: express.Application) => {
     openapi: '3.0.0',
     info: {
       version: `${process.env.npm_package_version}`,
-      title: 'Constellation - Just Enough Governance',
+      title: 'Constellation - Solution Enablement Process API',
     },
     servers: [
       {

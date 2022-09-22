@@ -4,6 +4,7 @@ import logger from './utils/logger';
 import { checkForRoleMiddleware } from './utils/authorization';
 import { OpenAPIV3 } from 'openapi-types';
 import userPaths from './modules/user/user.routes';
+import sepPaths from './modules/sep/sep.routes';
 
 export interface Paths extends OpenAPIV3.PathsObject {
   [pattern: string]: CustomPathItemObject | undefined;
@@ -33,6 +34,7 @@ export interface CustomOperationObject extends OpenAPIV3.OperationObject {
 /** All the endpoints in the application combined into a single object. */
 export const paths: Paths = {
   ...userPaths,
+  ...sepPaths,
 };
 
 // This module receives the express app and applies the routes for the entire API.
@@ -78,12 +80,14 @@ const createExpressEndpoint = (
     // Apply middlware added to endpoint from route file.
     [...activeMiddleware],
     async (req: express.Request, res: express.Response) => {
-      /** Wrap the handler in a try/catch block to return a 500 status and log the error if there are any uncaught errors. */
+      /** Wrap the handler in a try/catch block to return a 400 status and log the error if there are any uncaught errors. */
       try {
         await operation.handler(req, res, db);
       } catch (err) {
         logger.error(err);
-        return res.status(500).send('An unknown error occurred! ¯\\_(ツ)_/¯');
+        return res
+          .status(400)
+          .send('An unexpected error occurred! ¯\\_(ツ)_/¯ : ' + err);
       }
     }
   );

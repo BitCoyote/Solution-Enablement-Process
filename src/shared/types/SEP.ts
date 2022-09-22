@@ -1,4 +1,5 @@
 import { SequelizeTimestamps } from './Sequelize';
+import { User } from './User';
 
 export enum SEPPhase {
   knockout = 'knockout',
@@ -15,6 +16,15 @@ export interface SEP extends SequelizeTimestamps {
   createdBy: string;
   phase: SEPPhase;
   deletedAt?: string;
+}
+
+export interface SEPWithCreator extends SEP {
+  creator: User;
+}
+
+export interface SEPSearchResult {
+  count: number;
+  seps: SEPWithCreator[];
 }
 
 export interface SEPUpdateBody {

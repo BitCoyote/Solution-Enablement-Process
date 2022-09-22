@@ -1,6 +1,6 @@
 import {
   KnockoutFollowupTemplate,
-  KnockoutFollowupTemplateType,
+  KnockoutFollowupType,
   KnockoutScreenTemplate,
 } from '../../shared/types/Knockout';
 import {
@@ -429,7 +429,8 @@ export const taskDependencyTemplates: TaskDependencyTemplate[] = [
     taskTemplateID: 9, // Please provide a Level 3 (Physical) Diagram
     status: TaskStatus.complete,
   },
-];
+] // automatically apply ids since nothing points to the TaskDependencyTemplates
+  .map((f, idx) => ({ ...f, id: idx + 1 }));
 
 export const knockoutScreenTemplates: KnockoutScreenTemplate[] = [
   {
@@ -501,261 +502,291 @@ export const dataFieldTemplates: DataFieldTemplate[] = [
     name: 'Request Area',
     description: 'Choose an area for your SEP.',
     type: DataFieldType.select,
-    knockoutScreenID: 1, // Let's get started! What kind of request is this?
+    knockoutScreenTemplateID: 1, // Let's get started! What kind of request is this?
     required: true,
   },
   {
     id: 2,
     name: 'Installed Software Type',
     type: DataFieldType.select,
-    knockoutScreenID: 2, // Installed Software: Let's get a little more specific.
+    knockoutScreenTemplateID: 2, // Installed Software: Let's get a little more specific.
     required: true,
   },
   {
     id: 3,
     name: 'Does the desktop software send data externally (outside the Constellation Network)?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 3, // Desktop: What are the details?
+    knockoutScreenTemplateID: 3, // Desktop: What are the details?
     required: false,
   },
   {
     id: 4,
     name: 'Was the Application internally developed?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 3, // Desktop: What are the details?
+    knockoutScreenTemplateID: 3, // Desktop: What are the details?
     required: true,
   },
   {
     id: 5,
     name: 'Are there any changes to configuration or data schema?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 4, // Product Renewal/Extension: What are the details?
+    knockoutScreenTemplateID: 4, // Product Renewal/Extension: What are the details?
     required: false,
   },
   {
     id: 6,
     name: 'Will this interface with any systems on the Constellation Network?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 5, // New Ventures: What are the details?
+    knockoutScreenTemplateID: 5, // New Ventures: What are the details?
     required: false,
   },
   {
     id: 7,
     name: 'Cloud Type',
     type: DataFieldType.select,
-    knockoutScreenID: 6, // Cloud: Which kind of cloud are we talking about here?
+    knockoutScreenTemplateID: 6, // Cloud: Which kind of cloud are we talking about here?
     required: true,
   },
   {
     id: 8,
     name: 'Service Type',
     type: DataFieldType.select,
-    knockoutScreenID: 7, // Constellation Cloud: Let's get a little more specific.
+    knockoutScreenTemplateID: 7, // Constellation Cloud: Let's get a little more specific.
     required: true,
   },
   {
     id: 9,
     name: 'Service Type',
     type: DataFieldType.select,
-    knockoutScreenID: 8, // External Cloud: Let's get a little more specific.
+    knockoutScreenTemplateID: 8, // External Cloud: Let's get a little more specific.
     required: true,
   },
   {
     id: 10,
     name: 'Is this service currently in use by other approved applications with the same data classification?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 9, // screen for SaaS, PaaS, SalesForce, and App Exchange
+    knockoutScreenTemplateID: 9, // screen for SaaS, PaaS, SalesForce, and App Exchange
     required: false,
   },
   {
     id: 11,
     name: 'Will it require additional licensing?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 9, // screen for SaaS, PaaS, SalesForce, and App Exchange
+    knockoutScreenTemplateID: 9, // screen for SaaS, PaaS, SalesForce, and App Exchange
     required: false,
   },
   {
     id: 12,
     name: 'Is this a Constellation Standard IaaS Configuration?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 10, // IaaS
+    knockoutScreenTemplateID: 10, // IaaS
     required: false,
   },
   {
     id: 13,
     name: 'Will it require additional licensing?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 10, // IaaS
+    knockoutScreenTemplateID: 10, // IaaS
     required: false,
   },
   {
     id: 14,
     name: 'Does this align to the Mobile 2.0 Strategy?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 11, // Mobile
+    knockoutScreenTemplateID: 11, // Mobile
     required: false,
   },
   {
     id: 15,
     name: 'Does the application send data outside of the Constellation network?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 11, // Mobile
+    knockoutScreenTemplateID: 11, // Mobile
     required: false,
   },
   {
     id: 16,
     name: 'Does the integration use one of the standard integration platforms?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 12, // Integration
+    knockoutScreenTemplateID: 12, // Integration
     required: false,
   },
   {
     id: 17,
     name: 'Is the destination data classification equal or greater than the source data classification?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 12, // Integration
+    knockoutScreenTemplateID: 12, // Integration
     required: false,
   },
   {
     id: 18,
     name: 'Will this require additional licensing?',
     type: DataFieldType.yesNo,
-    knockoutScreenID: 12, // Integration
+    knockoutScreenTemplateID: 12, // Integration
     required: false,
   },
   {
     id: 19,
     name: 'Hardware Type',
     type: DataFieldType.select,
-    knockoutScreenID: 13, // Hardware
+    knockoutScreenTemplateID: 13, // Hardware
     required: true,
   },
   {
     id: 20,
     name: 'IAM Type',
     type: DataFieldType.select,
-    knockoutScreenID: 14, // IAM
+    knockoutScreenTemplateID: 14, // IAM
     required: true,
   },
 ];
 export const dataFieldOptionTemplates: DataFieldOptionTemplate[] = [
   {
+    id: 1,
     dataFieldTemplateID: 1, // Request Area
     value: 'Product Renewal/Extension',
   },
   {
+    id: 2,
     dataFieldTemplateID: 1, // Request Area
     value: 'New Ventures',
   },
   {
+    id: 3,
     dataFieldTemplateID: 1, // Request Area
     value: 'Installed Software',
   },
   {
+    id: 4,
     dataFieldTemplateID: 1, // Request Area
     value: 'Cloud',
   },
   {
+    id: 5,
     dataFieldTemplateID: 1, // Request Area
     value: 'Mobile',
   },
   {
+    id: 6,
     dataFieldTemplateID: 1, // Request Area
     value: 'Integration',
   },
   {
+    id: 7,
     dataFieldTemplateID: 1, // Request Area
     value: 'Hardware',
   },
   {
+    id: 8,
     dataFieldTemplateID: 1, // Request Area
     value: 'Identity and Access Management (IAM)',
   },
   {
+    id: 9,
     dataFieldTemplateID: 1, // Request Area
     value: 'Network (B2B VPN)',
   },
   {
+    id: 10,
     dataFieldTemplateID: 1, // Request Area
     value: 'Hosting Migration',
   },
   {
+    id: 11,
     dataFieldTemplateID: 1, // Request Area
     value: 'R&D',
   },
   {
+    id: 12,
     dataFieldTemplateID: 1, // Request Area
     value: 'Consulting or Professional Services',
   },
   {
+    id: 13,
     dataFieldTemplateID: 2, // Installed Software Type
     value: 'Desktop',
   },
   {
+    id: 14,
     dataFieldTemplateID: 2, // Installed Software Type
     value: 'On-Prem Server',
   },
   {
+    id: 15,
     dataFieldTemplateID: 2, // Installed Software Type
     value: 'IaaS',
   },
   {
+    id: 16,
     dataFieldTemplateID: 7, // Cloud Type
     value: 'Constellation Cloud (Azure)',
   },
   {
+    id: 17,
     dataFieldTemplateID: 7, // Cloud Type
     value: 'External Cloud',
   },
   {
+    id: 18,
     dataFieldTemplateID: 8, // Service Type (Constellation Cloud)
     value: 'SaaS',
   },
   {
+    id: 19,
     dataFieldTemplateID: 8, // Service Type (Constellation Cloud)
     value: 'PaaS',
   },
   {
+    id: 20,
     dataFieldTemplateID: 8, // Service Type (Constellation Cloud)
     value: 'IaaS',
   },
   {
+    id: 21,
     dataFieldTemplateID: 9, // Service Type (External Cloud)
     value: 'SaaS',
   },
   {
+    id: 22,
     dataFieldTemplateID: 9, // Service Type (External Cloud)
     value: 'PaaS',
   },
   {
+    id: 23,
     dataFieldTemplateID: 9, // Service Type (External Cloud)
     value: 'IaaS',
   },
   {
+    id: 24,
     dataFieldTemplateID: 9, // Service Type (External Cloud)
     value: 'Salesforce',
   },
   {
+    id: 25,
     dataFieldTemplateID: 9, // Service Type (External Cloud)
     value: 'App Exchange',
   },
   {
+    id: 26,
     dataFieldTemplateID: 19, // Hardware Type
     value: 'New Server',
   },
   {
+    id: 27,
     dataFieldTemplateID: 19, // Hardware Type
     value: 'IoT',
   },
   {
+    id: 28,
     dataFieldTemplateID: 20, // IAM Type
     value: 'Citrix or vendor access',
   },
   {
+    id: 29,
     dataFieldTemplateID: 20, // IAM Type
     value: 'Single Sign-on',
   },
   {
+    id: 30,
     dataFieldTemplateID: 20, // IAM Type
     value: 'External Data Sharing',
   },
@@ -767,97 +798,97 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   {
     dataFieldTemplateID: 1, // Request Area
     value: 'Installed Software',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 2,
   },
   {
     dataFieldTemplateID: 1, // Request Area
     value: 'Cloud',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 6,
   },
   {
     dataFieldTemplateID: 1, // Request Area
     value: 'Mobile',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 11,
   },
   {
     dataFieldTemplateID: 1, // Request Area
     value: 'Integration',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 12,
   },
   {
     dataFieldTemplateID: 1, // Request Area
     value: 'Hardware',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 13,
   },
   {
     dataFieldTemplateID: 1, // Request Area
     value: 'Identity and Access Management (IAM)',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 14,
   },
   {
     dataFieldTemplateID: 7, // Cloud Type
     value: 'Constellation Cloud (Azure)',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 7,
   },
   {
     dataFieldTemplateID: 7, // Cloud Type
     value: 'External Cloud',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 8,
   },
   {
     dataFieldTemplateID: 8, // Service Type (Constellation)
     value: 'SaaS',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 9,
   },
   {
     dataFieldTemplateID: 8, // Service Type (Constellation)
     value: 'PaaS',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 9,
   },
   {
     dataFieldTemplateID: 8, // Service Type (Constellation)
     value: 'IaaS',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 10,
   },
   {
     dataFieldTemplateID: 9, // Service Type (External)
     value: 'SaaS',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 9,
   },
   {
     dataFieldTemplateID: 9, // Service Type (External)
     value: 'PaaS',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 9,
   },
   {
     dataFieldTemplateID: 9, // Service Type (External)
     value: 'IaaS',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 10,
   },
   {
     dataFieldTemplateID: 9, // Service Type (External)
     value: 'Salesforce',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 9,
   },
   {
     dataFieldTemplateID: 9, // Service Type (External)
     value: 'App Exchange',
-    followupType: KnockoutFollowupTemplateType.KnockoutScreenTemplate,
+    followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 9,
   },
 
@@ -871,14 +902,14 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 3, // Does the desktop software send data externally (outside the Constellation Network)?
     value: 'false',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.tps]).map(
     (taskTemplate) => ({
       dataFieldTemplateID: 4, // Was the Application internally developed?
       value: 'false',
-      followupType: KnockoutFollowupTemplateType.TaskTemplate,
+      followupType: KnockoutFollowupType.Task,
       followupID: taskTemplate.id,
     })
   ),
@@ -890,7 +921,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 5, // Are there any changes to configuration or data schema?
     value: 'false',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
@@ -901,7 +932,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 6, // Will this interface with any systems on the Constellation Network?
     value: 'false',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
@@ -912,14 +943,14 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 6, // Will this interface with any systems on the Constellation Network?
     value: 'false',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.sa]).map(
     (taskTemplate) => ({
       dataFieldTemplateID: 10, // Is this service currently in use by other approved applications with the same data classification?
       value: 'true',
-      followupType: KnockoutFollowupTemplateType.TaskTemplate,
+      followupType: KnockoutFollowupType.Task,
       followupID: taskTemplate.id,
     })
   ),
@@ -929,14 +960,14 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 11, // Will it require additional licensing?
     value: 'true',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.sa]).map(
     (taskTemplate) => ({
       dataFieldTemplateID: 12, // Is this a Constellation Standard IaaS Configuration??
       value: 'true',
-      followupType: KnockoutFollowupTemplateType.TaskTemplate,
+      followupType: KnockoutFollowupType.Task,
       followupID: taskTemplate.id,
     })
   ),
@@ -946,14 +977,14 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 13, // Will it require additional licensing? (IaaS)
     value: 'true',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.sa]).map(
     (taskTemplate) => ({
       dataFieldTemplateID: 14, // Does this align to the Mobile 2.0 Strategy?
       value: 'true',
-      followupType: KnockoutFollowupTemplateType.TaskTemplate,
+      followupType: KnockoutFollowupType.Task,
       followupID: taskTemplate.id,
     })
   ),
@@ -964,7 +995,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 15, // Does the application send data outside of the Constellation network?
     value: 'true',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
@@ -973,7 +1004,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 16, // Does the integration use one of the standard integration platforms?
     value: 'true',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
@@ -982,14 +1013,14 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 17, // Is the destination data classification equal or greater than the source data classification?
     value: 'true',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.supply]).map(
     (taskTemplate) => ({
       dataFieldTemplateID: 18, // Will this require additional licensing? (Integration)
       value: 'true',
-      followupType: KnockoutFollowupTemplateType.TaskTemplate,
+      followupType: KnockoutFollowupType.Task,
       followupID: taskTemplate.id,
     })
   ),
@@ -999,7 +1030,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 20, // IAM Type
     value: 'Citrix or vendor access',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
@@ -1008,7 +1039,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 20, // IAM Type
     value: 'Single Sign-on',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
@@ -1017,7 +1048,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 20, // IAM Type
     value: 'External Data Sharing',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [
@@ -1028,7 +1059,9 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 1, // Request Area
     value: 'Network (B2B VPN)',
-    followupType: KnockoutFollowupTemplateType.TaskTemplate,
+    followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
-];
+]
+  // automatically apply ids since nothing points to the KnockoutFollowupTemplates
+  .map((f, idx) => ({ ...f, id: idx + 1 }));

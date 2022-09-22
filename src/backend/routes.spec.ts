@@ -8,10 +8,11 @@ describe('routes', () => {
     const mockFn = jest
       .fn(() => globals.db.User.findOne)
       .mockImplementationOnce(() => globals.db.User.findOne)
-      .mockImplementationOnce(() => {throw Error});
+      .mockImplementationOnce(() => {
+        throw Error;
+      });
 
     globals.db.User.findOne = mockFn as any;
-    await globals.request.get(`/users/123`).expect(500);
-
+    await globals.request.get(`/users/123`).expect(400);
   });
 });
