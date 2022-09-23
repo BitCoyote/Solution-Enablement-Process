@@ -37,7 +37,7 @@ const paths: Paths = {
           name: 'id',
           in: 'query',
           description:
-            'An example of a filter. Any SEP property such as `id`, `name`, and `phase` (including nested properties like `creator.id`) can be filtered by attaching a query parameter. You can filter by as many properties as needed. Filters will only return exact matches. Multiple values can be filtered by separating with a comma (i.e. `phase=initial,design`).',
+            'An example of a filter. Any SEP property such as `id`, `name`, and `phase` (including nested properties like `creator.id`) can be filtered by attaching a query parameter. You can filter by as many properties as needed. Filters will only return exact matches. Multiple values can be filtered by separating with a comma (i.e. `phase=initiate,design`).',
         },
         {
           name: 'search',

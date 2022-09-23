@@ -3,8 +3,9 @@ import Database from './models/index';
 import logger from './utils/logger';
 import { checkForRoleMiddleware } from './utils/authorization';
 import { OpenAPIV3 } from 'openapi-types';
-import userPaths from './modules/user/user.routes';
-import sepPaths from './modules/sep/sep.routes';
+import userRoutes from './modules/user/user.routes';
+import sepRoutes from './modules/sep/sep.routes';
+import taskRoutes from './modules/task/task.routes';
 
 export interface Paths extends OpenAPIV3.PathsObject {
   [pattern: string]: CustomPathItemObject | undefined;
@@ -33,8 +34,9 @@ export interface CustomOperationObject extends OpenAPIV3.OperationObject {
 
 /** All the endpoints in the application combined into a single object. */
 export const paths: Paths = {
-  ...userPaths,
-  ...sepPaths,
+  ...userRoutes,
+  ...sepRoutes,
+  ...taskRoutes,
 };
 
 // This module receives the express app and applies the routes for the entire API.

@@ -53,7 +53,7 @@ const paths: Paths = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/NewUser',
+              $ref: '#/components/schemas/User',
             },
           },
         },

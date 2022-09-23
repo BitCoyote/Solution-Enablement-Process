@@ -35,7 +35,7 @@ const sepController = {
     const search = req.query.search;
     const filters = req.query;
     const options: FindAndCountOptions = {
-      where: {},
+      where: { deletedAt: null },
       limit,
       offset,
       order: [orderArray as unknown as OrderItem],

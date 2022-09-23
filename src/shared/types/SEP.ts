@@ -18,13 +18,13 @@ export interface SEP extends SequelizeTimestamps {
   deletedAt?: string;
 }
 
-export interface SEPWithCreator extends SEP {
+export interface SEPSearchRow extends SEP {
   creator: User;
 }
 
 export interface SEPSearchResult {
   count: number;
-  seps: SEPWithCreator[];
+  seps: SEPSearchRow[];
 }
 
 export interface SEPUpdateBody {
