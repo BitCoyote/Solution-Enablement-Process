@@ -51,6 +51,7 @@ export interface DataFieldOption extends SequelizeTimestamps {
 }
 
 export interface DataFieldOptionTemplate {
+  id: number;
   value: string;
   dataFieldTemplateID: number;
   selected?: boolean;
@@ -62,7 +63,7 @@ export interface DataFieldTemplate {
   name: string;
   description?: string;
   type: DataFieldType;
-  knockoutScreenID?: number;
+  knockoutScreenTemplateID?: number;
   taskTemplateID?: number;
   departmentID?: DepartmentID;
   reviewTab?: boolean;
