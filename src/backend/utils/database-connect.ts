@@ -24,23 +24,26 @@ const init = async (): Promise<Sequelize | null> => {
         port,
         dialect,
         logging: (...msg: any) => {
-          logger.info(`executed ${msg[0]} duration: ${msg[1]} ms`)
+          logger.info(`executed ${msg[0]} duration: ${msg[1]} ms`);
         },
         dialectOptions,
-        benchmark
+        benchmark,
       };
       db = new Sequelize(databaseName, userName, password, config);
     }
-    await db.authenticate().then(() => {
-      logger.info('Successfully connected to database.');
-    }).catch((err: any) => console.warn(err));
+    await db
+      .authenticate()
+      .then(() => {
+        logger.info('Successfully connected to database.');
+      })
+      .catch((err: any) => logger.error(err));
   } catch (err) {
     logger.error('Could not connect to database. Sequelize error:', err);
   }
   return db;
-
 };
-
-export default async (): Promise<Sequelize | null> => {
+const databaseConnection = async (): Promise<Sequelize | null> => {
   return await init();
 };
+
+export default databaseConnection;
