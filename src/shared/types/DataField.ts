@@ -40,6 +40,10 @@ export interface DataField extends SequelizeTimestamps {
   required: boolean;
 }
 
+export interface DataFieldWithOptions extends DataField {
+  dataFieldOptions: DataFieldOption[];
+}
+
 export interface DataFieldOption extends SequelizeTimestamps {
   id: number;
   value: string;

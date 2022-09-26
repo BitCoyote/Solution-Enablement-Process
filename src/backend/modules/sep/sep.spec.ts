@@ -119,4 +119,13 @@ describe('sep module', () => {
       );
     });
   });
+  describe('GET /sep/{id}', () => {
+    it('should return an error when the sep is not in the database.', async () => {
+      await globals.request.get(`/sep/999999999`).expect(404);
+    });
+    it('should successfully return a sep ', async () => {
+      const response = await globals.request.get(`/sep/1`).expect(200);
+      expect(response.body.id).toEqual(1);
+    });
+  });
 });

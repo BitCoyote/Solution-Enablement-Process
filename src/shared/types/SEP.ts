@@ -1,5 +1,10 @@
+import { Activity } from './Activity';
+import { Attachment } from './Attachment';
+import { CommentExtendedWithReply } from './Comment';
+import { DataFieldWithOptions } from './DataField';
 import { SequelizeTimestamps } from './Sequelize';
-import { User } from './User';
+import { TaskExtended } from './Task';
+import { User, UserShort } from './User';
 
 export enum SEPPhase {
   knockout = 'knockout',
@@ -35,4 +40,13 @@ export interface SEPUpdateBody {
 export interface CreateSEPBody {
   name: string;
   description?: string;
+}
+
+export interface GetSEPResponse extends SEP {
+  creator: UserShort;
+  tasks: TaskExtended[];
+  comments: CommentExtendedWithReply[];
+  activities: Activity[];
+  attachments: Attachment[];
+  dataFields: DataFieldWithOptions[];
 }

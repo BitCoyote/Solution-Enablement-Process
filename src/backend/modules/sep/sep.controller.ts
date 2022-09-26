@@ -251,6 +251,87 @@ const sepController = {
     // If the execution reaches this line, the transaction has been committed successfully
     return res.send(createdSEP);
   },
+  getSEP: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    const id = parseInt(req.params.id);
+    const sep = await db.SEP.findOne({
+      where: { id },
+      include: [
+        {
+          model: db.User,
+          as: 'creator',
+          attributes: ['id', 'email', 'displayName'],
+        },
+        {
+          model: db.Task,
+          as: 'tasks',
+          include: [
+            {
+              model: db.User,
+              as: 'assignee',
+              attributes: ['id', 'email', 'displayName'],
+            },
+            {
+              model: db.User,
+              as: 'defaultReviewer',
+              attributes: ['id', 'email', 'displayName'],
+            },
+            {
+              model: db.Task,
+              as: 'parentTasks',
+            },
+          ],
+        },
+        {
+          model: db.Comment,
+          as: 'comments',
+          include: [
+            {
+              model: db.User,
+              as: 'creator',
+              attributes: ['id', 'email', 'displayName'],
+            },
+            {
+              model: db.Comment,
+              as: 'replyComment',
+              include: [
+                {
+                  model: db.User,
+                  as: 'creator',
+                  attributes: ['id', 'email', 'displayName'],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: db.Activity,
+          as: 'activities',
+        },
+        {
+          model: db.Attachment,
+          as: 'attachments',
+        },
+        {
+          model: db.DataField,
+          as: 'dataFields',
+          include: [
+            {
+              model: db.DataFieldOption,
+              as: 'dataFieldOptions',
+            },
+          ],
+        },
+      ],
+    });
+    if (!sep) {
+      return res.status(404).send('Cannot find SEP.');
+    }
+    return res.send(sep);
+  },
 };
 
 export default sepController;

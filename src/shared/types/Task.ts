@@ -32,6 +32,12 @@ export interface Task extends SequelizeTimestamps {
   phase: TaskPhase;
 }
 
+export interface TaskExtended extends Task {
+  assignee: UserShort;
+  reviewer: UserShort;
+  parentTasks: Task[];
+}
+
 export interface TaskTemplate {
   id: number;
   defaultReviewerID?: string;

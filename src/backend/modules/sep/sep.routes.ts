@@ -91,6 +91,34 @@ const paths: Paths = {
       },
     },
   },
+  '/sep/{id}': {
+    get: {
+      handler: sepController.getSEP,
+      tags: ['SEP'],
+      summary: 'Get SEP by ID',
+      description: 'Get a SEP by id.',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+        },
+      ],
+      responses: {
+        '200': {
+          description:
+            'Returns all SEP related data for the given SEP (tasks, comments, attachments, etc.)',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/GetSEPResponse',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export default paths;

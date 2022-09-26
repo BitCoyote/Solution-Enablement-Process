@@ -64,4 +64,24 @@ export const sepAssociations = (db: Database) => {
     foreignKey: 'createdBy',
     as: 'creator',
   });
+  db.SEP.hasMany(db.Task, {
+    foreignKey: 'sepID',
+    as: 'tasks',
+  });
+  db.SEP.hasMany(db.Comment, {
+    foreignKey: 'commentableID',
+    as: 'comments',
+  });
+  db.SEP.hasMany(db.Activity, {
+    foreignKey: 'trackableID',
+    as: 'activities',
+  });
+  db.SEP.hasMany(db.Attachment, {
+    foreignKey: 'attachableID',
+    as: 'attachments',
+  });
+  db.SEP.hasMany(db.DataField, {
+    foreignKey: 'sepID',
+    as: 'dataFields',
+  });
 };

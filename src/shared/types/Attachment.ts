@@ -1,11 +1,14 @@
 import { SequelizeTimestamps } from './Sequelize';
+import { UserShort } from './User';
 
 export enum AttacheableType {
   Task = 'Task',
   SEP = 'SEP',
 }
 
-export interface NewAttachment {
+export interface Attachment extends SequelizeTimestamps {
+  id: number;
+  createdBy: string;
   name: string;
   mimeType: string;
   url: string;
@@ -13,7 +16,6 @@ export interface NewAttachment {
   attachableID: number;
 }
 
-export interface Attachment extends NewAttachment, SequelizeTimestamps {
-  id: number;
-  createdBy: string;
+export interface AttachmentExtended extends Attachment {
+  creator: UserShort;
 }
