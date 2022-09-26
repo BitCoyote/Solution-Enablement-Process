@@ -123,9 +123,24 @@ describe('sep module', () => {
     it('should return an error when the sep is not in the database.', async () => {
       await globals.request.get(`/sep/999999999`).expect(404);
     });
-    it('should successfully return a sep ', async () => {
+    it('should successfully return a sep with extended data', async () => {
       const response = await globals.request.get(`/sep/1`).expect(200);
       expect(response.body.id).toEqual(1);
+    });
+  });
+  describe('GET /sep/extended/{id}', () => {
+    it('should return an error when the sep is not in the database.', async () => {
+      await globals.request.get(`/sep/extended/999999999`).expect(404);
+    });
+    it('should successfully return a sep with extended data', async () => {
+      const response = await globals.request.get(`/sep/extended/1`).expect(200);
+      expect(response.body.id).toEqual(1);
+      expect(response.body.creator).toBeDefined();
+      expect(response.body.tasks).toBeDefined();
+      expect(response.body.comments).toBeDefined();
+      expect(response.body.activities).toBeDefined();
+      expect(response.body.attachments).toBeDefined();
+      expect(response.body.dataFields).toBeDefined();
     });
   });
 });

@@ -251,7 +251,7 @@ const sepController = {
     // If the execution reaches this line, the transaction has been committed successfully
     return res.send(createdSEP);
   },
-  getSEP: async (
+  getSEPExtended: async (
     req: express.Request,
     res: express.Response,
     db: Database
@@ -324,6 +324,27 @@ const sepController = {
               as: 'dataFieldOptions',
             },
           ],
+        },
+      ],
+    });
+    if (!sep) {
+      return res.status(404).send('Cannot find SEP.');
+    }
+    return res.send(sep);
+  },
+  getSEP: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    const id = parseInt(req.params.id);
+    const sep = await db.SEP.findOne({
+      where: { id },
+      include: [
+        {
+          model: db.User,
+          as: 'creator',
+          attributes: ['id', 'email', 'displayName'],
         },
       ],
     });

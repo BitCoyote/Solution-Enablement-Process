@@ -42,11 +42,14 @@ export interface CreateSEPBody {
   description?: string;
 }
 
-export interface GetSEPResponse extends SEP {
+export interface GetSEPExtendedResponse extends SEP {
   creator: UserShort;
   tasks: TaskExtended[];
   comments: CommentExtendedWithReply[];
   activities: Activity[];
   attachments: Attachment[];
   dataFields: DataFieldWithOptions[];
+}
+export interface GetSEPResponse extends SEP {
+  creator: UserShort;
 }
