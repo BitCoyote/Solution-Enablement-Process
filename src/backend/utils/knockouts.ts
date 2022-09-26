@@ -34,7 +34,6 @@ export const getKnockoutScreenList = (
       userScreenList.push({
         ...knockoutScreen,
         complete: screenComplete,
-        dataFields: knockoutScreen.dataFields,
       });
 
       // If this knockout screen has any followup screens based on the user's answers, dive into those to check if they've answered them all.
