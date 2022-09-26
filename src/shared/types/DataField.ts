@@ -1,4 +1,5 @@
 import { DepartmentID } from './Department';
+import { KnockoutTaskFollowup } from './Knockout';
 import { SequelizeTimestamps } from './Sequelize';
 
 export enum DataFieldType {
@@ -34,6 +35,11 @@ export interface DataField extends SequelizeTimestamps {
 
 export interface DataFieldWithOptions extends DataField {
   dataFieldOptions: DataFieldOption[];
+}
+
+export interface DataFieldWithOptionsAndKnockoutFollowupTasks
+  extends DataFieldWithOptions {
+  knockoutTaskFollowups: KnockoutTaskFollowup[];
 }
 
 export interface DataFieldOption extends SequelizeTimestamps {

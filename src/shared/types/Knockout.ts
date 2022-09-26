@@ -1,4 +1,4 @@
-import { DataField } from './DataField';
+import { DataFieldWithOptions } from './DataField';
 import { SequelizeTimestamps } from './Sequelize';
 
 export enum KnockoutFollowupType {
@@ -25,6 +25,16 @@ export interface KnockoutFollowup extends SequelizeTimestamps {
   sepID: number;
 }
 
+/** KnockoutFollup with type === 'KnockoutScreen' */
+export interface KnockoutScreenFollowup extends KnockoutFollowup {
+  followupType: KnockoutFollowupType.KnockoutScreen;
+}
+
+/** KnockoutFollup with type === 'Task' */
+export interface KnockoutTaskFollowup extends KnockoutFollowup {
+  followupType: KnockoutFollowupType.Task;
+}
+
 export interface KnockoutScreenTemplate {
   id: number;
   name: string;
@@ -41,5 +51,10 @@ export interface KnockoutFollowupTemplate {
 }
 
 export interface KnockoutScreenWithDataFields extends KnockoutScreen {
-  dataFields: DataField[];
+  dataFields: DataFieldWithOptions[];
+}
+export interface KnockoutScreenWithCompletion
+  extends KnockoutScreenWithDataFields {
+  dataFields: DataFieldWithOptions[];
+  complete: boolean;
 }
