@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import { Sequelize as SequelizeType } from 'sequelize/types';
 import { User } from '../../shared/types/User';
-// import Database from './index';
+import Database from './index';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
 export interface UserModel extends User {}
@@ -78,10 +78,9 @@ export const initUser = (db: SequelizeType) => {
 };
 
 /** Creates all the table associations for this model */
-// export const userAssociations = (db: Database) => {
-//   db.User.belongsToMany(db.Role, {
-//     through: 'UserRole',
-//     foreignKey: 'userID',
-//     as: 'roles'
-//   });
-// };
+export const userAssociations = (db: Database) => {
+  // db.User.hasMany(db.Comment, {
+  //   foreignKey: 'userID',
+  //   as: 'creator'
+  // });
+};

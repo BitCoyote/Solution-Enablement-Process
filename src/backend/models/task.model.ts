@@ -121,6 +121,7 @@ export const taskAssociations = (db: Database) => {
   db.Task.belongsTo(db.User, {
     foreignKey: 'createdBy',
     as: 'creator',
+    constraints: false,
   });
   db.Task.belongsTo(db.User, {
     foreignKey: 'assignedUserID',

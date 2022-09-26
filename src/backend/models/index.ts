@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize/types';
-import { initUser, UserModel } from './user.model';
+import { initUser, userAssociations, UserModel } from './user.model';
 import { initSEP, SEPModel, sepAssociations } from './sep.model';
 import { initDepartment, DepartmentModel } from './department.model';
 import {
@@ -27,7 +27,11 @@ import {
   ActivityModel,
   activityAssociations,
 } from './activity.model';
-import { initDataField, DataFieldModel } from './data-field.model';
+import {
+  initDataField,
+  DataFieldModel,
+  dataFieldAssociations,
+} from './data-field.model';
 import {
   initDataFieldOption,
   DataFieldOptionModel,
@@ -79,5 +83,7 @@ export default class Database {
     attachmentAssociations(this);
     commentAssociations(this);
     activityAssociations(this);
+    dataFieldAssociations(this);
+    userAssociations(this);
   }
 }

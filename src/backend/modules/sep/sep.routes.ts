@@ -91,6 +91,62 @@ const paths: Paths = {
       },
     },
   },
+  '/sep/{id}/extended': {
+    get: {
+      handler: sepController.getSEPExtended,
+      tags: ['SEP'],
+      summary: 'Get an extended SEP by ID ',
+      description:
+        'Get a SEP and all SEP related data for the given SEP (tasks, comments, attachments, etc.) by SEP id.',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+        },
+      ],
+      responses: {
+        '200': {
+          description:
+            'Returns all SEP related data for the given SEP (tasks, comments, attachments, etc.)',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/GetSEPExtendedResponse',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  '/sep/{id}': {
+    get: {
+      handler: sepController.getSEP,
+      tags: ['SEP'],
+      summary: 'Get a SEP by ID ',
+      description: 'Get a SEP by id.',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+        },
+      ],
+      responses: {
+        '200': {
+          description: 'Returns an SEP with its creator info',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/GetSEPResponse',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export default paths;
