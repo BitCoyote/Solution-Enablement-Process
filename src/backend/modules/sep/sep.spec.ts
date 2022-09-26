@@ -128,12 +128,12 @@ describe('sep module', () => {
       expect(response.body.id).toEqual(1);
     });
   });
-  describe('GET /sep/extended/{id}', () => {
+  describe('GET /sep/{id}/extended', () => {
     it('should return an error when the sep is not in the database.', async () => {
-      await globals.request.get(`/sep/extended/999999999`).expect(404);
+      await globals.request.get(`/sep/999999999/extended`).expect(404);
     });
     it('should successfully return a sep with extended data', async () => {
-      const response = await globals.request.get(`/sep/extended/1`).expect(200);
+      const response = await globals.request.get(`/sep/1/extended`).expect(200);
       expect(response.body.id).toEqual(1);
       expect(response.body.creator).toBeDefined();
       expect(response.body.tasks).toBeDefined();

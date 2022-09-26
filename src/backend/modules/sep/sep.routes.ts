@@ -91,7 +91,7 @@ const paths: Paths = {
       },
     },
   },
-  '/sep/extended/{id}': {
+  '/sep/{id}/extended': {
     get: {
       handler: sepController.getSEPExtended,
       tags: ['SEP'],
