@@ -40,14 +40,6 @@ const ResponsiveAppBar = () => {
     setAnchorElNav(null)
   }
 
-  useEffect(() => {
-    console.log("🚀 ~ file: AppBar.tsx ~ line 135 ~ ResponsiveAppBar ~ isLoading || !photoErr || !userPhoto", (isLoading && photoErr && typeof userPhoto === 'undefined'))
-    console.log("🚀 ~ file: AppBar.tsx ~ line 45 ~ useEffect ~ userPhoto", typeof userPhoto === 'undefined')
-    console.log("🚀 ~ file: AppBar.tsx ~ line 45 ~ useEffect ~ photoErr", typeof photoErr  === 'object')
-    console.log("🚀 ~ file: AppBar.tsx ~ line 45 ~ useEffect ~ isLoading", isLoading)
-    
-  }, [userPhoto,photoErr,isLoading]);
-
   return (
     <AppBar
       elevation={0}
@@ -117,11 +109,11 @@ const ResponsiveAppBar = () => {
 
               <Tooltip title={userName}>
                 <IconButton sx={{ p: 0 }}>
-
                   {(isLoading || (typeof photoErr  === 'undefined' ||typeof photoErr  === 'object')  && typeof userPhoto === 'undefined') ?
                     <Avatar
                       sx={{ bgcolor: generateColorHsl(userName) }}
                       {...stringAvatar(userName)}
+                      alt='Profile picture'
                     />
                     :
                     <Avatar
