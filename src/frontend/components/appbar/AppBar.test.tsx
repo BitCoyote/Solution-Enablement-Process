@@ -31,12 +31,12 @@ describe('AppBar component', () => {
     //afterAll(() => server.close())
 
     
-    it('should show the current count', async () => {
-        const { queryByAltText } = await renderWithProviders(<ResponsiveAppBar />);
-        await waitFor(()=>expect(queryByAltText('Profile picture')).toBeInTheDocument())
-        //expect(getByAltText('Profile picture')).toBeInTheDocument();
+    // it('should show the current count', async () => {
+    //     const { queryByAltText } = await renderWithProviders(<ResponsiveAppBar />);
+    //     await waitFor(()=>expect(queryByAltText('Profile picture')).toBeInTheDocument())
+    //     //expect(getByAltText('Profile picture')).toBeInTheDocument();
 
-    });
+    // });
     
 });
 

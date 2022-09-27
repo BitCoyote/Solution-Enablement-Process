@@ -4,7 +4,7 @@ import { microsoftAPI } from '../API/microsoftAPI'
 
 export const microsoftSlice = microsoftAPI.injectEndpoints({
     endpoints: builder => ({
-        getUserPhoto: builder.query<any, void>({
+        getUserPhoto: builder.query<string, void>({
             query: () => {
                 return {
                     url: 'me/photo/$value',
