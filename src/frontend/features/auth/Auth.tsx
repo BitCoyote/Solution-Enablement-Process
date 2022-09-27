@@ -6,10 +6,11 @@ import {
   useMsal,
   useMsalAuthentication,
 } from '@azure/msal-react';
-import { useGetUserQuery } from '../../services/sepAPI';
+import { useGetUserQuery } from '../../services/usersSlice/usersSlice';
 import { InteractionType } from '@azure/msal-browser';
 import { authRequest } from '../../../frontend/app/msal';
 import pca from '../../app/msal';
+
 export const Auth = () => {
   const isAuthenticated = useIsAuthenticated();
   const { inProgress, accounts } = useMsal();
@@ -20,6 +21,7 @@ export const Auth = () => {
   } = useGetUserQuery('me', {
     skip: !isAuthenticated,
   });
+
   const { error: msalError } = useMsalAuthentication(
     InteractionType.Redirect,
     authRequest
@@ -43,9 +45,11 @@ export const Auth = () => {
     );
   } else if (getUserError) {
     return (
-      <p aria-label="Server error">
-        A server error has occurred. Please refresh your browser.
-      </p>
+      <>
+        <p aria-label="Server error">
+          A server error has occurred. Please refresh your browser.
+        </p>
+      </>
     );
   } else if (inProgress !== 'none') {
     return <p>Redirecting...</p>;
