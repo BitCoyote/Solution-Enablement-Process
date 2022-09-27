@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action, PreloadedState, combineReducers } from '@reduxjs/toolkit';
-import counterReducer from '../services/conterSlice/counterSlice';
+import counterReducer from '../services/counterSlice/counterSlice';
 import { sepAPI } from '../services/API';
 import {microsoftAPI} from '../services/API/microsoftAPI'
 

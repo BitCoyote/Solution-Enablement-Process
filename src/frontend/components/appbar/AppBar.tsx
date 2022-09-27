@@ -8,48 +8,45 @@ import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
 import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
-import { ThemeContext } from '@emotion/react'
 import { useTheme } from '@mui/material'
 import { useGetUserQuery } from '../../services/usersSlice/usersSlice'
 import { useGetUserPhotoQuery } from '../../services/microsoftSlice/microsoftSlice'
-import { stringAvatar, generateColorHsl } from './AvatarGenerator'
+import { stringAvatar, generateColorHsl } from '../avatarGenerator'
 import NavButton from '../NavButton'
-
 import './styles.css'
+
 const Logo = require('../../assets/img/constellation-logo.png')
 
 const pages = ['MySEPs', 'All SEPs', 'Create an SEP']
-const settings = ['Logout']
-
 
 const ResponsiveAppBar = () => {
-
+  const { data: userPhoto,
+    isSuccess: photoIsSuccess,
+    isLoading,
+    isError: photoIsError,
+    error: photoErr } = useGetUserPhotoQuery()
   const theme = useTheme()
-  const { data: photo, isSuccess: photoIsSuccess, isError: photoIsError, error: photoErr } = useGetUserPhotoQuery()
   const { data: loggedInUser } = useGetUserQuery('me');
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
   const userName: string = loggedInUser?.displayName ?? ''
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
-  }
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget)
   }
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
   }
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
-
-
+  useEffect(() => {
+    console.log("🚀 ~ file: AppBar.tsx ~ line 135 ~ ResponsiveAppBar ~ isLoading || !photoErr || !userPhoto", (isLoading && photoErr && typeof userPhoto === 'undefined'))
+    console.log("🚀 ~ file: AppBar.tsx ~ line 45 ~ useEffect ~ userPhoto", typeof userPhoto === 'undefined')
+    console.log("🚀 ~ file: AppBar.tsx ~ line 45 ~ useEffect ~ photoErr", typeof photoErr  === 'object')
+    console.log("🚀 ~ file: AppBar.tsx ~ line 45 ~ useEffect ~ isLoading", isLoading)
+    
+  }, [userPhoto,photoErr,isLoading]);
 
   return (
     <AppBar
@@ -64,7 +61,7 @@ const ResponsiveAppBar = () => {
     >
       <Container maxWidth={false} >
         <Toolbar disableGutters >
-          <img src={Logo} height="50px" style={{  marginTop: '5px' }} />
+          <img src={Logo} height="50px" style={{ marginTop: '5px' }} />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -115,38 +112,27 @@ const ResponsiveAppBar = () => {
               </NavButton>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  sx={{ bgcolor: generateColorHsl(userName) }}
-                  {...stringAvatar(userName)}
-                />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '35px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            <>
+
+              <Tooltip title={userName}>
+                <IconButton sx={{ p: 0 }}>
+
+                  {(isLoading || (typeof photoErr  === 'undefined' ||typeof photoErr  === 'object')  && typeof userPhoto === 'undefined') ?
+                    <Avatar
+                      sx={{ bgcolor: generateColorHsl(userName) }}
+                      {...stringAvatar(userName)}
+                    />
+                    :
+                    <Avatar
+                      alt='Profile picture'
+                      src={userPhoto}
+                    />
+
+                  }
+                </IconButton>
+              </Tooltip>
+            </>
           </Box>
         </Toolbar>
       </Container>
