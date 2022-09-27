@@ -1,7 +1,7 @@
 # src
 
-* index.tsx
- * Entry-point file for frontend code
+- index.tsx
+- Entry-point file for frontend code
 
-* server.ts
- * Entry-point file for backend code
+- server.ts
+- Entry-point file for backend code

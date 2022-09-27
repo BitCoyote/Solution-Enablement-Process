@@ -26,7 +26,7 @@ export const DepartmentContactSchema: Sequelize.ModelAttributes = {
     },
   },
   departmentID: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: false,
     references: {
       key: 'id',
@@ -53,5 +53,6 @@ export const departmentContactAssociations = (db: Database) => {
   db.DepartmentContact.belongsTo(db.User, {
     foreignKey: 'userID',
     as: 'user',
+    constraints: false,
   });
 };

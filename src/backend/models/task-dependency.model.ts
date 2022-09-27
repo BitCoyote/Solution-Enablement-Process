@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import { Sequelize as SequelizeType } from 'sequelize/types';
-import { TaskDependency } from '../../shared/types/TaskDependency';
+import { TaskDependency } from '../../shared/types/Task';
 // import Database from './index';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
@@ -9,6 +9,12 @@ export class TaskDependencyModel extends Sequelize.Model {}
 
 /** The sequelize schema for this model */
 export const TaskDependencySchema: Sequelize.ModelAttributes = {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false,

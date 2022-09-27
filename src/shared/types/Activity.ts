@@ -13,10 +13,12 @@ export enum ActivityAction {
   'Comment.Updated' = 'Comment.Updated',
   'Comment.Deleted' = 'Comment.Deleted',
   'SEP.Phase.Updated.Knockout' = 'SEP.Phase.Updated.Knockout',
-  'SEP.Phase.Updated.Initial' = 'SEP.Phase.Updated.Initial',
+  'SEP.Phase.Updated.Initiate' = 'SEP.Phase.Updated.Initiate',
   'SEP.Phase.Updated.Design' = 'SEP.Phase.Updated.Design',
   'SEP.Phase.Updated.Implement' = 'SEP.Phase.Updated.Implement',
   'SEP.Phase.Updated.Complete' = 'SEP.Phase.Updated.Complete',
+  'DataField.Value.Updated' = 'DataField.Value.Updated',
+  'Task.Status.Updated.Pending' = 'Task.Status.Updated.Pending',
   'Task.Status.Updated.Todo' = 'Task.Status.Updated.Todo',
   'Task.Status.Updated.NeedsReview' = 'Task.Status.Updated.NeedsReview',
   'Task.Status.Updated.ChangesRequested' = 'Task.Status.Updated.ChangesRequested',
@@ -26,8 +28,6 @@ export enum ActivityAction {
   'Task.Disabled' = 'Task.Disabled',
   'Attachment.Created' = 'Attachment.Created',
   'Attachment.Deleted' = 'Attachment.Deleted',
-  'UserKnockoutAnswer.Created' = 'UserKnockoutAnswer.Created',
-  'UserKnockoutAnswer.Updated' = 'UserKnockoutAnswer.Updated',
 }
 
 export interface Activity extends SequelizeTimestamps {

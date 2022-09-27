@@ -1,11 +1,15 @@
-import { Configuration, PublicClientApplication, SilentRequest } from "@azure/msal-browser";
+import {
+  Configuration,
+  PublicClientApplication,
+  SilentRequest,
+} from '@azure/msal-browser';
 
 const msalConfig: Configuration = {
-    auth: {
-        clientId: process.env.REACT_APP_CLIENT_ID as string,
-        authority: `https://login.microsoftonline.com/${process.env.REACT_APP_TENANT_ID}`,
-        redirectUri: process.env.REACT_APP_REDIRECT_URI as string
-    }
+  auth: {
+    clientId: process.env.REACT_APP_CLIENT_ID as string,
+    authority: `https://login.microsoftonline.com/${process.env.REACT_APP_TENANT_ID}`,
+    redirectUri: process.env.REACT_APP_REDIRECT_URI as string,
+  },
 };
 const pca = new PublicClientApplication(msalConfig);
 

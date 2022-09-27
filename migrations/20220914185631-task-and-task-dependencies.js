@@ -40,23 +40,15 @@ module.exports = {
                   },
                   assignedUserID: {
                     type: Sequelize.STRING,
-                    allowNull: false,
-                    references: {
-                      key: 'id',
-                      model: 'Users',
-                    },
+                    allowNull: true
                   },
                   defaultReviewerID: {
                     type: Sequelize.STRING,
-                    allowNull: false,
-                    references: {
-                      key: 'id',
-                      model: 'Users',
-                    },
+                    allowNull: true
                   },
                   departmentID: {
-                    type: Sequelize.INTEGER,
-                    allowNull: false,
+                    type: Sequelize.STRING,
+                    allowNull: true,
                     references: {
                       key: 'id',
                       model: 'Departments',
@@ -96,6 +88,12 @@ module.exports = {
                   },
                 }, { transaction: t }),
                 queryInterface.createTable('TaskDependencies', {
+                  id: {
+                    type: Sequelize.INTEGER,
+                    primaryKey: true,
+                    autoIncrement: true,
+                    allowNull: false,
+                  },
                   createdAt: {
                     type: Sequelize.DATE,
                     allowNull: false,

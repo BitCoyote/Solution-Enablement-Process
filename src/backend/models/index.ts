@@ -1,11 +1,6 @@
 import { Sequelize } from 'sequelize/types';
-import { initUser, UserModel } from './user.model';
+import { initUser, userAssociations, UserModel } from './user.model';
 import { initSEP, SEPModel, sepAssociations } from './sep.model';
-import {
-  initUserKnockoutAnswer,
-  UserKnockoutAnswerModel,
-  userKnockoutAnswerAssociations,
-} from './user-knockout-answer.model';
 import { initDepartment, DepartmentModel } from './department.model';
 import {
   initDepartmentContact,
@@ -32,11 +27,27 @@ import {
   ActivityModel,
   activityAssociations,
 } from './activity.model';
+import {
+  initDataField,
+  DataFieldModel,
+  dataFieldAssociations,
+} from './data-field.model';
+import {
+  initDataFieldOption,
+  DataFieldOptionModel,
+} from './data-field-option.model';
+import {
+  initKnockoutScreen,
+  KnockoutScreenModel,
+} from './knockout-screen.model';
+import {
+  initKnockoutFollowup,
+  KnockoutFollowupModel,
+} from './knockout-followup.model';
 
 export default class Database {
   public User: typeof UserModel;
   public SEP: typeof SEPModel;
-  public UserKnockoutAnswer: typeof UserKnockoutAnswerModel;
   public Department: typeof DepartmentModel;
   public DepartmentContact: typeof DepartmentContactModel;
   public Task: typeof TaskModel;
@@ -44,12 +55,15 @@ export default class Database {
   public Attachment: typeof AttachmentModel;
   public Comment: typeof CommentModel;
   public Activity: typeof ActivityModel;
+  public DataField: typeof DataFieldModel;
+  public DataFieldOption: typeof DataFieldOptionModel;
+  public KnockoutScreen: typeof KnockoutScreenModel;
+  public KnockoutFollowup: typeof KnockoutFollowupModel;
   public sequelize: Sequelize;
   constructor(db: Sequelize) {
     // Initialize sequelize models
     this.User = initUser(db);
     this.SEP = initSEP(db);
-    this.UserKnockoutAnswer = initUserKnockoutAnswer(db);
     this.Department = initDepartment(db);
     this.DepartmentContact = initDepartmentContact(db);
     this.Task = initTask(db);
@@ -57,14 +71,19 @@ export default class Database {
     this.Attachment = initAttachment(db);
     this.Comment = initComment(db);
     this.Activity = initActivity(db);
+    this.DataField = initDataField(db);
+    this.DataFieldOption = initDataFieldOption(db);
+    this.KnockoutScreen = initKnockoutScreen(db);
+    this.KnockoutFollowup = initKnockoutFollowup(db);
     this.sequelize = db;
     // Setup table assocations (must occur after all models are initialized)
     sepAssociations(this);
-    userKnockoutAnswerAssociations(this);
     departmentContactAssociations(this);
     taskAssociations(this);
     attachmentAssociations(this);
     commentAssociations(this);
     activityAssociations(this);
+    dataFieldAssociations(this);
+    userAssociations(this);
   }
 }

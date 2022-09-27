@@ -1,3 +1,3 @@
 export const myHelperFunction = () => {
-    return "You've been helped!!";
-}
+  return "You've been helped!!";
+};

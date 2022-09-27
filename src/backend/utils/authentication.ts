@@ -2,7 +2,7 @@ import express from 'express';
 import logger from './logger';
 import Database from '../models';
 import axios from 'axios';
-import { NewUser } from '../../shared/types/User';
+import { User } from '../../shared/types/User';
 const jwt = require('jsonwebtoken');
 /**
  * @function void Express middleware to decode token and attach to res.locals
@@ -38,7 +38,7 @@ const authentication = async (
     });
     if (req.path === '/users/me') {
       // This route is meant to be hit first when the application loads in order to initialize the user.
-      const userToUpsert: NewUser = {
+      const userToUpsert: Partial<User> = {
         id: res.locals.user.oid,
         familyName: res.locals.user.family_name,
         givenName: res.locals.user.given_name,

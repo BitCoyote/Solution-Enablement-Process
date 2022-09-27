@@ -40,7 +40,7 @@ export const CommentSchema: Sequelize.ModelAttributes = {
     },
   },
   departmentID: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: true,
     references: {
       key: 'id',
@@ -81,5 +81,13 @@ export const commentAssociations = (db: Database) => {
     foreignKey: 'commentableID',
     constraints: false,
     as: 'task',
+  });
+  db.Comment.belongsTo(db.Comment, {
+    foreignKey: 'replyCommentID',
+    as: 'replyComment',
+  });
+  db.Comment.belongsTo(db.User, {
+    foreignKey: 'createdBy',
+    as: 'creator',
   });
 };

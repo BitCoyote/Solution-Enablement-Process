@@ -37,7 +37,7 @@ export const TaskSchema: Sequelize.ModelAttributes = {
   },
   assignedUserID: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
     references: {
       key: 'id',
       model: 'Users',
@@ -45,15 +45,15 @@ export const TaskSchema: Sequelize.ModelAttributes = {
   },
   defaultReviewerID: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
     references: {
       key: 'id',
       model: 'Users',
     },
   },
   departmentID: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
+    type: Sequelize.STRING,
+    allowNull: true,
     references: {
       key: 'id',
       model: 'Departments',
@@ -104,17 +104,34 @@ export const initTask = (db: SequelizeType) => {
 
 /** Creates all the table associations for this model */
 export const taskAssociations = (db: Database) => {
+  db.Task.belongsToMany(db.Task, {
+    foreignKey: 'taskID',
+    as: 'dependentTasks',
+    through: 'TaskDependency',
+  });
+  db.Task.belongsToMany(db.Task, {
+    foreignKey: 'dependentTaskID',
+    as: 'parentTasks',
+    through: 'TaskDependency',
+  });
+  db.Task.hasMany(db.TaskDependency, {
+    foreignKey: 'taskID',
+    as: 'taskDependencies',
+  });
   db.Task.belongsTo(db.User, {
     foreignKey: 'createdBy',
     as: 'creator',
+    constraints: false,
   });
   db.Task.belongsTo(db.User, {
     foreignKey: 'assignedUserID',
     as: 'assignee',
+    constraints: false,
   });
   db.Task.belongsTo(db.User, {
     foreignKey: 'defaultReviewerID',
     as: 'defaultReviewer',
+    constraints: false,
   });
   db.Task.belongsTo(db.SEP, {
     foreignKey: 'sepID',

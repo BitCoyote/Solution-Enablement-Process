@@ -71,10 +71,10 @@ describe('authorization', () => {
       await authorization.checkForRoleMiddleware(res, next, ['FLOOP', 'DOOP']);
       expect(next).toHaveBeenCalled();
     });
-    it('should proceed when the user has a SUPER_USER role', async () => {
+    it('should proceed when the user has a AuthSuperUser role', async () => {
       res.locals.user = {
         oid: globals.loggedInUserID,
-        roles: ['SUPER_USER'],
+        roles: ['AuthSuperUser'],
       };
       await authorization.checkForRoleMiddleware(res, next, 'FLOOP');
       expect(next).toHaveBeenCalled();

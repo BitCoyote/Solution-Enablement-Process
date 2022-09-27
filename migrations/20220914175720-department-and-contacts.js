@@ -13,9 +13,8 @@ module.exports = {
             return Promise.all([
                 queryInterface.createTable('Departments', {
                   id: {
-                    type: Sequelize.INTEGER,
+                    type: Sequelize.STRING,
                     primaryKey: true,
-                    autoIncrement: true,
                     allowNull: false,
                   },
                   createdAt: {
@@ -26,10 +25,6 @@ module.exports = {
                     type: Sequelize.DATE,
                     allowNull: false,
                   },
-                  name: {
-                    type: Sequelize.STRING,
-                    allowNull: false,
-                  }
                 }, { transaction: t }),
                 queryInterface.createTable('DepartmentContacts', {
                   createdAt: {
@@ -42,14 +37,10 @@ module.exports = {
                   },
                   userID: {
                     type: Sequelize.STRING,
-                    allowNull: false,
-                    references: {
-                      key: 'id',
-                      model: 'Users',
-                    },
+                    allowNull: false
                   },
                   departmentID: {
-                    type: Sequelize.INTEGER,
+                    type: Sequelize.STRING,
                     allowNull: false,
                     references: {
                       key: 'id',

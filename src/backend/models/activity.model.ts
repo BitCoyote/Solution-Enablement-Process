@@ -88,9 +88,4 @@ export const activityAssociations = (db: Database) => {
     constraints: false,
     as: 'attachment',
   });
-  db.Activity.belongsTo(db.UserKnockoutAnswer, {
-    foreignKey: 'trackableID',
-    constraints: false,
-    as: 'userKnockoutAnswer',
-  });
 };

@@ -10,20 +10,20 @@ const rootReducer = combineReducers({
   [microsoftAPI.reducerPath]: microsoftAPI.reducer
 });
 
-export const setupStore = (preloadedState?: PreloadedState<RootState>) => configureStore({
-  reducer: rootReducer,
-  preloadedState,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(sepAPI.middleware),
+export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
+  configureStore({
+    reducer: rootReducer,
+    preloadedState,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(sepAPI.middleware),
+  });
 
-});
-
-export type RootState = ReturnType<typeof rootReducer>
-export type AppStore = ReturnType<typeof setupStore>
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
 export type AppDispatch = AppStore['dispatch'];
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
   unknown,
   Action<string>
-  >;
+>;

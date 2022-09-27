@@ -5,17 +5,14 @@ import { setupStore } from './frontend/app/store';
 import App from './frontend/app/App';
 import reportWebVitals from './frontend/reportWebVitals';
 import './frontend/app/index.css';
-
 import {
   BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
 import Auth from './frontend/features/auth/Auth';
-import ResponsiveAppBar from './frontend/components/appbar/AppBar';
 import AppContainer from './frontend/containers/AppContainer';
 import ThemeProvider from './frontend/theme/ThemeProvider'
-
 import { MsalProvider } from "@azure/msal-react";
 import pca from './frontend/app/msal';
 const container = document.getElementById('root')!;
