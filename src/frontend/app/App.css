@@ -26,6 +26,14 @@
   color: rgb(112, 76, 182);
 }
 
+body{
+  margin:0px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 @keyframes App-logo-float {
   0% {
     transform: translateY(0);

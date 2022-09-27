@@ -1,32 +1,38 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { setupStore } from './frontend/app/store';
-import App from './frontend/app/App';
-import reportWebVitals from './frontend/reportWebVitals';
-import './frontend/app/index.css';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
-import Auth from './frontend/features/auth/Auth';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { setupStore } from "./frontend/app/store";
+import App from "./frontend/app/App";
+import reportWebVitals from "./frontend/reportWebVitals";
+import "./frontend/app/index.css";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Auth from "./frontend/features/auth/Auth";
+import AppContainer from "./frontend/containers/AppContainer";
+import ThemeProvider from "./frontend/theme/ThemeProvider";
+import AllSEPs from "./frontend/features/all/AllSEPs";
+
 import { MsalProvider } from "@azure/msal-react";
-import pca from './frontend/app/msal';
-const container = document.getElementById('root')!;
+import pca from "./frontend/app/msal";
+const container = document.getElementById("root")!;
 const root = createRoot(container);
 const store = setupStore();
 
 root.render(
   <Provider store={store}>
     <MsalProvider instance={pca}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Auth />}>
-            <Route index element={<App />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <ThemeProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Auth />}>
+              <Route element={<AppContainer />}>
+                <Route index element={<App />} />
+                <Route path="/all" element={<AllSEPs />} />
+              </Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </MsalProvider>
   </Provider>
 );

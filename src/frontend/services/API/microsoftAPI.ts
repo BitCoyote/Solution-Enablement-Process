@@ -1,7 +1,6 @@
 import { AccountInfo } from '@azure/msal-browser';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { User } from '../../shared/types/User';
-import pca, { authRequest } from '../app/msal';
+import pca, { authRequest } from '../../app/msal';
 import type {
   BaseQueryFn,
   FetchArgs,
@@ -9,15 +8,14 @@ import type {
 } from '@reduxjs/toolkit/query/react';
 
 const rawBaseQuery = fetchBaseQuery({
-  baseUrl: process.env.REACT_APP_API_BASE_URL,
+  baseUrl: 'https://graph.microsoft.com/v1.0',
   prepareHeaders: async (headers) => {
     // Request tokens from Azure AD (if needed)
     const response = await pca.acquireTokenSilent({
       ...authRequest,
       account: pca.getAllAccounts()[0] as AccountInfo,
     });
-    headers.set('Authorization', `Bearer ${response.idToken}`);
-    headers.set('access_token', `${response.accessToken}`);
+    headers.set('Authorization', `Bearer ${response.accessToken}`);
     return headers;
   },
 });
@@ -31,7 +29,7 @@ const dynamicBaseQuery: BaseQueryFn<
   // This is necessary for easily integration testing with the backend because the REACT_APP_API_BASE_URL is dynamic and changes at the start of every test.
   const urlEnd = typeof args === 'string' ? args : args.url;
   // construct a dynamically generated portion of the url
-  const adjustedUrl = `${process.env.REACT_APP_API_BASE_URL}/${urlEnd}`;
+  const adjustedUrl = `https://graph.microsoft.com/v1.0/${urlEnd}`;
   const adjustedArgs =
     typeof args === 'string' ? adjustedUrl : { ...args, url: adjustedUrl };
   // provide the amended url and other params to the raw base query
@@ -45,25 +43,12 @@ if (process.env.NODE_ENV === 'test') {
   keepUnusedDataFor = 0;
 }
 // Define a service using a base URL and expected endpoints
-export const sepAPI = createApi({
-  reducerPath: 'sepAPI',
+export const microsoftAPI = createApi({
+  reducerPath: 'microsoftAPI',
   baseQuery: dynamicBaseQuery,
   keepUnusedDataFor,
-  endpoints: (builder) => ({
-    getUser: builder.query<User, string>({
-      query: (id) => `users/${id}`,
-    }),
-    // updateUser: builder.mutation<User, Partial<User> & Pick<User, 'id'>>({
-    //     query: ({ id, ...patch }) => {
-    //         return {
-    //             url: `users/${id}`,
-    //             method: 'PATCH',
-    //             body: patch,
-    //         }
-    //     },
-    // })
-  }),
+  endpoints: (builder) => ({}),
 });
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetUserQuery } = sepAPI;
+//export const { useGetUserQuery } = sepAPI;

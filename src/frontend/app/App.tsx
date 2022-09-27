@@ -2,12 +2,17 @@ import React from 'react';
 import logo from './logo.svg';
 import Counter from '../features/counter/Counter';
 import './App.css';
-import { useGetUserQuery } from '../services/sepAPI';
+import { useGetUserQuery } from '../services/usersSlice/usersSlice';
 import { useAccount } from '@azure/msal-react';
 
-function App() {
+
+
+
+const App = () => {
+
   const { data: loggedInUser } = useGetUserQuery('me');
   const account = useAccount();
+
   return (
     <div className="App">
       <header className="App-header">
@@ -61,7 +66,7 @@ function App() {
         </span>
       </header>
     </div>
-  );
+  )
 }
 
 export default App;
