@@ -25,7 +25,7 @@ export interface DataField extends SequelizeTimestamps {
   type: DataFieldType;
   sepID: number;
   dataFieldTemplateID?: number;
-  value?: string;
+  value?: string | number | boolean;
   knockoutScreenID?: number;
   taskID?: number;
   departmentID?: DepartmentID;
@@ -71,8 +71,15 @@ export interface DataFieldTemplate {
   reviewTab?: boolean;
   required: boolean;
 }
-
-export interface DataFieldAnswerBody {
-  dataFieldTemplateID: number;
-  values: string[];
+export interface DataFieldOptionUpdate {
+  /** The DataFieldOption id */
+  id: number;
+  selected: boolean;
+}
+export interface DataFieldUpdate {
+  /** The DataField id */
+  id: number;
+  /** Leave undefined for select/multi-select fields */
+  value?: string | number | boolean;
+  dataFieldOptions?: DataFieldOptionUpdate[];
 }

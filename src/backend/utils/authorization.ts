@@ -1,4 +1,6 @@
 import express from 'express';
+import Database from '../models';
+import { allAppRoles } from '../../shared/utils/helpers';
 
 /**
  * @function void Express middleware to check if user owns the resource they are trying to interact with
@@ -65,4 +67,26 @@ const checkForRole = (res: express.Response, role: string | string[]) => {
     }
   }
   return false;
+};
+
+/** Checks if the requesting user is the requestor or a resource owner for the given SEP */
+export const mustBeRequestorOrResourceOwner = async (
+  res: express.Response,
+  next: express.NextFunction,
+  db: Database,
+  sepID: number
+) => {
+  const sep = await db.SEP.findByPk(sepID);
+  if (
+    !sep ||
+    (sep.createdBy !== res.locals.user.oid && !checkForRole(res, allAppRoles))
+  ) {
+    return res
+      .status(403)
+      .send(
+        'You must be either the requestor for this SEP or a resource owner to take this action.'
+      );
+  } else {
+    next();
+  }
 };

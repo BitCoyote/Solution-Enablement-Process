@@ -1,15 +1,41 @@
 import { DataFieldWithOptionsAndKnockoutFollowupTasks } from '../../shared/types/DataField';
 import {
+  KnockoutFollowupType,
   KnockoutScreenFollowup,
   KnockoutScreenWithCompletion,
   KnockoutScreenWithDataFields,
 } from '../../shared/types/Knockout';
+import Database from '../models';
 
 /** Returns an ordered list of screens with data fields that a user must answer based on their previous knockout answers. Screens are ordered based on a "dive-first" strategy, meaning that followup screens will appear before sibling screens. */
-export const getKnockoutScreenList = (
-  sepKnockoutScreens: KnockoutScreenWithDataFields[],
-  sepKnockoutScreenFollowups: KnockoutScreenFollowup[]
-): KnockoutScreenWithCompletion[] => {
+export const getKnockoutScreenList = async (
+  db: Database,
+  sepID: number
+): Promise<KnockoutScreenWithCompletion[]> => {
+  const sepKnockoutScreens = (
+    (await db.KnockoutScreen.findAll({
+      where: { sepID },
+      include: [
+        {
+          model: db.DataField,
+          as: 'dataFields',
+          include: [
+            {
+              model: db.DataFieldOption,
+              as: 'dataFieldOptions',
+            },
+          ],
+        },
+      ],
+    })) as any
+  ).map((a: any) => a.dataValues) as KnockoutScreenWithDataFields[];
+
+  const sepKnockoutScreenFollowups = (
+    (await db.KnockoutFollowup.findAll({
+      where: { sepID, followupType: KnockoutFollowupType.KnockoutScreen },
+    })) as any
+  ).map((a: any) => a.dataValues) as KnockoutScreenFollowup[];
+
   const userScreenList: KnockoutScreenWithCompletion[] = [];
   const starterScreens = sepKnockoutScreens.filter((q) => q.starter);
   return appendScreens(userScreenList, starterScreens);

@@ -1,7 +1,8 @@
 import Sequelize from 'sequelize';
-import { Sequelize as SequelizeType } from 'sequelize/types';
 import { Task } from '../../shared/types/Task';
+import { updateSEPPhase } from '../utils/sep';
 import Database from './index';
+import { Sequelize as SequelizeType } from 'sequelize/types';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
 export interface TaskModel extends Task {}
@@ -98,6 +99,10 @@ export const initTask = (db: SequelizeType) => {
   TaskModel.init(TaskSchema, {
     sequelize: db,
     modelName: 'Task',
+    hooks: {
+      afterUpdate: (task) => updateSEPPhase(db as any, task.sepID),
+      afterCreate: (task) => updateSEPPhase(db as any, task.sepID),
+    },
   });
   return TaskModel;
 };

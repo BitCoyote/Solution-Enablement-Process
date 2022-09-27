@@ -7,6 +7,7 @@ import userRoutes from './modules/user/user.routes';
 import sepRoutes from './modules/sep/sep.routes';
 import taskRoutes from './modules/task/task.routes';
 import knockoutRoutes from './modules/knockout/knockout.routes';
+import dataFieldRoutes from './modules/data-field/data-field.routes';
 
 export interface Paths extends OpenAPIV3.PathsObject {
   [pattern: string]: CustomPathItemObject | undefined;
@@ -39,6 +40,7 @@ export const paths: Paths = {
   ...sepRoutes,
   ...taskRoutes,
   ...knockoutRoutes,
+  ...dataFieldRoutes,
 };
 
 // This module receives the express app and applies the routes for the entire API.

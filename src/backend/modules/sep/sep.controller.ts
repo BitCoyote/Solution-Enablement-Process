@@ -117,7 +117,7 @@ const sepController = {
 
     const createdSEP = await db.sequelize.transaction(async (transaction) => {
       // Create the new SEP object
-      const newSEP = await await db.SEP.create(
+      const newSEP = await db.SEP.create(
         {
           name,
           description,
