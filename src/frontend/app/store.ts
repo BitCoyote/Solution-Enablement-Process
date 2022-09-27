@@ -1,13 +1,19 @@
-import { configureStore, ThunkAction, Action, PreloadedState, combineReducers } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  ThunkAction,
+  Action,
+  PreloadedState,
+  combineReducers,
+} from '@reduxjs/toolkit';
 import counterReducer from '../services/counterSlice/counterSlice';
 import { sepAPI } from '../services/API';
-import {microsoftAPI} from '../services/API/microsoftAPI'
+import { microsoftAPI } from '../services/API/microsoftAPI';
 
 // Create the root reducer separately so we can extract the RootState type
 const rootReducer = combineReducers({
   counter: counterReducer,
   [sepAPI.reducerPath]: sepAPI.reducer,
-  [microsoftAPI.reducerPath]: microsoftAPI.reducer
+  [microsoftAPI.reducerPath]: microsoftAPI.reducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) =>

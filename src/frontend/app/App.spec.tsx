@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithProviders } from '../../../testing/test-utils';
 import '@testing-library/jest-dom';
 import App from './App';
-import { usersSlice } from '../services/usersSlice/usersSlice'
+import { usersSlice } from '../services/usersSlice/usersSlice';
 import { FrontendTestingGlobals } from '../../../testing/types';
 import { waitFor } from '@testing-library/react';
 const globals = globalThis as unknown as FrontendTestingGlobals;

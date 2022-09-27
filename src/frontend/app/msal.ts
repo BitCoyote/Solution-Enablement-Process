@@ -15,7 +15,7 @@ const pca = new PublicClientApplication(msalConfig);
 
 /** This defines the scopes requested from Azure AD */
 export const authRequest: SilentRequest = {
-    scopes: ["openid", "profile", "User.Read"]
-  };
+  scopes: ['openid', 'profile', 'User.Read'],
+};
 
 export default pca;

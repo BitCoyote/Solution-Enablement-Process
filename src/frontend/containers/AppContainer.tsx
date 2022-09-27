@@ -1,14 +1,14 @@
-import React from 'react'
-import { Outlet } from 'react-router'
-import ResponsiveAppBar from '../components/appbar/AppBar'
+import React from 'react';
+import { Outlet } from 'react-router';
+import ResponsiveAppBar from '../components/appbar/AppBar';
 
 const AppContainer = () => {
   return (
     <>
-        <ResponsiveAppBar/>
-        <Outlet />
+      <ResponsiveAppBar />
+      <Outlet />
     </>
-  )
-}
+  );
+};
 
-export default AppContainer
+export default AppContainer;

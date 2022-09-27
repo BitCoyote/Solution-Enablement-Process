@@ -1,4 +1,4 @@
-import {usersSlice} from '../usersSlice/usersSlice'
+import { usersSlice } from '../usersSlice/usersSlice';
 import { AppStore, setupStore } from '../../app/store';
 import { FrontendTestingGlobals } from '../../../../testing/types';
 const globals = globalThis as unknown as FrontendTestingGlobals;

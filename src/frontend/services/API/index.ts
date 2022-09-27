@@ -1,1 +1,1 @@
-export { sepAPI } from './sepAPI'
+export { sepAPI } from './sepAPI';

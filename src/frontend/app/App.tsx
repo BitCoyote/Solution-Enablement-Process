@@ -5,11 +5,7 @@ import './App.css';
 import { useGetUserQuery } from '../services/usersSlice/usersSlice';
 import { useAccount } from '@azure/msal-react';
 
-
-
-
 const App = () => {
-
   const { data: loggedInUser } = useGetUserQuery('me');
   const account = useAccount();
 
@@ -66,7 +62,7 @@ const App = () => {
         </span>
       </header>
     </div>
-  )
-}
+  );
+};
 
 export default App;

@@ -1,44 +1,46 @@
-import React, { useEffect } from 'react'
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import Menu from '@mui/material/Menu'
-import MenuIcon from '@mui/icons-material/Menu'
-import Container from '@mui/material/Container'
-import Avatar from '@mui/material/Avatar'
-import Tooltip from '@mui/material/Tooltip'
-import MenuItem from '@mui/material/MenuItem'
-import { useTheme } from '@mui/material'
-import { useGetUserQuery } from '../../services/usersSlice/usersSlice'
-import { useGetUserPhotoQuery } from '../../services/microsoftSlice/microsoftSlice'
-import { stringAvatar, generateColorHsl } from '../avatarGenerator'
-import NavButton from '../NavButton'
-import './styles.css'
+import React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import { useTheme } from '@mui/material';
+import { useGetUserQuery } from '../../services/usersSlice/usersSlice';
+import { useGetUserPhotoQuery } from '../../services/microsoftSlice/microsoftSlice';
+import { stringAvatar, generateColorHsl } from '../avatarGenerator';
+import NavButton from '../NavButton';
+import './styles.css';
 
-const Logo = require('../../assets/img/constellation-logo.png')
+const Logo = require('../../assets/img/constellation-logo.png');
 
-const pages = ['MySEPs', 'All SEPs', 'Create an SEP']
+const pages = ['MySEPs', 'All SEPs', 'Create an SEP'];
 
 const ResponsiveAppBar = () => {
-  const { data: userPhoto,
-    isSuccess: photoIsSuccess,
+  const {
+    data: userPhoto,
     isLoading,
-    isError: photoIsError,
-    error: photoErr } = useGetUserPhotoQuery()
-  const theme = useTheme()
+    error: photoErr,
+  } = useGetUserPhotoQuery();
+  const theme = useTheme();
   const { data: loggedInUser } = useGetUserQuery('me');
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
-  const userName: string = loggedInUser?.displayName ?? ''
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const userName: string = loggedInUser?.displayName ?? '';
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget)
-  }
+    setAnchorElNav(event.currentTarget);
+  };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
+    setAnchorElNav(null);
+  };
 
   return (
     <AppBar
@@ -48,12 +50,17 @@ const ResponsiveAppBar = () => {
         backgroundColor: theme.palette.common.white,
         borderBottom: '1px',
         borderColor: theme.palette.solidGrey.light,
-        borderStyle: 'solid'
+        borderStyle: 'solid',
       }}
     >
-      <Container maxWidth={false} >
-        <Toolbar disableGutters >
-          <img src={Logo} height="50px" style={{ marginTop: '5px' }} />
+      <Container maxWidth={false}>
+        <Toolbar disableGutters>
+          <img
+            src={Logo}
+            alt="Constellation"
+            height="50px"
+            style={{ marginTop: '5px' }}
+          />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -106,22 +113,20 @@ const ResponsiveAppBar = () => {
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <>
-
               <Tooltip title={userName}>
                 <IconButton sx={{ p: 0 }}>
-                  {(isLoading || (typeof photoErr  === 'undefined' ||typeof photoErr  === 'object')  && typeof userPhoto === 'undefined') ?
+                  {isLoading ||
+                  ((typeof photoErr === 'undefined' ||
+                    typeof photoErr === 'object') &&
+                    typeof userPhoto === 'undefined') ? (
                     <Avatar
                       sx={{ bgcolor: generateColorHsl(userName) }}
                       {...stringAvatar(userName)}
-                      alt='Profile picture'
+                      alt="Profile picture"
                     />
-                    :
-                    <Avatar
-                      alt='Profile picture'
-                      src={userPhoto}
-                    />
-
-                  }
+                  ) : (
+                    <Avatar alt="Profile picture" src={userPhoto} />
+                  )}
                 </IconButton>
               </Tooltip>
             </>
@@ -129,6 +134,6 @@ const ResponsiveAppBar = () => {
         </Toolbar>
       </Container>
     </AppBar>
-  )
-}
-export default ResponsiveAppBar
+  );
+};
+export default ResponsiveAppBar;

@@ -1,1 +1,1 @@
-export { stringAvatar, generateColorHsl } from './AvatarGenerator'
+export { stringAvatar, generateColorHsl } from './AvatarGenerator';
