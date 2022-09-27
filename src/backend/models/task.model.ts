@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import { Task } from '../../shared/types/Task';
-import { updateSEPPhase } from '../utils/sep';
+import { updateSEPPhase } from '../utils/seps';
 import Database from './index';
 import { Sequelize as SequelizeType } from 'sequelize/types';
 

@@ -29,7 +29,6 @@ export const getKnockoutScreenList = async (
       ],
     })) as any
   ).map((a: any) => a.dataValues) as KnockoutScreenWithDataFields[];
-
   const sepKnockoutScreenFollowups = (
     (await db.KnockoutFollowup.findAll({
       where: { sepID, followupType: KnockoutFollowupType.KnockoutScreen },

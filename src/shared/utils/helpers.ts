@@ -11,4 +11,5 @@ export const allAppRoles = [
   'AuthSupply',
   'AuthPortfolioOwner',
   'AuthSolutionArchitect',
+  'AuthSuperUser',
 ];

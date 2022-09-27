@@ -56,7 +56,7 @@ const checkForRole = (res: express.Response, role: string | string[]) => {
   } else {
     rolesToCheck = [role];
   }
-  for (let i = 0; i < res.locals.user.roles.length; i++) {
+  for (let i = 0; i < (res.locals.user.roles || []).length; i++) {
     const role = res.locals.user.roles[i];
     if (role === 'AuthSuperUser') {
       // Super User, can do anything.
