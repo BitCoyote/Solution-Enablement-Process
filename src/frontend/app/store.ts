@@ -5,13 +5,15 @@ import {
   PreloadedState,
   combineReducers,
 } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
-import { sepAPI } from '../services/sepAPI';
+import counterReducer from '../services/counterSlice/counterSlice';
+import { sepAPI } from '../services/API';
+import { microsoftAPI } from '../services/API/microsoftAPI';
 
 // Create the root reducer separately so we can extract the RootState type
 const rootReducer = combineReducers({
   counter: counterReducer,
   [sepAPI.reducerPath]: sepAPI.reducer,
+  [microsoftAPI.reducerPath]: microsoftAPI.reducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) =>

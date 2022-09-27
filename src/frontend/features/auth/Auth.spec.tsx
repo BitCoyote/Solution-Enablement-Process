@@ -8,7 +8,8 @@ import msalReact, {
 } from '@azure/msal-react';
 import { FrontendTestingGlobals } from '../../../../testing/types';
 import { waitFor } from '@testing-library/react';
-import * as sep from '../../services/sepAPI';
+//import * as sep from '../../services/API/sepAPI';
+import * as usersSlice from '../../services/usersSlice/usersSlice';
 const globals = globalThis as unknown as FrontendTestingGlobals;
 // For testing the Auth component, we need to mock @azure/msal-react because we Microsoft does not permit headless browsers to authenticate.
 // This will be the default mock for @azure/msal-react for this file. Methods can be overwritten in individual tests use jest.spyOn
@@ -34,7 +35,7 @@ describe('Auth component', () => {
   });
   it('Should show an error message when there is a server error.', async () => {
     jest
-      .spyOn(sep, 'useGetUserQuery')
+      .spyOn(usersSlice, 'useGetUserQuery')
       .mockReturnValueOnce({ error: {}, data: null, refetch: jest.fn() });
     jest.spyOn(msalReact, 'useIsAuthenticated').mockReturnValueOnce(true);
     const { getByLabelText } = renderWithProviders(<Auth />);
@@ -54,7 +55,7 @@ describe('Auth component', () => {
   });
 
   it('Should show "Loading user..." when the user request is in progress.', async () => {
-    jest.spyOn(sep, 'useGetUserQuery').mockReturnValueOnce({
+    jest.spyOn(usersSlice, 'useGetUserQuery').mockReturnValueOnce({
       error: null,
       isLoading: true,
       data: null,
@@ -80,7 +81,8 @@ describe('Auth component', () => {
       expect(queryByLabelText('Server error')).not.toBeInTheDocument();
       expect(queryByLabelText('Authentication error')).not.toBeInTheDocument();
       expect(
-        sep.sepAPI.endpoints.getUser.select('me')(store.getState()).data?.id
+        usersSlice.usersSlice.endpoints.getUser.select('me')(store.getState())
+          .data?.id
       ).toEqual(globals.loggedInUserID);
     });
   });
