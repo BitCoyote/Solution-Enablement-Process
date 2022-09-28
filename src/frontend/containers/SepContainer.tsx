@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Outlet } from 'react-router';
-import leftAngleIcon from '../assets/svg/angle-left.svg'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 const Login = () => {
 
@@ -25,14 +25,15 @@ const Login = () => {
           alignItems: 'flex-start',
 
         }}>
-          <Button variant="text" ><img src={leftAngleIcon} /> Back </Button>
+          <Button variant="text" > <ChevronLeftIcon/> Back </Button>
           <Container maxWidth="lg"
             sx={{
               bgcolor: '#FFFFFF',
               minHeight: '85vh',
               minWidth: '90vw',
               borderRadius: '10px',
-              boxShadow:'0px 1px 5px #0000001A;'
+              boxShadow:'0px 1px 5px #0000001A;',
+              m:2
             }} >
               <Outlet />
           </Container>
