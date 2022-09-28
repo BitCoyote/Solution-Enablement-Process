@@ -44,11 +44,21 @@ if (process.env.NODE_ENV === 'test') {
   keepUnusedDataFor = 0;
 }
 // Define a service using a base URL and expected endpoints
+
 export const sepAPI = createApi({
-  reducerPath: 'sepAPI',
+  reducerPath: "sepAPI",
   baseQuery: dynamicBaseQuery,
   keepUnusedDataFor,
   endpoints: (builder) => ({
+    getSeps: builder.query<any, any>({
+      query: (arg) => {
+        const { limit, offset, sortBy, sortAsc, id, search } = arg;
+        return {
+          url: "seps",
+          params: { limit, offset, sortBy, sortAsc, id, search },
+        };
+      },
+    }),
     // getUser: builder.query<User, string>({
     //   query: (id) => `users/${id}`,
     // }),
@@ -66,3 +76,5 @@ export const sepAPI = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 //export const { useGetUserQuery } = sepAPI;
+
+export const { useGetSepsQuery } = sepAPI;

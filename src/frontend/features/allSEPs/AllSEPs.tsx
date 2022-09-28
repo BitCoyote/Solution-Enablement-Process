@@ -7,6 +7,8 @@ import SepTableBody from "../../components/SepTable/SepTableBody";
 import SepTablePageNavigation from "../../components/SepTable/SepTablePageNavigation";
 import { TableData } from "../../components/SepTable/SepTableBody";
 
+import { useGetSepsQuery } from '../../services/API/sepAPI';
+
 function createData(
   tasks: string,
   assigned: string,
@@ -133,6 +135,8 @@ const rows: TableData[] = [
 ];
 
 const AllSEPs = () => {
+  const data = useGetSepsQuery({});
+  console.log(data)
   const [loading] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
   const [statusChecked, setStatusChecked] = useState<boolean[]>([
