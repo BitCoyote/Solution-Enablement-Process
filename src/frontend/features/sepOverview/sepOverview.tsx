@@ -13,8 +13,6 @@ const SepOverview = () => {
         console.log("🚀 ~ file: SepOverview.tsx ~ line 11 ~ SepOverview ~ seps", seps)
     }, [isSuccess])
     
-
-
   return (
     <div>SepOverview</div>
   )
