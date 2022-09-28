@@ -38,6 +38,7 @@ import {
 } from './data-field-option.model';
 import {
   initKnockoutScreen,
+  knockoutScreenAssociations,
   KnockoutScreenModel,
 } from './knockout-screen.model';
 import {
@@ -85,5 +86,6 @@ export default class Database {
     activityAssociations(this);
     dataFieldAssociations(this);
     userAssociations(this);
+    knockoutScreenAssociations(this);
   }
 }

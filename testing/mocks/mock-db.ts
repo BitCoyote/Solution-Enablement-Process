@@ -3,6 +3,8 @@ import Database from "../../src/backend/models";
 import { SEP, SEPPhase } from "../../src/shared/types/SEP";
 import { Department, DepartmentID } from "../../src/shared/types/Department";
 import { Task, TaskPhase, TaskStatus } from "../../src/shared/types/Task";
+import { DataField, DataFieldOption, DataFieldType } from "../../src/shared/types/DataField";
+import { KnockoutFollowup, KnockoutFollowupType, KnockoutScreen } from "../../src/shared/types/Knockout";
 const testUserID = '774d6f78-5477-4f71-8f6e-fea599577a50';
 
 const baseObject = {
@@ -15,6 +17,10 @@ interface TestData {
   SEP: SEP[],
   Department: Department[],
   Task: Task[],
+  DataField: DataField[],
+  DataFieldOption: DataFieldOption[],
+  KnockoutScreen: KnockoutScreen[],
+  KnockoutFollowup: KnockoutFollowup[],
 }
 
 /** Mock data to be inserted into testing database. 
@@ -35,14 +41,14 @@ export const testData: TestData = {
     },
   ],
   Department: [
-    {...baseObject, id: DepartmentID.legal },
-    {...baseObject, id: DepartmentID.ea },
-    {...baseObject, id: DepartmentID.sec },
-    {...baseObject, id: DepartmentID.tps },
-    {...baseObject, id: DepartmentID.ncs },
-    {...baseObject, id: DepartmentID.supply },
-    {...baseObject, id: DepartmentID.po },
-    {...baseObject, id: DepartmentID.sa },
+    { ...baseObject, id: DepartmentID.legal },
+    { ...baseObject, id: DepartmentID.ea },
+    { ...baseObject, id: DepartmentID.sec },
+    { ...baseObject, id: DepartmentID.tps },
+    { ...baseObject, id: DepartmentID.ncs },
+    { ...baseObject, id: DepartmentID.supply },
+    { ...baseObject, id: DepartmentID.po },
+    { ...baseObject, id: DepartmentID.sa },
   ],
   Task: [
     {
@@ -68,8 +74,95 @@ export const testData: TestData = {
       review: true,
       enabled: true,
       name: 'Super great task'
+    }
+  ],
+  KnockoutScreen: [
+    {
+      ...baseObject,
+      id: 1,
+      sepID: 1,
+      name: 'Screen 1',
+      starter: true
     },
-  ]
+    {
+      ...baseObject,
+      id: 2,
+      sepID: 1,
+      name: 'Screen 2',
+      starter: true
+    },
+    {
+      ...baseObject,
+      id: 3,
+      sepID: 1,
+      name: 'Screen 3',
+      starter: false
+    },
+  ],
+  DataField: [
+    {
+      ...baseObject,
+      id: 1,
+      createdBy: 'system',
+      name: 'Blorg',
+      type: DataFieldType.select,
+      sepID: 1,
+      reviewTab: false,
+      required: true,
+      knockoutScreenID: 1
+    },
+    {
+      ...baseObject,
+      id: 2,
+      createdBy: 'system',
+      name: 'Blorg',
+      type: DataFieldType.input,
+      sepID: 1,
+      reviewTab: false,
+      required: true,
+      knockoutScreenID: 2
+    },
+    {
+      ...baseObject,
+      id: 3,
+      createdBy: 'system',
+      name: 'Blorg',
+      type: DataFieldType.input,
+      sepID: 1,
+      reviewTab: false,
+      required: true,
+      knockoutScreenID: 3
+    },
+  ],
+  DataFieldOption: [
+    {
+      ...baseObject,
+      id: 1,
+      value: 'A',
+      selected: false,
+      dataFieldID: 1,
+      sepID: 1,
+    },
+    {
+      ...baseObject,
+      id: 2,
+      value: 'B',
+      selected: false,
+      dataFieldID: 1,
+      sepID: 1,
+    },
+  ],
+  KnockoutFollowup: [
+    {
+      ...baseObject,
+      id: 1,
+      value: 'A',
+      dataFieldID: 1,
+      followupID: 3,
+      followupType: KnockoutFollowupType.KnockoutScreen,
+      sepID: 1,
+    }
+  ],
 };
 
 export const seedTables = async (db: Database) => {

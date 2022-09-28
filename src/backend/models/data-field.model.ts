@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 import { Sequelize as SequelizeType } from 'sequelize/types';
 import { DataField } from '../../shared/types/DataField';
+import { castToOriginalType, castValueToString } from '../utils/data-fields';
 import Database from './index';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
@@ -103,6 +104,12 @@ export const initDataField = (db: SequelizeType) => {
   DataFieldModel.init(DataFieldSchema, {
     sequelize: db,
     modelName: 'DataField',
+    hooks: {
+      beforeUpdate: castValueToString,
+      beforeCreate: castValueToString,
+      beforeUpsert: castValueToString,
+      afterFind: castToOriginalType,
+    },
   });
   return DataFieldModel;
 };
@@ -112,5 +119,9 @@ export const dataFieldAssociations = (db: Database) => {
   db.DataField.hasMany(db.DataFieldOption, {
     foreignKey: 'dataFieldID',
     as: 'dataFieldOptions',
+  });
+  db.DataField.hasMany(db.KnockoutFollowup, {
+    foreignKey: 'dataFieldID',
+    as: 'knockoutFollowups',
   });
 };

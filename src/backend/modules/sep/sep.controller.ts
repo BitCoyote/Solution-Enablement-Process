@@ -117,7 +117,7 @@ const sepController = {
 
     const createdSEP = await db.sequelize.transaction(async (transaction) => {
       // Create the new SEP object
-      const newSEP = await await db.SEP.create(
+      const newSEP = await db.SEP.create(
         {
           name,
           description,
@@ -143,7 +143,7 @@ const sepController = {
           name: taskTemplate.name,
           description: taskTemplate.description,
           phase: taskTemplate.phase,
-          status: TaskStatus.todo,
+          status: TaskStatus.pending,
           taskTemplateID: taskTemplate.id,
           enabled: false,
         })),
