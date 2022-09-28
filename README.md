@@ -60,6 +60,7 @@ Install SQL Server on your machine:
   * Once installed, under "Protocols for MSSQLServer" in SQL Server Configuration Manager:
     * Enable TCP/IP connections
     * Open your database port (1433 by default)
+  * In SSMS, ensure "SQL Server and Windows Authentication mode" is enabled in the server Security settings.
 
 Setup your local sql server login and database using Azure Data Studio or SSMS:
 

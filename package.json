@@ -9,6 +9,7 @@
   "scripts": {
     "clean": "rimraf ./dist/*",
     "tsc-backend": "tsc --project ./tsconfig.backend.json",
+    "tsc-frontend": "tsc --project ./tsconfig.json",
     "build-swagger-docs": "ts-node src/backend/utils/generate-docs.ts",
     "build-backend": "npm-run-all clean build-swagger-docs tsc-backend",
     "dev:start-backend": "npm-run-all build-backend start-backend",
@@ -26,6 +27,10 @@
     "dev-frontend": "PORT=3000 react-scripts start",
     "dev-frontend:win": "react-scripts start",
     "build-frontend": "react-scripts build",
+    "prettier": "prettier --single-quote --write ./src",
+    "eslint": "eslint ./src --ext js,jsx,ts,tsx --max-warnings 0",
+    "tslint": "npm-run-all tsc-backend tsc-frontend",
+    "lint": "npm-run-all prettier eslint tslint",
     "docker:db:up": "docker compose up -d",
     "docker:db:down": "docker compose down",
     "docker:db:init": "source .env && docker compose exec -i sep-db /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER_HOST -U $SQL_SERVER_USER -P $SQL_SERVER_PASS -Q \"CREATE DATABASE $SQL_SERVER_DB\""
@@ -44,7 +49,7 @@
     "src/**/*.{ts,tsx}": [
       "prettier --single-quote --write",
       "eslint --ext js,jsx,ts,tsx --max-warnings 0",
-      "tsc --typeRoots node_modules/@types src/frontend/custom.d.ts --jsx react-jsx --skipLibCheck --noEmit -esModuleInterop true --target es2020 --resolveJsonModule --moduleResolution node"
+      "tsc --typeRoots node_modules/@types src/frontend/custom.d.ts --module commonjs --jsx react-jsx --skipLibCheck --noEmit -esModuleInterop true --target es2020 --resolveJsonModule --moduleResolution node"
     ]
   },
   "dependencies": {

@@ -1,6 +1,5 @@
 import { AccountInfo } from '@azure/msal-browser';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { User } from '../../../shared/types/User';
 import pca, { authRequest } from '../../app/msal';
 import type {
   BaseQueryFn,

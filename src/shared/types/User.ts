@@ -1,7 +1,7 @@
 import { SequelizeTimestamps } from './Sequelize';
 
-/** A new User object */
-export interface NewUser {
+/** A User in the system. Created when an active directory user first accesses the application. */
+export interface User extends SequelizeTimestamps {
   id: string;
   familyName?: string;
   givenName?: string;
@@ -14,5 +14,8 @@ export interface NewUser {
   jobTitle?: string;
 }
 
-/** A User in the system. Created when an active directory user first accesses the application. */
-export interface User extends NewUser, SequelizeTimestamps {}
+export interface UserShort {
+  id: string;
+  email?: string;
+  displayName?: string;
+}

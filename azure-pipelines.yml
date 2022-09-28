@@ -4,107 +4,105 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- main
+  - main
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '16.6.0'
-  displayName: 'Install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '16.6.0'
+    displayName: 'Install Node.js'
 
-- script: |
-    npm install
-  displayName: 'npm install'
+  - script: |
+      npm install
+    displayName: 'npm install'
 
-- task: Npm@1
-  displayName: 'Run tests'
-  inputs:
-    command: 'custom'
-    workingDir: './'
-    customCommand: 'run test'
+  - task: Npm@1
+    displayName: 'Run tests'
+    inputs:
+      command: 'custom'
+      workingDir: './'
+      customCommand: 'run test'
 
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-  inputs:
-    testRunner: JUnit
-    testResultsFiles: 'coverage/junit/junit.xml'
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: 'coverage/junit/junit.xml'
 
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/jest/cobertura-coverage.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/jest/cobertura-coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
 
-- script: |
-    npm run build-backend
-  displayName: 'Build backend'
-  
-- task: CopyFiles@2
-  inputs:
-    sourceFolder: '$(Build.SourcesDirectory)/dist'
-    contents: '**/*' 
-    targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
-  displayName: 'Copy backend build files'
+  - script: |
+      npm run build-backend
+    displayName: 'Build backend'
 
-- task: CopyFiles@2
-  inputs:
-    sourceFolder: '$(Build.SourcesDirectory)/config'
-    contents: '**/*' 
-    targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
-  displayName: 'Copy backend database config'
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)/dist'
+      contents: '**/*'
+      targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
+    displayName: 'Copy backend build files'
 
-- task: CopyFiles@2
-  inputs:
-    sourceFolder: '$(Build.SourcesDirectory)/migrations'
-    contents: '**/*' 
-    targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
-  displayName: 'Copy migrations'
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)/config'
+      contents: '**/*'
+      targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
+    displayName: 'Copy backend database config'
 
-- task: CopyFiles@2
-  inputs:
-    sourceFolder: '$(Build.SourcesDirectory)/seeders'
-    contents: '**/*' 
-    targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
-  displayName: 'Copy seeders'
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)/migrations'
+      contents: '**/*'
+      targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
+    displayName: 'Copy migrations'
 
-- task: CopyFiles@2
-  inputs:
-    sourceFolder: '$(Build.SourcesDirectory)'
-    contents: 'package.json' 
-    targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
-  displayName: 'Copy package.json for backend'
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)/seeders'
+      contents: '**/*'
+      targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
+    displayName: 'Copy seeders'
 
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)/npm-backend'
-    artifactName: backend
-  displayName: 'Publish backend artifact'
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)'
+      contents: 'package.json'
+      targetFolder: $(Build.ArtifactStagingDirectory)/npm-backend
+    displayName: 'Copy package.json for backend'
 
-- script: |
-    npm run build-frontend
-  displayName: 'Build frontend'
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/npm-backend'
+      artifactName: backend
+    displayName: 'Publish backend artifact'
 
-- task: CopyFiles@2
-  inputs:
-    sourceFolder: '$(Build.SourcesDirectory)/build'
-    contents: '**/*' 
-    targetFolder: $(Build.ArtifactStagingDirectory)/npm-frontend
-  displayName: 'Copy frontend'
+  - script: |
+      npm run build-frontend
+    displayName: 'Build frontend'
 
-- task: CopyFiles@2
-  inputs:
-    sourceFolder: '$(Build.SourcesDirectory)'
-    contents: 'package.json' 
-    targetFolder: $(Build.ArtifactStagingDirectory)/npm-frontend
-  displayName: 'Copy package.json for frontend'
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)/build'
+      contents: '**/*'
+      targetFolder: $(Build.ArtifactStagingDirectory)/npm-frontend
+    displayName: 'Copy frontend'
 
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)'
+      contents: 'package.json'
+      targetFolder: $(Build.ArtifactStagingDirectory)/npm-frontend
+    displayName: 'Copy package.json for frontend'
 
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)/npm-frontend'
-    artifactName: frontend
-  displayName: 'Publish frontend artifact'
-
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/npm-frontend'
+      artifactName: frontend
+    displayName: 'Publish frontend artifact'

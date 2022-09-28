@@ -82,4 +82,12 @@ export const commentAssociations = (db: Database) => {
     constraints: false,
     as: 'task',
   });
+  db.Comment.belongsTo(db.Comment, {
+    foreignKey: 'replyCommentID',
+    as: 'replyComment',
+  });
+  db.Comment.belongsTo(db.User, {
+    foreignKey: 'createdBy',
+    as: 'creator',
+  });
 };

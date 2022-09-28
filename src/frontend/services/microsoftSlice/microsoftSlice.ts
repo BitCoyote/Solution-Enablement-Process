@@ -1,19 +1,23 @@
-import { microsoftAPI } from '../API/microsoftAPI'
-
-interface Photo {
-    photo: any
-}
+import { response } from 'express';
+import { microsoftAPI } from '../API/microsoftAPI';
 
 export const microsoftSlice = microsoftAPI.injectEndpoints({
-    endpoints: builder => ({
-        getUserPhoto: builder.query<Photo, void>({
-            query: () => {
-                return {
-                    url: 'me/photo/$value'
-                }
-            }
-        })
-    })
-})
+  endpoints: (builder) => ({
+    getUserPhoto: builder.query<string, void>({
+      query: () => {
+        return {
+          url: 'me/photo/$value',
+          cache: 'no-cache',
+          headers: {
+            'content-type': 'image/png',
+          },
+          responseHandler: async (response: any) => {
+            return window.URL.createObjectURL(await response.blob());
+          },
+        };
+      },
+    }),
+  }),
+});
 
-export const { useGetUserPhotoQuery } = microsoftSlice
+export const { useGetUserPhotoQuery } = microsoftSlice;

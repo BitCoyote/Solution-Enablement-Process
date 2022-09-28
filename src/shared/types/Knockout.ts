@@ -1,13 +1,9 @@
 import { DataField } from './DataField';
 import { SequelizeTimestamps } from './Sequelize';
 
-export enum KnockoutFollowupTemplateType {
-  'KnockoutScreenTemplate' = 'KnockoutScreenTemplate',
-  'TaskTemplate' = 'TaskTemplate',
-}
 export enum KnockoutFollowupType {
   'KnockoutScreen' = 'KnockoutScreen',
-  'TaskTemplate' = 'TaskTemplate',
+  'Task' = 'Task',
 }
 
 export interface KnockoutScreen extends SequelizeTimestamps {
@@ -37,9 +33,10 @@ export interface KnockoutScreenTemplate {
 }
 
 export interface KnockoutFollowupTemplate {
+  id: number;
   value: string;
   dataFieldTemplateID: number;
-  followupType: KnockoutFollowupTemplateType;
+  followupType: KnockoutFollowupType;
   followupID: number;
 }
 

@@ -16,14 +16,6 @@ export enum DataFieldType {
   apmID = 'apmID',
 }
 
-export interface DataFieldValue extends SequelizeTimestamps {
-  id: number;
-  createdBy: string;
-  value: string | number;
-  dataFieldID: number;
-  dataFieldTemplateID?: number;
-}
-
 export interface DataField extends SequelizeTimestamps {
   id: number;
   createdBy: string;
@@ -40,6 +32,10 @@ export interface DataField extends SequelizeTimestamps {
   required: boolean;
 }
 
+export interface DataFieldWithOptions extends DataField {
+  dataFieldOptions: DataFieldOption[];
+}
+
 export interface DataFieldOption extends SequelizeTimestamps {
   id: number;
   value: string;
@@ -51,6 +47,7 @@ export interface DataFieldOption extends SequelizeTimestamps {
 }
 
 export interface DataFieldOptionTemplate {
+  id: number;
   value: string;
   dataFieldTemplateID: number;
   selected?: boolean;
@@ -62,7 +59,7 @@ export interface DataFieldTemplate {
   name: string;
   description?: string;
   type: DataFieldType;
-  knockoutScreenID?: number;
+  knockoutScreenTemplateID?: number;
   taskTemplateID?: number;
   departmentID?: DepartmentID;
   reviewTab?: boolean;
@@ -72,8 +69,4 @@ export interface DataFieldTemplate {
 export interface DataFieldAnswerBody {
   dataFieldTemplateID: number;
   values: string[];
-}
-
-export interface DataFieldWithValues extends DataField {
-  dataFieldValues: DataFieldValue[];
 }

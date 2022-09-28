@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import { Sequelize as SequelizeType } from 'sequelize/types';
 import { DataField } from '../../shared/types/DataField';
-// import Database from './index';
+import Database from './index';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
 export interface DataFieldModel extends DataField {}
@@ -108,15 +108,9 @@ export const initDataField = (db: SequelizeType) => {
 };
 
 /** Creates all the table associations for this model */
-// export const commentAssociations = (db: Database) => {
-//   db.DataField.belongsTo(db.SEP, {
-//     foreignKey: 'commentableID',
-//     constraints: false,
-//     as: 'sep',
-//   });
-//   db.DataField.belongsTo(db.Task, {
-//     foreignKey: 'commentableID',
-//     constraints: false,
-//     as: 'task',
-//   });
-// };
+export const dataFieldAssociations = (db: Database) => {
+  db.DataField.hasMany(db.DataFieldOption, {
+    foreignKey: 'dataFieldID',
+    as: 'dataFieldOptions',
+  });
+};

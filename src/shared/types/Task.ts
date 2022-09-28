@@ -1,7 +1,9 @@
 import { DepartmentID } from './Department';
 import { SequelizeTimestamps } from './Sequelize';
+import { UserShort } from './User';
 
 export enum TaskStatus {
+  pending = 'pending',
   todo = 'todo',
   inReview = 'inReview',
   changesRequested = 'changesRequested',
@@ -30,6 +32,12 @@ export interface Task extends SequelizeTimestamps {
   phase: TaskPhase;
 }
 
+export interface TaskExtended extends Task {
+  assignee: UserShort;
+  reviewer: UserShort;
+  parentTasks: Task[];
+}
+
 export interface TaskTemplate {
   id: number;
   defaultReviewerID?: string;
@@ -50,7 +58,31 @@ export interface TaskDependency extends SequelizeTimestamps {
 }
 
 export interface TaskDependencyTemplate {
+  id: number;
   taskTemplateID: number;
   dependentTaskTemplateID: number;
   status: TaskStatus;
+}
+
+export interface TaskSearchRow {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+  phase: TaskPhase;
+  status: TaskStatus;
+  departmentID: DepartmentID;
+  sep: {
+    id: number;
+    name: string;
+    phase: TaskStatus;
+  };
+  dependentTaskCount: number;
+  assignee: UserShort;
+  reviewer: UserShort;
+}
+
+export interface TaskSearchResult {
+  count: number;
+  tasks: TaskSearchRow[];
 }
