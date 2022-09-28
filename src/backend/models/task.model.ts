@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
-import { Sequelize as SequelizeType } from 'sequelize/types';
 import { Task } from '../../shared/types/Task';
 import Database from './index';
+import { Sequelize as SequelizeType } from 'sequelize/types';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
 export interface TaskModel extends Task {}
@@ -117,6 +117,10 @@ export const taskAssociations = (db: Database) => {
   db.Task.hasMany(db.TaskDependency, {
     foreignKey: 'taskID',
     as: 'taskDependencies',
+  });
+  db.Task.hasMany(db.TaskDependency, {
+    foreignKey: 'dependentTaskID',
+    as: 'taskParents',
   });
   db.Task.belongsTo(db.User, {
     foreignKey: 'createdBy',

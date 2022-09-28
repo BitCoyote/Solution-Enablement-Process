@@ -42,10 +42,7 @@ const authentication = async (
         id: res.locals.user.oid,
         familyName: res.locals.user.family_name,
         givenName: res.locals.user.given_name,
-        upn:
-          res.locals.user.upn ||
-          res.locals.user.email ||
-          res.locals.user.preferred_username,
+        upn: res.locals.user.upn,
         officeLocation: res.locals.user.officeLocation,
         email: res.locals.user.mail,
         department: res.locals.user.department,
