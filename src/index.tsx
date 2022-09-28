@@ -10,7 +10,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Auth from "./frontend/features/auth/Auth";
 import AppContainer from "./frontend/containers/AppContainer";
 import ThemeProvider from "./frontend/theme/ThemeProvider";
-import AllSEPs from "./frontend/features/all/AllSEPs";
+import AllSEPs from "./frontend/features/allSEPs/AllSEPs";
+import MySEPs from "./frontend/features/mySEPs/MySEPs";
 
 import { MsalProvider } from "@azure/msal-react";
 import pca from "./frontend/app/msal";
@@ -27,7 +28,8 @@ root.render(
             <Route path="/" element={<Auth />}>
               <Route element={<AppContainer />}>
                 <Route index element={<App />} />
-                <Route path="/all" element={<AllSEPs />} />
+                <Route path="/all-seps" element={<AllSEPs />} />
+                <Route path="/my-seps" element={<MySEPs />} />
               </Route>
             </Route>
           </Routes>

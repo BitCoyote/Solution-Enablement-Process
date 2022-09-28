@@ -125,37 +125,39 @@ const SepTablePageNavigation = ({
       py="16px"
       gap="16px"
       px="40px"
-      sx={{ flexDirection: {xs: 'column', sm: 'row'} }}
+      sx={{ flexDirection: { xs: "column", sm: "row" } }}
     >
-      <Box display="flex" alignItems="center">
-        <Button
-          variant="text"
-          size="small"
-          onClick={() => handleChangePage(page - 1)}
-        >
-          <KeyboardArrowLeftIcon />
-          <Typography component="span" fontSize="12px" fontWeight="600">
-            Prev
-          </Typography>
-        </Button>
-        <Box px="4px">{PageBox()}</Box>
-        <Button
-          variant="text"
-          size="small"
-          onClick={() => handleChangePage(page + 1)}
-        >
-          <Typography component="span" fontSize="12px" fontWeight="600">
-            Next
-          </Typography>
-          <KeyboardArrowRightIcon />
-        </Button>
-      </Box>
+      {itemLength ? (
+        <Box display="flex" alignItems="center">
+          <Button
+            variant="text"
+            size="small"
+            onClick={() => handleChangePage(page - 1)}
+          >
+            <KeyboardArrowLeftIcon />
+            <Typography component="span" fontSize="12px" fontWeight="600">
+              Prev
+            </Typography>
+          </Button>
+          <Box px="4px">{PageBox()}</Box>
+          <Button
+            variant="text"
+            size="small"
+            onClick={() => handleChangePage(page + 1)}
+          >
+            <Typography component="span" fontSize="12px" fontWeight="600">
+              Next
+            </Typography>
+            <KeyboardArrowRightIcon />
+          </Button>
+        </Box>
+      ) : null}
       <Box
         display="flex"
         alignItems="center"
         sx={{
           position: { xs: "relative", md: "absolute" },
-          right: {xs: '0', md: '40px'}
+          right: { xs: "0", md: "40px" },
         }}
       >
         <Typography color="darkgray.main" fontSize="12px" mr="4px">

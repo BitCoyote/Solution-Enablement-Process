@@ -9,9 +9,11 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
+  Typography,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-// import AvatarImage from "../../assets/img/avatar.png";
+import SepDocIcon from "../../assets/img/sepdoc.png";
+import PlusIcon from "../../assets/img/plus.png";
 
 export interface TableData {
   id: number;
@@ -169,6 +171,52 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
+function NoSEP() {
+  const [isHover, setIsHover] = useState<boolean>(false);
+  return (
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      py="36px"
+    >
+      <Box display="flex" alignItems="center" mb="20px">
+        <Box
+          component="img"
+          src={isHover ? PlusIcon : SepDocIcon}
+          alt=""
+          width={24}
+          mr="8px"
+          sx={{ cursor: "pointer" }}
+          onMouseOver={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+        />
+        <Typography color="solidGrey.main" fontSize="18px">
+          You don’t have any SEPs
+        </Typography>
+      </Box>
+      <Typography
+        color="solidGrey.main"
+        fontSize="12px"
+        maxWidth="240px"
+        textAlign="center"
+      >
+        Choose{" "}
+        <Typography
+          component="span"
+          color="solidGrey.main"
+          fontSize="12px"
+          fontWeight="600"
+        >
+          Create an SEP
+        </Typography>{" "}
+        from the navigation options to begin creating and SEP
+      </Typography>
+    </Box>
+  );
+}
+
 const SepTableBody = ({
   rows,
   page,
@@ -228,85 +276,89 @@ const SepTableBody = ({
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TableContainer
-        sx={{
-          // width: 400,
-          // height: 400,
-          /* width */
-          "&::-webkit-scrollbar": {
-            width: "10px",
-            height: "10px",
-          },
-          /* Track */
-          "&::-webkit-scrollbar-track": {
-            background: "#f1f1f1",
-          },
-          /* Handle */
-          "&::-webkit-scrollbar-thumb": {
-            background: "#888",
-            borderRadius: "10px",
-            /* Handle on hover */
-            "&:hover": {
-              background: "#555",
+      {rows.length ? (
+        <TableContainer
+          sx={{
+            // width: 400,
+            // height: 400,
+            /* width */
+            "&::-webkit-scrollbar": {
+              width: "10px",
+              height: "10px",
             },
-          },
-        }}
-      >
-        <Table
-          sx={{ minWidth: 750 }}
-          aria-labelledby="tableTitle"
-          size="medium"
+            /* Track */
+            "&::-webkit-scrollbar-track": {
+              background: "#f1f1f1",
+            },
+            /* Handle */
+            "&::-webkit-scrollbar-thumb": {
+              background: "#888",
+              borderRadius: "10px",
+              /* Handle on hover */
+              "&:hover": {
+                background: "#555",
+              },
+            },
+          }}
         >
-          <EnhancedTableHead
-            numSelected={selected.length}
-            order={order}
-            orderBy={orderBy}
-            onSelectAllClick={handleSelectAllClick}
-            onRequestSort={handleRequestSort}
-            rowCount={rows.length}
-          />
-          <TableBody>
-            {stableSort(rows, getComparator(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
-                const isItemSelected = isSelected(row.name);
+          <Table
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size="medium"
+          >
+            <EnhancedTableHead
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={rows.length}
+            />
+            <TableBody>
+              {stableSort(rows, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const isItemSelected = isSelected(row.name);
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.name)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.name}
-                    selected={isItemSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox color="primary" checked={isItemSelected} />
-                    </TableCell>
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.tasks}</TableCell>
-                    <TableCell>{row.assigned}</TableCell>
-                    <TableCell>{row.owedTo}</TableCell>
-                    <TableCell>{row.status}</TableCell>
-                    <TableCell>{row.dependentTasks}</TableCell>
-                    <TableCell>{row.submittedDate}</TableCell>
-                  </TableRow>
-                );
-              })}
-            {emptyRows > 0 && (
-              <TableRow
-                style={{
-                  height: 53 * emptyRows,
-                }}
-              >
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.name)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.name}
+                      selected={isItemSelected}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox color="primary" checked={isItemSelected} />
+                      </TableCell>
+                      <TableCell>{row.id}</TableCell>
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell>{row.tasks}</TableCell>
+                      <TableCell>{row.assigned}</TableCell>
+                      <TableCell>{row.owedTo}</TableCell>
+                      <TableCell>{row.status}</TableCell>
+                      <TableCell>{row.dependentTasks}</TableCell>
+                      <TableCell>{row.submittedDate}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: 53 * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <NoSEP />
+      )}
     </Box>
   );
 };
