@@ -1,4 +1,3 @@
-import { response } from 'express';
 import { microsoftAPI } from '../API/microsoftAPI';
 
 export const microsoftSlice = microsoftAPI.injectEndpoints({

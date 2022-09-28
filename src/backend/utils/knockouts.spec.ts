@@ -2,7 +2,6 @@ import { BackendTestingGlobals } from '../../../testing/types';
 import {
   DataFieldType,
   DataFieldWithOptions,
-  DataFieldWithOptionsAndKnockoutFollowupTasks,
 } from '../../shared/types/DataField';
 import { KnockoutFollowupType } from '../../shared/types/Knockout';
 import * as knockouts from './knockouts';
@@ -63,9 +62,12 @@ describe('knockouts util', () => {
           },
         ],
       };
-      const dataFields: DataFieldWithOptionsAndKnockoutFollowupTasks[] = [
+      const dataFields = [
         {
-          ...defaultDataField,
+          dataValues: {
+            ...defaultDataField,
+          },
+          dataFieldOptions: [...defaultDataField.dataFieldOptions],
           knockoutTaskFollowups: [
             {
               followupType: KnockoutFollowupType.Task,
@@ -115,9 +117,12 @@ describe('knockouts util', () => {
           },
         ],
       };
-      const dataFields: DataFieldWithOptionsAndKnockoutFollowupTasks[] = [
+      const dataFields = [
         {
-          ...defaultDataField,
+          dataValues: {
+            ...defaultDataField,
+          },
+          dataFieldOptions: [...defaultDataField.dataFieldOptions],
           knockoutTaskFollowups: [
             {
               followupType: KnockoutFollowupType.Task,

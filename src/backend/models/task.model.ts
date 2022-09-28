@@ -1,6 +1,5 @@
 import Sequelize from 'sequelize';
 import { Task } from '../../shared/types/Task';
-import { updateSEPPhase } from '../utils/seps';
 import Database from './index';
 import { Sequelize as SequelizeType } from 'sequelize/types';
 
@@ -99,10 +98,6 @@ export const initTask = (db: SequelizeType) => {
   TaskModel.init(TaskSchema, {
     sequelize: db,
     modelName: 'Task',
-    hooks: {
-      afterUpdate: (task) => updateSEPPhase(db as any, task.sepID),
-      afterCreate: (task) => updateSEPPhase(db as any, task.sepID),
-    },
   });
   return TaskModel;
 };
@@ -122,6 +117,10 @@ export const taskAssociations = (db: Database) => {
   db.Task.hasMany(db.TaskDependency, {
     foreignKey: 'taskID',
     as: 'taskDependencies',
+  });
+  db.Task.hasMany(db.TaskDependency, {
+    foreignKey: 'dependentTaskID',
+    as: 'taskParents',
   });
   db.Task.belongsTo(db.User, {
     foreignKey: 'createdBy',

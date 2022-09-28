@@ -143,7 +143,7 @@ const sepController = {
           name: taskTemplate.name,
           description: taskTemplate.description,
           phase: taskTemplate.phase,
-          status: TaskStatus.todo,
+          status: TaskStatus.pending,
           taskTemplateID: taskTemplate.id,
           enabled: false,
         })),

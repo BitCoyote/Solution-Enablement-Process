@@ -1,9 +1,10 @@
-import { DataFieldWithOptionsAndKnockoutFollowupTasks } from '../../shared/types/DataField';
+import { DataFieldOption } from '../../shared/types/DataField';
 import {
   KnockoutFollowupType,
   KnockoutScreenFollowup,
   KnockoutScreenWithCompletion,
   KnockoutScreenWithDataFields,
+  KnockoutTaskFollowup,
 } from '../../shared/types/Knockout';
 import Database from '../models';
 
@@ -86,23 +87,23 @@ export const getKnockoutScreenList = async (
 };
 
 /** Returns a list of task IDs that should be enabled by default for an SEP, based on user knockout answers */
-export const getDefaultEnabledTasks = (
-  dataFields: DataFieldWithOptionsAndKnockoutFollowupTasks[]
-): number[] => {
+export const getDefaultEnabledTasks = (dataFields: any[]): number[] => {
   const taskList: number[] = [];
-  dataFields.forEach((dataField) => {
-    dataField.knockoutTaskFollowups.forEach((knockoutTaskFollowup) => {
-      if (
-        knockoutTaskFollowup.value === dataField.value ||
-        dataField.dataFieldOptions.find(
-          (dataFieldOption) =>
-            dataFieldOption.selected &&
-            knockoutTaskFollowup.value === dataFieldOption.value
-        )
-      ) {
-        taskList.push(knockoutTaskFollowup.followupID);
+  dataFields.forEach((dataField: any) => {
+    dataField.knockoutTaskFollowups.forEach(
+      (knockoutTaskFollowup: KnockoutTaskFollowup) => {
+        if (
+          knockoutTaskFollowup.value === dataField.dataValues.value ||
+          dataField.dataFieldOptions.find(
+            (dataFieldOption: DataFieldOption) =>
+              dataFieldOption.selected &&
+              knockoutTaskFollowup.value === dataFieldOption.value
+          )
+        ) {
+          taskList.push(knockoutTaskFollowup.followupID);
+        }
       }
-    });
+    );
   });
   return taskList;
 };

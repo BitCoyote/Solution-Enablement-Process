@@ -5,6 +5,7 @@ import {
   DataFieldUpdate,
 } from '../../../shared/types/DataField';
 import Database from '../../models';
+import { updateSEPPhaseAndTasks } from '../../utils/seps';
 
 const dataFieldController = {
   updateDataFields: async (
@@ -21,7 +22,11 @@ const dataFieldController = {
           {
             value: dataField.value,
           },
-          { where: { sepID, id: dataField.id }, transaction }
+          {
+            where: { sepID, id: dataField.id },
+            transaction,
+            individualHooks: true,
+          }
         );
         for (
           let k = 0;
@@ -36,11 +41,16 @@ const dataFieldController = {
             {
               selected: dataFieldOption.selected,
             },
-            { where: { sepID, id: dataFieldOption.id }, transaction }
+            {
+              where: { sepID, id: dataFieldOption.id },
+              transaction,
+              individualHooks: true,
+            }
           );
         }
       }
     });
+    updateSEPPhaseAndTasks(db, sepID);
     const dataFieldIDs = dataFields.map((df) => df.id);
     // Fields have been successfully updated. Send updated fields in response.
     const updatedFields = await db.DataField.findAll({

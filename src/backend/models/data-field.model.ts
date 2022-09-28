@@ -2,7 +2,6 @@ import Sequelize from 'sequelize';
 import { Sequelize as SequelizeType } from 'sequelize/types';
 import { DataField } from '../../shared/types/DataField';
 import { castToOriginalType, castValueToString } from '../utils/data-fields';
-import { updateSEPPhase } from '../utils/seps';
 import Database from './index';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
@@ -109,8 +108,6 @@ export const initDataField = (db: SequelizeType) => {
       beforeUpdate: castValueToString,
       beforeCreate: castValueToString,
       beforeUpsert: castValueToString,
-      afterUpdate: (dataField) => updateSEPPhase(db as any, dataField.sepID),
-      afterCreate: (dataField) => updateSEPPhase(db as any, dataField.sepID),
       afterFind: castToOriginalType,
     },
   });
@@ -122,5 +119,9 @@ export const dataFieldAssociations = (db: Database) => {
   db.DataField.hasMany(db.DataFieldOption, {
     foreignKey: 'dataFieldID',
     as: 'dataFieldOptions',
+  });
+  db.DataField.hasMany(db.KnockoutFollowup, {
+    foreignKey: 'dataFieldID',
+    as: 'knockoutFollowups',
   });
 };

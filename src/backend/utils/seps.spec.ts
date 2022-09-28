@@ -5,9 +5,8 @@ import * as sepsUtils from './seps';
 const globals = globalThis as unknown as BackendTestingGlobals;
 
 describe('seps utils', () => {
-  describe('updateSEPPhase', () => {
+  describe('updateSEPPhaseAndTasks', () => {
     it('should update from the "knockout" phase to the "initate" phase when all knockout screens are complete', async () => {
-      // console.log(newSEP)
       await globals.db.SEP.update(
         { phase: SEPPhase.knockout },
         { where: { id: 1 } }
@@ -17,7 +16,7 @@ describe('seps utils', () => {
         { value: 'Some value' },
         { where: { sepID: 1 } }
       );
-      await sepsUtils.updateSEPPhase(globals.db, 1);
+      await sepsUtils.updateSEPPhaseAndTasks(globals.db, 1);
       expect(((await globals.db.SEP.findByPk(1)) as SEP).phase).toEqual(
         SEPPhase.initiate
       );
@@ -34,7 +33,7 @@ describe('seps utils', () => {
         { status: TaskStatus.complete, enabled: true },
         { where: { phase: TaskPhase.initiate, sepID: newSEP.id } }
       );
-      await sepsUtils.updateSEPPhase(globals.db, newSEP.id);
+      await sepsUtils.updateSEPPhaseAndTasks(globals.db, newSEP.id);
       expect(((await globals.db.SEP.findByPk(newSEP.id)) as SEP).phase).toEqual(
         SEPPhase.design
       );
@@ -51,7 +50,7 @@ describe('seps utils', () => {
         { status: TaskStatus.complete, enabled: true },
         { where: { phase: TaskPhase.design, sepID: newSEP.id } }
       );
-      await sepsUtils.updateSEPPhase(globals.db, newSEP.id);
+      await sepsUtils.updateSEPPhaseAndTasks(globals.db, newSEP.id);
       expect(((await globals.db.SEP.findByPk(newSEP.id)) as SEP).phase).toEqual(
         SEPPhase.implement
       );
@@ -68,7 +67,7 @@ describe('seps utils', () => {
         { status: TaskStatus.complete, enabled: true },
         { where: { phase: TaskPhase.implement, sepID: newSEP.id } }
       );
-      await sepsUtils.updateSEPPhase(globals.db, newSEP.id);
+      await sepsUtils.updateSEPPhaseAndTasks(globals.db, newSEP.id);
       expect(((await globals.db.SEP.findByPk(newSEP.id)) as SEP).phase).toEqual(
         SEPPhase.complete
       );
