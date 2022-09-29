@@ -10,6 +10,13 @@ export enum TaskStatus {
   complete = 'complete',
 }
 
+export enum ValidTaskStatusUpdate {
+  todo = 'todo',
+  inReview = 'inReview',
+  changesRequested = 'changesRequested',
+  complete = 'complete',
+}
+
 export enum TaskPhase {
   initiate = 'initiate',
   design = 'design',
@@ -85,4 +92,8 @@ export interface TaskSearchRow {
 export interface TaskSearchResult {
   count: number;
   tasks: TaskSearchRow[];
+}
+
+export interface UpdateTaskStatusBody {
+  status: ValidTaskStatusUpdate;
 }

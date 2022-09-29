@@ -1,6 +1,7 @@
 import express from 'express';
 import Database from '../models';
 import { allAppRoles } from '../../shared/utils/helpers';
+import { ValidTaskStatusUpdate } from '../../shared/types/Task';
 
 /**
  * @function void Express middleware to check if user owns the resource they are trying to interact with
@@ -77,9 +78,12 @@ export const mustBeRequestorOrResourceOwner = async (
   sepID: number
 ) => {
   const sep = await db.SEP.findByPk(sepID);
+  if (!sep) {
+    return res.status(404).send('Cannot find SEP.');
+  }
   if (
-    !sep ||
-    (sep.createdBy !== res.locals.user.oid && !checkForRole(res, allAppRoles))
+    sep.createdBy !== res.locals.user.oid &&
+    !checkForRole(res, allAppRoles)
   ) {
     return res
       .status(403)
@@ -89,4 +93,61 @@ export const mustBeRequestorOrResourceOwner = async (
   } else {
     next();
   }
+};
+
+/** Checks if user is able to update task to requested status */
+export const checkForValidTaskStatusUpdate = async (
+  res: express.Response,
+  next: express.NextFunction,
+  db: Database,
+  taskID: number,
+  newStatus: string
+) => {
+  const task = (await db.Task.findByPk(taskID, {
+    include: [
+      {
+        model: db.SEP,
+        as: 'sep',
+      },
+    ],
+  })) as any;
+  if (!task) {
+    return res.status(404).send('Cannot find task.');
+  }
+  const hasAppRole = checkForRole(res, allAppRoles);
+  if (
+    task.sep.createdBy !== res.locals.user.oid &&
+    !hasAppRole &&
+    task.assignedUserID !== res.locals.user.oid
+  ) {
+    return res
+      .status(403)
+      .send(
+        'You must be either the requestor, the assignee, or a resource owner for this SEP to update task statuses.'
+      );
+  }
+  const possibleStatuses: ValidTaskStatusUpdate[] = [
+    ValidTaskStatusUpdate.todo,
+    ValidTaskStatusUpdate.inReview,
+    ValidTaskStatusUpdate.changesRequested,
+    ValidTaskStatusUpdate.complete,
+  ];
+  if (!possibleStatuses.includes(newStatus as ValidTaskStatusUpdate)) {
+    return res
+      .status(400)
+      .send(
+        'Tasks can only be updated to one of the following statuses: todo, inReview, changesRequested, or complete'
+      );
+  }
+  // If the task requires review, user must be a stakeholder to move the task to "Complete".
+  if (
+    task.review &&
+    newStatus === ValidTaskStatusUpdate.complete &&
+    !hasAppRole
+  ) {
+    return res
+      .status(403)
+      .send('You must be a stakeholder to complete this task.');
+  }
+  next();
 };

@@ -1,4 +1,5 @@
 import { BackendTestingGlobals } from '../../../../testing/types';
+import { TaskStatus, UpdateTaskStatusBody } from '../../../shared/types/Task';
 describe('task module', () => {
   const globals = globalThis as unknown as BackendTestingGlobals;
 
@@ -58,7 +59,7 @@ describe('task module', () => {
         .expect(200);
       expect(assigneeResponse.body.count).toEqual(5);
       expect(assigneeResponse.body.tasks.length).toEqual(5);
-      expect(assigneeResponse.body.tasks[0].id).toEqual(1);
+      expect(assigneeResponse.body.tasks[0].id).toEqual(4);
       const reviewerResponse = await globals.request
         .get(`/tasks?sortBy=defaultReviewer.displayName`)
         .expect(200);
@@ -94,6 +95,38 @@ describe('task module', () => {
       expect(response.body.count).toEqual(1);
       expect(response.body.tasks.length).toEqual(1);
       expect(response.body.tasks[0].id).toEqual(2);
+    });
+  });
+  describe('PATCH /task/{id}/status', () => {
+    it('should successfully update the task status for a valid task status update', async () => {
+      await globals.request
+        .patch(`/task/5/status`)
+        .send({ status: 'complete' } as UpdateTaskStatusBody)
+        .expect(200);
+
+      const task = await globals.db.Task.findByPk(5);
+      expect(task?.status).toEqual(TaskStatus.complete);
+    });
+    it('should successfully update dependent task statuses from "pending" to "todo"', async () => {
+      await globals.request
+        .patch(`/task/5/status`)
+        .send({ status: 'complete' } as UpdateTaskStatusBody)
+        .expect(200);
+      // Task 4 depends on task 5 being complete
+      const task = await globals.db.Task.findByPk(4);
+      expect(task?.status).toEqual(TaskStatus.todo);
+    });
+    it('should return a 404 error when the task cannot be found', async () => {
+      await globals.request
+        .patch(`/task/99935235/status`)
+        .send({ status: 'complete' } as UpdateTaskStatusBody)
+        .expect(404);
+    });
+    it('should return a 400 error when the trying to update a task to an invalid status', async () => {
+      await globals.request
+        .patch(`/task/5/status`)
+        .send({ status: 'fake-status' })
+        .expect(400);
     });
   });
 });
