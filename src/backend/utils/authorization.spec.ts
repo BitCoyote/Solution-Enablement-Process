@@ -113,9 +113,19 @@ describe('authorization', () => {
     });
     it('should return a 403 error when the requesting user is not a stakeholder and the requested status is complete for tasks that require reviewer', async () => {
       res.locals.user = {
-        oid: 'incorrect oid',
-        roles: [],
+        oid: globals.loggedInUserID,
       };
+      await authorization.checkForValidTaskStatusUpdate(
+        res,
+        next,
+        globals.db,
+        4,
+        ValidTaskStatusUpdate.complete
+      );
+      expect(res.status).toHaveBeenCalledWith(403);
+    });
+    it('should return a 403 error when the user is not assigned to the task, is not the requestor, and is not a resource owner', async () => {
+      res.locals.user.roles = [];
       await authorization.checkForValidTaskStatusUpdate(
         res,
         next,
@@ -126,21 +136,28 @@ describe('authorization', () => {
       expect(res.status).toHaveBeenCalledWith(403);
     });
     it('should return a 400 error when the trying to update a task to an invalid status', async () => {
+      res.locals.user = {
+        oid: globals.loggedInUserID,
+      };
+
       await authorization.checkForValidTaskStatusUpdate(
         res,
         next,
         globals.db,
-        1,
+        4,
         TaskStatus.pending as unknown as ValidTaskStatusUpdate
       );
       expect(res.status).toHaveBeenCalledWith(400);
     });
     it('should proceed when the requesting user is making a valid task status update', async () => {
+      res.locals.user = {
+        oid: globals.loggedInUserID,
+      };
       await authorization.checkForValidTaskStatusUpdate(
         res,
         next,
         globals.db,
-        1,
+        4,
         ValidTaskStatusUpdate.inReview
       );
       expect(next).toHaveBeenCalled();

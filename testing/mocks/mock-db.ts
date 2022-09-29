@@ -41,8 +41,8 @@ export const testData: TestData = {
       ...baseObject, id: 2, name: 'Incredible SEP', phase: SEPPhase.design, createdBy: 'system'
     },
     {
-      ...baseObject, id: 3, name: 'SEP to test phase and task updat eflow', phase: SEPPhase.knockout, createdBy: 'system'
-    },
+      ...baseObject, id: 3, name: 'SEP to test phase and task update flow', phase: SEPPhase.knockout, createdBy: 'system'
+    }
   ],
   Department: [
     { ...baseObject, id: DepartmentID.legal },
@@ -98,6 +98,7 @@ export const testData: TestData = {
       status: TaskStatus.pending,
       departmentID: DepartmentID.sa,
       createdBy: 'system',
+      assignedUserID: testUserID,
       sepID: 3,
       review: true,
       enabled: false,
@@ -114,7 +115,7 @@ export const testData: TestData = {
       review: true,
       enabled: false,
       name: 'A parent task for task 4'
-    },
+    }
   ],
   TaskDependency: [
     {

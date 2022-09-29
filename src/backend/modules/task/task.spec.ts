@@ -59,7 +59,7 @@ describe('task module', () => {
         .expect(200);
       expect(assigneeResponse.body.count).toEqual(5);
       expect(assigneeResponse.body.tasks.length).toEqual(5);
-      expect(assigneeResponse.body.tasks[0].id).toEqual(1);
+      expect(assigneeResponse.body.tasks[0].id).toEqual(4);
       const reviewerResponse = await globals.request
         .get(`/tasks?sortBy=defaultReviewer.displayName`)
         .expect(200);

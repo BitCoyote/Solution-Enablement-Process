@@ -103,9 +103,28 @@ export const checkForValidTaskStatusUpdate = async (
   taskID: number,
   newStatus: string
 ) => {
-  const task = await db.Task.findByPk(taskID);
+  const task = (await db.Task.findByPk(taskID, {
+    include: [
+      {
+        model: db.SEP,
+        as: 'sep',
+      },
+    ],
+  })) as any;
   if (!task) {
     return res.status(404).send('Cannot find task.');
+  }
+  const hasAppRole = checkForRole(res, allAppRoles);
+  if (
+    task.sep.createdBy !== res.locals.user.oid &&
+    !hasAppRole &&
+    task.assignedUserID !== res.locals.user.oid
+  ) {
+    return res
+      .status(403)
+      .send(
+        'You must be either the requestor, the assignee, or a resource owner for this SEP to update task statuses.'
+      );
   }
   const possibleStatuses: ValidTaskStatusUpdate[] = [
     ValidTaskStatusUpdate.todo,
@@ -124,12 +143,11 @@ export const checkForValidTaskStatusUpdate = async (
   if (
     task.review &&
     newStatus === ValidTaskStatusUpdate.complete &&
-    !checkForRole(res, allAppRoles)
+    !hasAppRole
   ) {
     return res
       .status(403)
       .send('You must be a stakeholder to complete this task.');
-  } else {
-    next();
   }
+  next();
 };
