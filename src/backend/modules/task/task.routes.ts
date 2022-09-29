@@ -1,5 +1,6 @@
 import taskController from './task.controller';
 import { Paths } from '../../routes';
+import { checkForValidTaskStatusUpdate } from '../../utils/authorization';
 
 const paths: Paths = {
   '/tasks': {
@@ -57,6 +58,49 @@ const paths: Paths = {
               },
             },
           },
+        },
+      },
+    },
+  },
+  '/task/{id}/status': {
+    patch: {
+      handler: taskController.updateTaskStatus,
+      middleware: [
+        (req, res, next, db) => {
+          checkForValidTaskStatusUpdate(
+            res,
+            next,
+            db,
+            parseInt(req.params.id),
+            req.body.status
+          );
+        },
+      ],
+      tags: ['Task'],
+      summary: 'Update the status of a task',
+      description:
+        'Updates the status of a task and moves any dependent tasks from "pending" to "todo"',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+        },
+      ],
+      requestBody: {
+        description: 'The status to move the task to',
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/UpdateTaskStatusBody',
+            },
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'Success',
         },
       },
     },

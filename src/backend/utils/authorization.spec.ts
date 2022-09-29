@@ -6,6 +6,7 @@ import {
   mockNext,
 } from '../../../testing/mocks/express-mocks';
 import { BackendTestingGlobals } from '../../../testing/types';
+import { TaskStatus, ValidTaskStatusUpdate } from '../../shared/types/Task';
 const globals = globalThis as unknown as BackendTestingGlobals;
 
 describe('authorization', () => {
@@ -51,6 +52,15 @@ describe('authorization', () => {
     });
   });
   describe('mustBeRequestorOrResourceOwner middleware', () => {
+    it('should return a 404 error when the SEP cannot be found', async () => {
+      await authorization.mustBeRequestorOrResourceOwner(
+        res,
+        next,
+        globals.db,
+        1294512
+      );
+      expect(res.status).toHaveBeenCalledWith(404);
+    });
     it('should return a 403 error when the requesting user is not the sep requestor or a resource owner', async () => {
       res.locals.user = {
         oid: 'incorrect oid',
@@ -90,7 +100,52 @@ describe('authorization', () => {
       expect(next).toHaveBeenCalled();
     });
   });
-
+  describe('checkForValidTaskStatusUpdate middleware', () => {
+    it('should return a 404 error when the task cannot be found', async () => {
+      await authorization.checkForValidTaskStatusUpdate(
+        res,
+        next,
+        globals.db,
+        1294512,
+        ValidTaskStatusUpdate.complete
+      );
+      expect(res.status).toHaveBeenCalledWith(404);
+    });
+    it('should return a 403 error when the requesting user is not a stakeholder and the requested status is complete for tasks that require reviewer', async () => {
+      res.locals.user = {
+        oid: 'incorrect oid',
+        roles: [],
+      };
+      await authorization.checkForValidTaskStatusUpdate(
+        res,
+        next,
+        globals.db,
+        1,
+        ValidTaskStatusUpdate.complete
+      );
+      expect(res.status).toHaveBeenCalledWith(403);
+    });
+    it('should return a 400 error when the trying to update a task to an invalid status', async () => {
+      await authorization.checkForValidTaskStatusUpdate(
+        res,
+        next,
+        globals.db,
+        1,
+        TaskStatus.pending as unknown as ValidTaskStatusUpdate
+      );
+      expect(res.status).toHaveBeenCalledWith(400);
+    });
+    it('should proceed when the requesting user is making a valid task status update', async () => {
+      await authorization.checkForValidTaskStatusUpdate(
+        res,
+        next,
+        globals.db,
+        1,
+        ValidTaskStatusUpdate.inReview
+      );
+      expect(next).toHaveBeenCalled();
+    });
+  });
   describe('checkForRole middleware', () => {
     it('should return a 403 error when the requesting user does not have the required role', async () => {
       res.locals.user = {
