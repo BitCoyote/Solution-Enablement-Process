@@ -2,7 +2,7 @@ import { User } from "../../src/shared/types/User";
 import Database from "../../src/backend/models";
 import { SEP, SEPPhase } from "../../src/shared/types/SEP";
 import { Department, DepartmentID } from "../../src/shared/types/Department";
-import { Task, TaskPhase, TaskStatus } from "../../src/shared/types/Task";
+import { Task, TaskDependency, TaskPhase, TaskStatus } from "../../src/shared/types/Task";
 import { DataField, DataFieldOption, DataFieldType } from "../../src/shared/types/DataField";
 import { KnockoutFollowup, KnockoutFollowupType, KnockoutScreen } from "../../src/shared/types/Knockout";
 const testUserID = '774d6f78-5477-4f71-8f6e-fea599577a50';
@@ -17,6 +17,7 @@ interface TestData {
   SEP: SEP[],
   Department: Department[],
   Task: Task[],
+  TaskDependency: TaskDependency[],
   DataField: DataField[],
   DataFieldOption: DataFieldOption[],
   KnockoutScreen: KnockoutScreen[],
@@ -38,6 +39,9 @@ export const testData: TestData = {
     },
     {
       ...baseObject, id: 2, name: 'Incredible SEP', phase: SEPPhase.design, createdBy: 'system'
+    },
+    {
+      ...baseObject, id: 3, name: 'SEP to test phase and task updat eflow', phase: SEPPhase.knockout, createdBy: 'system'
     },
   ],
   Department: [
@@ -74,6 +78,51 @@ export const testData: TestData = {
       review: true,
       enabled: true,
       name: 'Super great task'
+    },
+    {
+      ...baseObject,
+      id: 3,
+      phase: TaskPhase.design,
+      status: TaskStatus.pending,
+      departmentID: DepartmentID.sa,
+      createdBy: 'system',
+      sepID: 3,
+      review: true,
+      enabled: false,
+      name: 'A task to be enabled by answering a knockout question'
+    },
+    {
+      ...baseObject,
+      id: 4,
+      phase: TaskPhase.design,
+      status: TaskStatus.pending,
+      departmentID: DepartmentID.sa,
+      createdBy: 'system',
+      sepID: 3,
+      review: true,
+      enabled: false,
+      name: 'A task that has a parent task'
+    },
+    {
+      ...baseObject,
+      id: 5,
+      phase: TaskPhase.design,
+      status: TaskStatus.pending,
+      departmentID: DepartmentID.sa,
+      createdBy: 'system',
+      sepID: 3,
+      review: true,
+      enabled: false,
+      name: 'A parent task for task 4'
+    },
+  ],
+  TaskDependency: [
+    {
+      ...baseObject,
+      id: 1,
+      taskID: 5,
+      dependentTaskID: 4,
+      status: TaskStatus.complete
     }
   ],
   KnockoutScreen: [
@@ -97,6 +146,13 @@ export const testData: TestData = {
       sepID: 1,
       name: 'Screen 3',
       starter: false
+    },
+    {
+      ...baseObject,
+      id: 4,
+      sepID: 3,
+      name: 'The only screen for SEP 3 to test knockout flow',
+      starter: true
     },
   ],
   DataField: [
@@ -133,6 +189,17 @@ export const testData: TestData = {
       required: true,
       knockoutScreenID: 3
     },
+    {
+      ...baseObject,
+      id: 4,
+      createdBy: 'system',
+      name: 'The only data input for SEP 3 to test knockout flow',
+      type: DataFieldType.input,
+      sepID: 3,
+      reviewTab: false,
+      required: true,
+      knockoutScreenID: 4
+    },
   ],
   DataFieldOption: [
     {
@@ -161,7 +228,16 @@ export const testData: TestData = {
       followupID: 3,
       followupType: KnockoutFollowupType.KnockoutScreen,
       sepID: 1,
-    }
+    },
+    {
+      ...baseObject,
+      id: 2,
+      value: 'Hello',
+      dataFieldID: 4,
+      followupID: 3,
+      followupType: KnockoutFollowupType.Task,
+      sepID: 3,
+    },
   ],
 };
 

@@ -1,6 +1,6 @@
 import { BackendTestingGlobals } from '../../../testing/types';
 import { SEP, SEPPhase } from '../../shared/types/SEP';
-import { TaskPhase, TaskStatus } from '../../shared/types/Task';
+import { Task, TaskPhase, TaskStatus } from '../../shared/types/Task';
 import * as sepsUtils from './seps';
 const globals = globalThis as unknown as BackendTestingGlobals;
 
@@ -11,7 +11,6 @@ describe('seps utils', () => {
         { phase: SEPPhase.knockout },
         { where: { id: 1 } }
       );
-      // await globals.db.DataFieldOption.update({ selected: true }, { where: { sepID: newSEP.id } });
       await globals.db.DataField.update(
         { value: 'Some value' },
         { where: { sepID: 1 } }
@@ -20,6 +19,26 @@ describe('seps utils', () => {
       expect(((await globals.db.SEP.findByPk(1)) as SEP).phase).toEqual(
         SEPPhase.initiate
       );
+    });
+    it('should enable all default tasks (based on knockout answers) when all knockout screens are complete', async () => {
+      await globals.db.DataField.update(
+        { value: 'Hello' },
+        { where: { sepID: 3 } }
+      );
+      await sepsUtils.updateSEPPhaseAndTasks(globals.db, 3);
+      const task = (await globals.db.Task.findByPk(3)) as Task;
+      expect(task.enabled).toEqual(true);
+    });
+    it('should set all default tasks with no parent tasks to "todo" status when all knockout screens are complete', async () => {
+      await globals.db.DataField.update(
+        { value: 'Hello' },
+        { where: { sepID: 3 } }
+      );
+      await sepsUtils.updateSEPPhaseAndTasks(globals.db, 3);
+      const taskWithoutParent = (await globals.db.Task.findByPk(3)) as Task;
+      const taskWithParent = (await globals.db.Task.findByPk(4)) as Task;
+      expect(taskWithoutParent.status).toEqual(TaskStatus.todo);
+      expect(taskWithParent.status).toEqual(TaskStatus.pending);
     });
     it('should update from the "initiate" phase to the "design" phase when all initate-phase enabled tasks are complete', async () => {
       const newSEP = (
