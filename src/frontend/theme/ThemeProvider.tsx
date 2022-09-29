@@ -17,6 +17,7 @@ declare module "@mui/material/styles" {
     mediumGrey: Palette["primary"];
     darkGreen: Palette["primary"];
     lightGray: Palette["primary"];
+    solidOrange: Palette["primary"];
   }
   interface PaletteOptions {
     solidGrey: PaletteOptions["primary"];
@@ -25,6 +26,7 @@ declare module "@mui/material/styles" {
     mediumGrey: PaletteOptions["primary"];
     darkGreen: PaletteOptions["primary"];
     lightGray: PaletteOptions["primary"];
+    solidOrange: PaletteOptions["primary"];
   }
   interface PaletteColor {
     darker?: string;
@@ -80,7 +82,10 @@ const theme = createTheme({
       main: "#6BA543",
     },
     lightGray: {
-      main: '#F2F2F2'
+      main: "#F2F2F2",
+    },
+    solidOrange: {
+      main: "#F47B27",
     },
     background: {
       knockoutOne: "#F7FBF5",

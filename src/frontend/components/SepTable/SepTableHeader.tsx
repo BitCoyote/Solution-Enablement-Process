@@ -1,11 +1,41 @@
 import { Box, Button, Divider, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
-import { TableData } from "../../components/SepTable/SepTableBody";
 import FileIcon from "../../assets/img/File.png";
 import TableIcon from "../../assets/img/Table.png";
+import {
+  TaskSearchRow,
+  TaskStatus,
+  TaskPhase,
+} from "../../../shared/types/Task";
+import { DepartmentID } from "../../../shared/types/Department";
 
-const headers = [
+interface HeadersInterface {
+  key: string;
+  label: string;
+}
+
+interface DataInterface {
+  id: number;
+  name: string;
+  phase: TaskStatus;
+  tasksId: number;
+  tasksName: string;
+  createdAt: string;
+  updatedAt: string;
+  tasksPhase: TaskPhase;
+  tasksStatus: TaskStatus;
+  departmentID: DepartmentID;
+  dependentTaskCount: number;
+  assigneeId: string;
+  assigneeEmail?: string;
+  assigneeDisplayName?: string;
+  reviewerId: string;
+  reviewerEmail?: string;
+  reviewerDisplayName?: string;
+}
+
+const headers: HeadersInterface[] = [
   {
     key: "id",
     label: "SEP#",
@@ -15,28 +45,64 @@ const headers = [
     label: "SEP Name",
   },
   {
-    key: "tasks",
-    label: "My Tasks",
+    key: "phase",
+    label: "SEP Phase",
   },
   {
-    key: "assigned",
-    label: "Assigned",
+    key: "tasksId",
+    label: "Tasks Id",
   },
   {
-    key: "owedTo",
-    label: "Owed to",
+    key: "tasksName",
+    label: "Tasks Name",
   },
   {
-    key: "status",
-    label: "Status",
+    key: "tasksPhase",
+    label: "Tasks Phase",
   },
   {
-    key: "dependentTasks",
-    label: "Dependent Tasks",
+    key: "tasksStatus",
+    label: "Tasks Status",
   },
   {
-    key: "submittedDate",
-    label: "Submitted",
+    key: "departmentID",
+    label: "Department ID",
+  },
+  {
+    key: "dependentTaskCount",
+    label: "Dependent Task Count",
+  },
+  {
+    key: "assigneeId",
+    label: "Assignee Id",
+  },
+  {
+    key: "assigneeEmail",
+    label: "Assignee Email",
+  },
+  {
+    key: "assigneeDisplayName",
+    label: "Assignee Display Name",
+  },
+  {
+    key: "reviewerId",
+    label: "Reviewer Id",
+  },
+  {
+    key: "reviewerEmail",
+    label: "Reviewer Email",
+  },
+  {
+    key: "reviewerDisplayName",
+    label: "Reviewer Display Name",
+  },
+  {
+    key: "createdAt",
+    label: "CreatedAt",
+  },
+  {
+    key: "updatedAt",
+    label: "UpdatedAt",
   },
 ];
 
@@ -46,11 +112,40 @@ const SepTableHeader = ({
   closedNumber,
   showEditColumnsButton,
 }: {
-  rows: TableData[];
+  rows: TaskSearchRow[];
   resultNumber: number;
   closedNumber: number;
   showEditColumnsButton: boolean;
 }) => {
+  const [csvData, setCsvData] = useState<DataInterface[]>([]);
+
+  useEffect(() => {
+    if (rows.length) {
+      const newData: DataInterface[] = [];
+      rows.forEach((row: TaskSearchRow) => {
+        newData.push({
+          id: row.sep.id,
+          name: row.sep.name,
+          phase: row.sep.phase,
+          tasksId: row.id,
+          tasksName: row.name,
+          createdAt: row.createdAt,
+          updatedAt: row.updatedAt,
+          tasksPhase: row.phase,
+          tasksStatus: row.status,
+          departmentID: row.departmentID,
+          dependentTaskCount: row.dependentTaskCount,
+          assigneeId: row.assignee.id,
+          assigneeEmail: row.assignee?.email,
+          assigneeDisplayName: row.assignee?.displayName,
+          reviewerId: row.reviewer.id,
+          reviewerEmail: row.reviewer?.email,
+          reviewerDisplayName: row.reviewer?.displayName,
+        });
+      });
+      setCsvData(newData);
+    }
+  }, [rows]);
   return (
     <>
       <Divider />
@@ -72,9 +167,9 @@ const SepTableHeader = ({
             fontSize="14px"
             fontWeight="600"
           >
-            {new Intl.NumberFormat("en-US").format(resultNumber)} Results for
-          </Typography>{" "}
-          <Typography
+            {new Intl.NumberFormat("en-US").format(resultNumber)} Results
+          </Typography>
+          {/* <Typography
             component="span"
             color="mediumGrey.main"
             fontSize="14px"
@@ -82,11 +177,11 @@ const SepTableHeader = ({
           >
             Generation Submitted Closed{" "}
             {new Intl.NumberFormat("en-US").format(closedNumber)}
-          </Typography>
+          </Typography> */}
         </Typography>
         <Box display="flex" alignItems="center" flexWrap="nowrap">
           <CSVLink
-            data={rows}
+            data={csvData}
             headers={headers}
             filename="sep.csv"
             style={{ textDecoration: "none" }}

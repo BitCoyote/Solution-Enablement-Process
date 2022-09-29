@@ -8,13 +8,13 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 const rowsPerPageOptions: number[] = [5, 10, 25];
 
 const SepTablePageNavigation = ({
-  itemLength,
+  count,
   page,
   setPage,
   rowsPerPage,
   setRowsPerPage,
 }: {
-  itemLength: number;
+  count: number;
   page: number;
   setPage: (page: number) => void;
   rowsPerPage: number;
@@ -27,8 +27,8 @@ const SepTablePageNavigation = ({
   };
 
   const lastPage = useMemo(
-    () => Math.floor((itemLength - 1) / rowsPerPage),
-    [rowsPerPage, itemLength]
+    () => Math.floor((count - 1) / rowsPerPage),
+    [rowsPerPage, count]
   );
 
   const handleClose = () => {
@@ -63,7 +63,7 @@ const SepTablePageNavigation = ({
   };
 
   const PageBox = () => {
-    if (itemLength <= rowsPerPage * 6) {
+    if (count <= rowsPerPage * 6) {
       return (
         <>
           {Array.from(Array(lastPage + 1))
@@ -127,7 +127,7 @@ const SepTablePageNavigation = ({
       px="40px"
       sx={{ flexDirection: { xs: "column", sm: "row" } }}
     >
-      {itemLength ? (
+      {count ? (
         <Box display="flex" alignItems="center">
           <Button
             variant="text"

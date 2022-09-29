@@ -11,123 +11,106 @@ import {
   TableSortLabel,
   Typography,
 } from "@mui/material";
-import { visuallyHidden } from "@mui/utils";
+
 import SepDocIcon from "../../assets/img/sepdoc.png";
 import PlusIcon from "../../assets/img/plus.png";
-
-export interface TableData {
-  id: number;
-  name: string;
-  tasks: string;
-  assigned: string;
-  owedTo: string;
-  status: string;
-  dependentTasks: number;
-  submittedDate: string;
-}
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-type Order = "asc" | "desc";
-
-function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort<T>(
-  array: readonly T[],
-  comparator: (a: T, b: T) => number
-) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+import { TaskSearchRow } from "../../../shared/types/Task";
+import StatusCell from "./StatusCell";
 
 interface HeadCell {
-  id: keyof TableData;
+  id: string;
+  key: string;
   label: string;
 }
 
 export const headCells: readonly HeadCell[] = [
   {
     id: "id",
+    key: "sep.id",
     label: "SEP#",
   },
   {
     id: "name",
+    key: "sep.name",
     label: "SEP Name",
   },
   {
-    id: "tasks",
-    label: "My Tasks",
+    id: "phase",
+    key: "sep.phase",
+    label: "SEP Phase",
   },
   {
-    id: "assigned",
-    label: "Assigned",
+    id: "tasksId",
+    key: "id",
+    label: "Tasks Id",
   },
   {
-    id: "owedTo",
-    label: "Owed to",
+    id: "tasksName",
+    key: "name",
+    label: "Tasks Name",
   },
   {
-    id: "status",
-    label: "Status",
+    id: "tasksPhase",
+    key: "phase",
+    label: "Tasks Phase",
   },
   {
-    id: "dependentTasks",
-    label: "Dependent Tasks",
+    id: "tasksStatus",
+    key: "status",
+    label: "Tasks Status",
   },
   {
-    id: "submittedDate",
-    label: "Submitted",
+    id: "departmentID",
+    key: "departmentID",
+    label: "Department ID",
+  },
+  {
+    id: "dependentTaskCount",
+    key: "dependentTaskCount",
+    label: "Dependent Task Count",
+  },
+  {
+    id: "assigneeId",
+    key: "assignee.id",
+    label: "Assignee Id",
+  },
+  {
+    id: "reviewerId",
+    key: "reviewer.id",
+    label: "Reviewer Id",
+  },
+  {
+    id: "createdAt",
+    key: "createdAt",
+    label: "CreatedAt",
+  },
+  {
+    id: "updatedAt",
+    key: "updatedAt",
+    label: "UpdatedAt",
   },
 ];
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof TableData
-  ) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: string) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
+  sortAsc: boolean;
+  sortBy: string;
   rowCount: number;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
   const {
     onSelectAllClick,
-    order,
-    orderBy,
     numSelected,
     rowCount,
+    sortAsc,
+    sortBy,
     onRequestSort,
   } = props;
   const createSortHandler =
-    (property: keyof TableData) => (event: React.MouseEvent<unknown>) => {
+    (property: string) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -150,19 +133,14 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             key={headCell.id}
             align="left"
             padding="normal"
-            sortDirection={orderBy === headCell.id ? order : false}
+            sortDirection={sortBy === headCell.key && sortAsc ? "asc" : false}
           >
             <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
+              active={sortBy === headCell.key}
+              direction={sortBy === headCell.key && sortAsc ? "asc" : "desc"}
+              onClick={createSortHandler(headCell.key)}
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
             </TableSortLabel>
           </TableCell>
         ))}
@@ -193,7 +171,7 @@ function NoSEP() {
           onMouseLeave={() => setIsHover(false)}
         />
         <Typography color="solidGrey.main" fontSize="18px">
-          You don’t have any SEPs
+          Don’t have any SEPs
         </Typography>
       </Box>
       <Typography
@@ -219,24 +197,28 @@ function NoSEP() {
 
 const SepTableBody = ({
   rows,
-  page,
-  rowsPerPage,
+  count,
+  sortBy,
+  setSortBy,
+  sortAsc,
+  setSortAsc,
 }: {
-  rows: TableData[];
-  page: number;
-  rowsPerPage: number;
+  rows: TaskSearchRow[];
+  count: number;
+  sortBy: string;
+  setSortBy: (sortBy: string) => void;
+  sortAsc: boolean;
+  setSortAsc: (sortAsc: boolean) => void;
 }) => {
-  const [order, setOrder] = useState<Order>("asc");
-  const [orderBy, setOrderBy] = useState<keyof TableData>("id");
   const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof TableData
+    property: string
   ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
+    const isAsc = sortBy === property && sortAsc;
+    setSortAsc(!isAsc);
+    setSortBy(property);
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -271,12 +253,9 @@ const SepTableBody = ({
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
   return (
     <Box sx={{ width: "100%" }}>
-      {rows.length ? (
+      {count ? (
         <TableContainer
           sx={{
             // width: 400,
@@ -308,51 +287,55 @@ const SepTableBody = ({
           >
             <EnhancedTableHead
               numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
+              sortAsc={sortAsc}
+              sortBy={sortBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={count}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+              {rows.map((row: TaskSearchRow) => {
+                const isItemSelected = isSelected(row.name);
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox color="primary" checked={isItemSelected} />
-                      </TableCell>
-                      <TableCell>{row.id}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell>{row.tasks}</TableCell>
-                      <TableCell>{row.assigned}</TableCell>
-                      <TableCell>{row.owedTo}</TableCell>
-                      <TableCell>{row.status}</TableCell>
-                      <TableCell>{row.dependentTasks}</TableCell>
-                      <TableCell>{row.submittedDate}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
+                return (
+                  <TableRow
+                    hover
+                    onClick={(event) => handleClick(event, row.name)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.name}
+                    selected={isItemSelected}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox color="primary" checked={isItemSelected} />
+                    </TableCell>
+                    <TableCell>{row.sep.id}</TableCell>
+                    <TableCell>{row.sep.name}</TableCell>
+                    <TableCell>
+                      <StatusCell status={row.sep.phase} />
+                    </TableCell>
+                    <TableCell>{row.id}</TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.phase}</TableCell>
+                    <TableCell>{row.status}</TableCell>
+                    <TableCell>{row.departmentID}</TableCell>
+                    <TableCell>{row.dependentTaskCount}</TableCell>
+                    <TableCell>{row.assignee.id}</TableCell>
+                    <TableCell>{row.reviewer.id}</TableCell>
+                    <TableCell>{row.createdAt}</TableCell>
+                    <TableCell>{row.updatedAt}</TableCell>
+                  </TableRow>
+                );
+              })}
+              {/* <TableRow
                   style={{
                     height: 53 * emptyRows,
                   }}
                 >
                   <TableCell colSpan={6} />
                 </TableRow>
-              )}
+              )} */}
             </TableBody>
           </Table>
         </TableContainer>

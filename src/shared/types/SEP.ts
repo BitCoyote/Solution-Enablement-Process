@@ -53,3 +53,12 @@ export interface GetSEPExtendedResponse extends SEP {
 export interface GetSEPResponse extends SEP {
   creator: UserShort;
 }
+
+export interface SearchParams {
+  limit?: number;
+  offset?: number;
+  sortBy?: string;
+  sortAsc?: boolean;
+  id?: string;
+  search?: string;
+}

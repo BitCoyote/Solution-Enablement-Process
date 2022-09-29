@@ -1,11 +1,19 @@
-import { AccountInfo } from '@azure/msal-browser';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import pca, { authRequest } from '../../app/msal';
+import { AccountInfo } from "@azure/msal-browser";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import pca, { authRequest } from "../../app/msal";
 import type {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
-} from '@reduxjs/toolkit/query/react';
+} from "@reduxjs/toolkit/query/react";
+import {
+  CreateSEPBody,
+  GetSEPResponse,
+  GetSEPExtendedResponse,
+  SEPSearchResult,
+  SearchParams,
+  SEP,
+} from "../../../shared/types/SEP";
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_API_BASE_URL,
@@ -15,8 +23,8 @@ const rawBaseQuery = fetchBaseQuery({
       ...authRequest,
       account: pca.getAllAccounts()[0] as AccountInfo,
     });
-    headers.set('Authorization', `Bearer ${response.idToken}`);
-    headers.set('access_token', `${response.accessToken}`);
+    headers.set("Authorization", `Bearer ${response.idToken}`);
+    headers.set("access_token", `${response.accessToken}`);
     return headers;
   },
 });
@@ -28,18 +36,18 @@ const dynamicBaseQuery: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   // Provide a dynamic base query that attaches the correct base url.
   // This is necessary for easily integration testing with the backend because the REACT_APP_API_BASE_URL is dynamic and changes at the start of every test.
-  const urlEnd = typeof args === 'string' ? args : args.url;
+  const urlEnd = typeof args === "string" ? args : args.url;
   // construct a dynamically generated portion of the url
   const adjustedUrl = `${process.env.REACT_APP_API_BASE_URL}/${urlEnd}`;
   const adjustedArgs =
-    typeof args === 'string' ? adjustedUrl : { ...args, url: adjustedUrl };
+    typeof args === "string" ? adjustedUrl : { ...args, url: adjustedUrl };
   // provide the amended url and other params to the raw base query
   return rawBaseQuery(adjustedArgs, api, extraOptions);
 };
 
 let keepUnusedDataFor = 60;
 /* istanbul ignore if */
-if (process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV === "test") {
   // Do not cache data for tests
   keepUnusedDataFor = 0;
 }
@@ -50,7 +58,7 @@ export const sepAPI = createApi({
   baseQuery: dynamicBaseQuery,
   keepUnusedDataFor,
   endpoints: (builder) => ({
-    getSeps: builder.query<any, any>({
+    getSeps: builder.query<SEPSearchResult, SearchParams>({
       query: (arg) => {
         const { limit, offset, sortBy, sortAsc, id, search } = arg;
         return {
@@ -59,6 +67,22 @@ export const sepAPI = createApi({
         };
       },
     }),
+    getSepById: builder.query<GetSEPResponse, string>({
+      query: (id) => `sep/${id}`,
+    }),
+    getExtendedSepById: builder.query<GetSEPExtendedResponse, string>({
+      query: (id) => `sep/${id}/extended`,
+    }),
+    createSep: builder.mutation<SEP, Partial<CreateSEPBody>>({
+      query: ({ ...body }) => {
+        return {
+          url: `sep`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+
     // getUser: builder.query<User, string>({
     //   query: (id) => `users/${id}`,
     // }),
@@ -77,4 +101,9 @@ export const sepAPI = createApi({
 // auto-generated based on the defined endpoints
 //export const { useGetUserQuery } = sepAPI;
 
-export const { useGetSepsQuery } = sepAPI;
+export const {
+  useGetSepsQuery,
+  useGetSepByIdQuery,
+  useGetExtendedSepByIdQuery,
+  useCreateSepMutation,
+} = sepAPI;
