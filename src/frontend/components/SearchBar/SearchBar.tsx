@@ -1,6 +1,6 @@
-import React from "react";
-import { Box, TextField, Typography, InputAdornment } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import React from 'react';
+import { Box, TextField, Typography, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const SearchBar = ({
   title,
@@ -22,8 +22,8 @@ const SearchBar = ({
       gap="8px"
       mb="20px"
       sx={{
-        px: { xs: "24px", md: "40px" },
-        flexDirection: { xs: "column", md: "row" },
+        px: { xs: '24px', md: '40px' },
+        flexDirection: { xs: 'column', md: 'row' },
       }}
     >
       <Typography color="darkgray.main" fontSize="25px" fontWeight="600">
@@ -42,25 +42,25 @@ const SearchBar = ({
         value={searchText}
         onChange={handleChange}
         sx={{
-          width: "100%",
-          maxWidth: "450px",
-          "& .MuiOutlinedInput-root": {
-            paddingLeft: "8px",
-            "& input": {
-              padding: "5px 14px 5px 0",
-              "&::placeholder": {
-                fontSize: "14px",
+          width: '100%',
+          maxWidth: '450px',
+          '& .MuiOutlinedInput-root': {
+            paddingLeft: '8px',
+            '& input': {
+              padding: '5px 14px 5px 0',
+              '&::placeholder': {
+                fontSize: '14px',
                 opacity: 1,
                 color: (theme) => theme.palette.solidGrey.main,
               },
             },
-            "& fieldset": {
+            '& fieldset': {
               borderColor: (theme) => theme.palette.solidGrey.main,
             },
-            "&:hover fieldset": {
+            '&:hover fieldset': {
               borderColor: (theme) => theme.palette.solidBlue.main,
             },
-            "&.Mui-focused fieldset": {
+            '&.Mui-focused fieldset': {
               borderColor: (theme) => theme.palette.solidBlue.main,
             },
           },

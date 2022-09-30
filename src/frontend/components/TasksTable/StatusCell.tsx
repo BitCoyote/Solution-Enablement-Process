@@ -1,9 +1,9 @@
-import { Box, Typography } from "@mui/material";
-import React from "react";
-import { TaskStatus } from "../../../shared/types/Task";
-import HandWaveIcon from "../../assets/img/Hand-wave.png";
-import NoteIcon from "../../assets/img/Note.png";
-import CheckIcon from "../../assets/img/Check.png";
+import { Box, Typography } from '@mui/material';
+import React from 'react';
+import { TaskStatus } from '../../../shared/types/Task';
+import HandWaveIcon from '../../assets/img/Hand-wave.png';
+import NoteIcon from '../../assets/img/Note.png';
+import CheckIcon from '../../assets/img/Check.png';
 
 const CellItem = ({
   icon,

@@ -1,15 +1,15 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import {
   useAccount,
   useIsAuthenticated,
   useMsal,
   useMsalAuthentication,
-} from "@azure/msal-react";
-import { useGetUserQuery } from "../../services/usersSlice/usersSlice";
-import { InteractionType } from "@azure/msal-browser";
-import { authRequest } from "../../../frontend/app/msal";
-import pca from "../../app/msal";
+} from '@azure/msal-react';
+import { useGetUserQuery } from '../../services/usersSlice/usersSlice';
+import { InteractionType } from '@azure/msal-browser';
+import { authRequest } from '../../../frontend/app/msal';
+import pca from '../../app/msal';
 
 export const Auth = () => {
   const isAuthenticated = useIsAuthenticated();
@@ -18,13 +18,9 @@ export const Auth = () => {
     data: loggedInUser,
     error: getUserError,
     isLoading,
-  } = useGetUserQuery("me", {
+  } = useGetUserQuery('me', {
     skip: !isAuthenticated,
   });
-  console.log(
-    "🚀 ~ file: Auth.tsx ~ line 25 ~ Auth ~ getUserError",
-    getUserError
-  );
 
   const { error: msalError } = useMsalAuthentication(
     InteractionType.Redirect,
@@ -55,7 +51,7 @@ export const Auth = () => {
         </p>
       </>
     );
-  } else if (inProgress !== "none") {
+  } else if (inProgress !== 'none') {
     return <p>Redirecting...</p>;
   } else if (isLoading) {
     return <p>Loading user...</p>;

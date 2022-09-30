@@ -1,9 +1,9 @@
-import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
-import React from "react";
-import HandWaveIcon from "../../assets/img/Hand-wave.png";
-import NoteIcon from "../../assets/img/Note.png";
-import CheckIcon from "../../assets/img/Check.png";
-import { SEPPhase } from "../../../shared/types/SEP";
+import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
+import React from 'react';
+import HandWaveIcon from '../../assets/img/Hand-wave.png';
+import NoteIcon from '../../assets/img/Note.png';
+import CheckIcon from '../../assets/img/Check.png';
+import { SEPPhase } from '../../../shared/types/SEP';
 
 interface StatusInterface {
   id: SEPPhase;
@@ -14,28 +14,28 @@ interface StatusInterface {
 const statusLists: StatusInterface[] = [
   {
     id: SEPPhase.complete,
-    label: "Complete",
+    label: 'Complete',
     icon: CheckIcon,
   },
   {
     id: SEPPhase.design,
-    label: "Design",
+    label: 'Design',
     icon: NoteIcon,
   },
   {
     id: SEPPhase.implement,
-    label: "Implement",
+    label: 'Implement',
     icon: HandWaveIcon,
   },
   {
     id: SEPPhase.initiate,
-    label: "Initiate",
+    label: 'Initiate',
     icon: HandWaveIcon,
   },
   {
     id: SEPPhase.knockout,
-    label: "Knockout",
-    icon: "",
+    label: 'Knockout',
+    icon: '',
   },
 ];
 
@@ -78,9 +78,9 @@ const SepFilterBar = ({
 }) => {
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    id: SEPPhase | "all"
+    id: SEPPhase | 'all'
   ) => {
-    if (id === "all") {
+    if (id === 'all') {
       if (event.target.checked) {
         const newSelected = statusLists.map((n) => n.id);
         setStatusChecked(newSelected);
@@ -125,7 +125,7 @@ const SepFilterBar = ({
         checked={
           statusLists.length > 0 && statusChecked.length === statusLists.length
         }
-        onChange={(event) => handleChange(event, "all")}
+        onChange={(event) => handleChange(event, 'all')}
         ariaLabel="Select All Statues"
         label={
           <Box>

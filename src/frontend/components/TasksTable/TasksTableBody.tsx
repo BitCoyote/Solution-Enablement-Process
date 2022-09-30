@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Box,
   Checkbox,
@@ -10,12 +10,12 @@ import {
   TableRow,
   TableSortLabel,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-import SepDocIcon from "../../assets/img/sepdoc.png";
-import PlusIcon from "../../assets/img/plus.png";
-import { TaskSearchRow } from "../../../shared/types/Task";
-import StatusCell from "./StatusCell";
+import SepDocIcon from '../../assets/img/sepdoc.png';
+import PlusIcon from '../../assets/img/plus.png';
+import { TaskSearchRow } from '../../../shared/types/Task';
+import StatusCell from './StatusCell';
 
 export interface HeadCell {
   id: string;
@@ -25,69 +25,69 @@ export interface HeadCell {
 
 export const headCells: readonly HeadCell[] = [
   {
-    id: "id",
-    key: "sep.id",
-    label: "SEP#",
+    id: 'id',
+    key: 'sep.id',
+    label: 'SEP#',
   },
   {
-    id: "name",
-    key: "sep.name",
-    label: "SEP Name",
+    id: 'name',
+    key: 'sep.name',
+    label: 'SEP Name',
   },
   {
-    id: "phase",
-    key: "sep.phase",
-    label: "SEP Phase",
+    id: 'phase',
+    key: 'sep.phase',
+    label: 'SEP Phase',
   },
   {
-    id: "tasksId",
-    key: "id",
-    label: "Tasks Id",
+    id: 'tasksId',
+    key: 'id',
+    label: 'Tasks Id',
   },
   {
-    id: "tasksName",
-    key: "name",
-    label: "Tasks Name",
+    id: 'tasksName',
+    key: 'name',
+    label: 'Tasks Name',
   },
   {
-    id: "tasksPhase",
-    key: "phase",
-    label: "Tasks Phase",
+    id: 'tasksPhase',
+    key: 'phase',
+    label: 'Tasks Phase',
   },
   {
-    id: "tasksStatus",
-    key: "status",
-    label: "Tasks Status",
+    id: 'tasksStatus',
+    key: 'status',
+    label: 'Tasks Status',
   },
   {
-    id: "departmentID",
-    key: "departmentID",
-    label: "Department ID",
+    id: 'departmentID',
+    key: 'departmentID',
+    label: 'Department ID',
   },
   {
-    id: "dependentTaskCount",
-    key: "dependentTaskCount",
-    label: "Dependent Task Count",
+    id: 'dependentTaskCount',
+    key: 'dependentTaskCount',
+    label: 'Dependent Task Count',
   },
   {
-    id: "assigneeId",
-    key: "assignee.id",
-    label: "Assignee Id",
+    id: 'assigneeId',
+    key: 'assignee.id',
+    label: 'Assignee Id',
   },
   {
-    id: "reviewerId",
-    key: "reviewer.id",
-    label: "Reviewer Id",
+    id: 'reviewerId',
+    key: 'reviewer.id',
+    label: 'Reviewer Id',
   },
   {
-    id: "createdAt",
-    key: "createdAt",
-    label: "CreatedAt",
+    id: 'createdAt',
+    key: 'createdAt',
+    label: 'CreatedAt',
   },
   {
-    id: "updatedAt",
-    key: "updatedAt",
-    label: "UpdatedAt",
+    id: 'updatedAt',
+    key: 'updatedAt',
+    label: 'UpdatedAt',
   },
 ];
 
@@ -124,7 +124,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "Select all desserts",
+              'aria-label': 'Select all desserts',
             }}
           />
         </TableCell>
@@ -133,11 +133,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             key={headCell.id}
             align="left"
             padding="normal"
-            sortDirection={sortBy === headCell.key && sortAsc ? "asc" : false}
+            sortDirection={sortBy === headCell.key && sortAsc ? 'asc' : false}
           >
             <TableSortLabel
               active={sortBy === headCell.key}
-              direction={sortBy === headCell.key && sortAsc ? "asc" : "desc"}
+              direction={sortBy === headCell.key && sortAsc ? 'asc' : 'desc'}
               aria-label={`Table Sort Label ${headCell.key}`}
               onClick={createSortHandler(headCell.key)}
             >
@@ -167,7 +167,7 @@ function NoTask() {
           alt=""
           width={24}
           mr="8px"
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: 'pointer' }}
           onMouseOver={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
         />
@@ -240,28 +240,28 @@ const TasksTableBody = ({
 
   // Avoid a layout jump when reaching the last page with empty rows.
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: '100%' }}>
       {count ? (
         <TableContainer
           sx={{
             // width: 400,
             // height: 400,
             /* width */
-            "&::-webkit-scrollbar": {
-              width: "10px",
-              height: "10px",
+            '&::-webkit-scrollbar': {
+              width: '10px',
+              height: '10px',
             },
             /* Track */
-            "&::-webkit-scrollbar-track": {
-              background: "#f1f1f1",
+            '&::-webkit-scrollbar-track': {
+              background: '#f1f1f1',
             },
             /* Handle */
-            "&::-webkit-scrollbar-thumb": {
-              background: "#888",
-              borderRadius: "10px",
+            '&::-webkit-scrollbar-thumb': {
+              background: '#888',
+              borderRadius: '10px',
               /* Handle on hover */
-              "&:hover": {
-                background: "#555",
+              '&:hover': {
+                background: '#555',
               },
             },
           }}

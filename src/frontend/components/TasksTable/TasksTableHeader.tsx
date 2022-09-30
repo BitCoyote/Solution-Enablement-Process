@@ -1,14 +1,13 @@
-import { Box, Button, Divider, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { CSVLink } from "react-csv";
-import FileIcon from "../../assets/img/File.png";
-import TableIcon from "../../assets/img/Table.png";
+import { Box, Button, Divider, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { CSVLink } from 'react-csv';
+import FileIcon from '../../assets/img/File.png';
 import {
   TaskSearchRow,
   TaskStatus,
   TaskPhase,
-} from "../../../shared/types/Task";
-import { DepartmentID } from "../../../shared/types/Department";
+} from '../../../shared/types/Task';
+import { DepartmentID } from '../../../shared/types/Department';
 
 interface HeadersInterface {
   key: string;
@@ -37,83 +36,81 @@ interface DataInterface {
 
 const headers: HeadersInterface[] = [
   {
-    key: "id",
-    label: "SEP#",
+    key: 'id',
+    label: 'SEP#',
   },
   {
-    key: "name",
-    label: "SEP Name",
+    key: 'name',
+    label: 'SEP Name',
   },
   {
-    key: "phase",
-    label: "SEP Phase",
+    key: 'phase',
+    label: 'SEP Phase',
   },
   {
-    key: "tasksId",
-    label: "Tasks Id",
+    key: 'tasksId',
+    label: 'Tasks Id',
   },
   {
-    key: "tasksName",
-    label: "Tasks Name",
+    key: 'tasksName',
+    label: 'Tasks Name',
   },
   {
-    key: "tasksPhase",
-    label: "Tasks Phase",
+    key: 'tasksPhase',
+    label: 'Tasks Phase',
   },
   {
-    key: "tasksStatus",
-    label: "Tasks Status",
+    key: 'tasksStatus',
+    label: 'Tasks Status',
   },
   {
-    key: "departmentID",
-    label: "Department ID",
+    key: 'departmentID',
+    label: 'Department ID',
   },
   {
-    key: "dependentTaskCount",
-    label: "Dependent Task Count",
+    key: 'dependentTaskCount',
+    label: 'Dependent Task Count',
   },
   {
-    key: "assigneeId",
-    label: "Assignee Id",
+    key: 'assigneeId',
+    label: 'Assignee Id',
   },
   {
-    key: "assigneeEmail",
-    label: "Assignee Email",
+    key: 'assigneeEmail',
+    label: 'Assignee Email',
   },
   {
-    key: "assigneeDisplayName",
-    label: "Assignee Display Name",
+    key: 'assigneeDisplayName',
+    label: 'Assignee Display Name',
   },
   {
-    key: "reviewerId",
-    label: "Reviewer Id",
+    key: 'reviewerId',
+    label: 'Reviewer Id',
   },
   {
-    key: "reviewerEmail",
-    label: "Reviewer Email",
+    key: 'reviewerEmail',
+    label: 'Reviewer Email',
   },
   {
-    key: "reviewerDisplayName",
-    label: "Reviewer Display Name",
+    key: 'reviewerDisplayName',
+    label: 'Reviewer Display Name',
   },
   {
-    key: "createdAt",
-    label: "CreatedAt",
+    key: 'createdAt',
+    label: 'CreatedAt',
   },
   {
-    key: "updatedAt",
-    label: "UpdatedAt",
+    key: 'updatedAt',
+    label: 'UpdatedAt',
   },
 ];
 
 const TasksTableHeader = ({
   rows,
   resultNumber,
-  showEditColumnsButton,
 }: {
   rows: TaskSearchRow[];
   resultNumber: number;
-  showEditColumnsButton: boolean;
 }) => {
   const [csvData, setCsvData] = useState<DataInterface[]>([]);
 
@@ -154,21 +151,21 @@ const TasksTableHeader = ({
         gap="8px"
         py="10px"
         sx={{
-          px: { xs: "24px", md: "40px" },
-          flexDirection: { xs: "column", sm: "row" },
+          px: { xs: '24px', md: '40px' },
+          flexDirection: { xs: 'column', sm: 'row' },
         }}
       >
         <Typography color="darkgray.main" fontSize="14px" fontWeight="600">
-          {new Intl.NumberFormat("en-US").format(resultNumber)} Results
+          {new Intl.NumberFormat('en-US').format(resultNumber)} Results
         </Typography>
         <Box display="flex" alignItems="center" flexWrap="nowrap">
           <CSVLink
             data={csvData}
             headers={headers}
             filename="tasks.csv"
-            style={{ textDecoration: "none" }}
+            style={{ textDecoration: 'none' }}
           >
-            <Button variant="text" sx={{ py: "4px", textTransform: "inherit" }}>
+            <Button variant="text" sx={{ py: '4px', textTransform: 'inherit' }}>
               <Box component="img" src={FileIcon} mr="4px" />
               <Typography
                 component="span"
@@ -180,19 +177,6 @@ const TasksTableHeader = ({
               </Typography>
             </Button>
           </CSVLink>
-          {showEditColumnsButton && (
-            <Button variant="text" sx={{ py: "4px", textTransform: "inherit" }}>
-              <Box component="img" src={TableIcon} mr="4px" />
-              <Typography
-                component="span"
-                fontSize="12px"
-                fontWeight="600"
-                whiteSpace="nowrap"
-              >
-                Edit Columns
-              </Typography>
-            </Button>
-          )}
         </Box>
       </Box>
       <Divider />

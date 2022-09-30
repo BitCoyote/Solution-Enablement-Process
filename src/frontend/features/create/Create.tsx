@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import { Box, Button, TextField } from "@mui/material";
-import { useCreateSepMutation } from "../../services/API/sepAPI";
+import React, { useState } from 'react';
+import { Box, Button, TextField } from '@mui/material';
+import { useCreateSepMutation } from '../../services/API/sepAPI';
 
 const Create = () => {
-  const [name, setName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
 
   const [createSep] = useCreateSepMutation();
 
   const submit = () => {
     createSep({ name, description })
       .then(() => {
-        setName("");
-        setDescription("");
+        setName('');
+        setDescription('');
       })
       .catch((e) => {
-        setName("");
-        setDescription("");
+        setName('');
+        setDescription('');
       });
   };
   return (

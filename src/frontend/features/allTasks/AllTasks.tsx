@@ -1,16 +1,17 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
-import React, { useMemo, useState } from "react";
-import TasksFilterBar from "../../components/TasksFilterBar/TasksFilterBar";
-import SearchBar from "../../components/SearchBar/SearchBar";
-import TasksTableHeader from "../../components/TasksTable/TasksTableHeader";
-import TasksTableBody from "../../components/TasksTable/TasksTableBody";
-import PageNavigation from "../../components/PageNavigation/PageNavigation";
-import { useGetTasksQuery } from "../../services/API/taskAPI";
-import { TaskStatus } from "../../../shared/types/Task";
+import { Box, CircularProgress, Typography } from '@mui/material';
+import React, { useEffect, useMemo, useState } from 'react';
+import TasksFilterBar from '../../components/TasksFilterBar/TasksFilterBar';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import TasksTableHeader from '../../components/TasksTable/TasksTableHeader';
+import TasksTableBody from '../../components/TasksTable/TasksTableBody';
+import PageNavigation from '../../components/PageNavigation/PageNavigation';
+import { useGetTasksQuery } from '../../services/API/taskAPI';
+import { TaskStatus } from '../../../shared/types/Task';
 
 const AllTasks = () => {
-  const [searchText, setSearchText] = useState<string>("");
-  const [sortBy, setSortBy] = useState<string>("createdAt");
+  const [searchText, setSearchText] = useState<string>('');
+  const [searchFilter, setSearchFilter] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('createdAt');
   const [sortAsc, setSortAsc] = useState<boolean>(false);
   const [statusChecked, setStatusChecked] = useState<TaskStatus[]>([]);
   const [page, setPage] = useState<number>(0);
@@ -22,7 +23,7 @@ const AllTasks = () => {
     offset: page * rowsPerPage,
     sortBy,
     sortAsc,
-    search: searchText.length < 3 ? "" : searchText,
+    search: searchFilter,
   });
 
   const rows = useMemo(() => {
@@ -33,7 +34,17 @@ const AllTasks = () => {
       );
     }
     return [];
-  }, [statusChecked]);
+  }, [statusChecked, data]);
+
+  useEffect(() => {
+    // Debounce our search function here so we can wait 500ms for the user to stop typing
+    const delayDebounceFn = setTimeout(() => {
+      if (searchText.length >= 3) {
+        setSearchFilter(searchText);
+      }
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchText, setSearchFilter]);
 
   return (
     <Box display="flex" flexDirection="column" flexGrow={1} pt="24px">
@@ -70,11 +81,7 @@ const AllTasks = () => {
         </Box>
       ) : (
         <>
-          <TasksTableHeader
-            rows={rows}
-            resultNumber={rows.length}
-            showEditColumnsButton={true}
-          />
+          <TasksTableHeader rows={rows} resultNumber={rows.length} />
           <TasksTableBody
             rows={rows}
             count={rows.length}

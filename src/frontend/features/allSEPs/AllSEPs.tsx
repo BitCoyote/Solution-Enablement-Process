@@ -1,16 +1,17 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
-import React, { useMemo, useState } from "react";
-import SearchBar from "../../components/SearchBar/SearchBar";
-import SepFilterBar from "../../components/SepFilterBar/SepFilterBar";
-import PageNavigation from "../../components/PageNavigation/PageNavigation";
-import SepTableHeader from "../../components/SepTable/SepTableHeader";
-import SepTableBody from "../../components/SepTable/SepTableBody";
-import { useGetSepsQuery } from "../../services/API/sepAPI";
-import { SEPSearchResult, SEPPhase } from "../../../shared/types/SEP";
+import { Box, CircularProgress, Typography } from '@mui/material';
+import React, { useEffect, useMemo, useState } from 'react';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import SepFilterBar from '../../components/SepFilterBar/SepFilterBar';
+import PageNavigation from '../../components/PageNavigation/PageNavigation';
+import SepTableHeader from '../../components/SepTable/SepTableHeader';
+import SepTableBody from '../../components/SepTable/SepTableBody';
+import { useGetSepsQuery } from '../../services/API/sepAPI';
+import { SEPPhase } from '../../../shared/types/SEP';
 
 const AllSEPs = () => {
-  const [searchText, setSearchText] = useState<string>("");
-  const [sortBy, setSortBy] = useState<string>("createdAt");
+  const [searchText, setSearchText] = useState<string>('');
+  const [searchFilter, setSearchFilter] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('createdAt');
   const [sortAsc, setSortAsc] = useState<boolean>(false);
   const [statusChecked, setStatusChecked] = useState<SEPPhase[]>([]);
   const [page, setPage] = useState<number>(0);
@@ -22,18 +23,26 @@ const AllSEPs = () => {
     offset: page * rowsPerPage,
     sortBy,
     sortAsc,
-    search: searchText.length < 3 ? "" : searchText,
+    search: searchFilter,
   });
 
   const rows = useMemo(() => {
     if (data) {
       if (statusChecked.length === 0) return data.seps;
-      return data.seps.filter((sep) =>
-        statusChecked.includes(sep.phase)
-      );
+      return data.seps.filter((sep) => statusChecked.includes(sep.phase));
     }
     return [];
-  }, [statusChecked]);
+  }, [statusChecked, data]);
+
+  useEffect(() => {
+    // Debounce our search function here so we can wait 500ms for the user to stop typing
+    const delayDebounceFn = setTimeout(() => {
+      if (searchText.length >= 3) {
+        setSearchFilter(searchText);
+      }
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchText, setSearchFilter]);
 
   return (
     <Box display="flex" flexDirection="column" flexGrow={1} pt="24px">
@@ -70,11 +79,7 @@ const AllSEPs = () => {
         </Box>
       ) : (
         <>
-          <SepTableHeader
-            rows={rows}
-            resultNumber={rows.length}
-            showEditColumnsButton={true}
-          />
+          <SepTableHeader rows={rows} resultNumber={rows.length} />
           <SepTableBody
             rows={rows}
             count={rows.length}

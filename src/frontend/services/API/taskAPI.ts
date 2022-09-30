@@ -1,6 +1,6 @@
-import { sepAPI } from "./sepAPI";
-import { TaskSearchResult } from "../../../shared/types/Task";
-import { SearchParams } from "../../../shared/types/SEP";
+import { sepAPI } from './sepAPI';
+import { TaskSearchResult } from '../../../shared/types/Task';
+import { SearchParams } from '../../../shared/types/SEP';
 
 export const usersSlice = sepAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,7 +8,7 @@ export const usersSlice = sepAPI.injectEndpoints({
       query: (arg) => {
         const { limit, offset, sortBy, sortAsc, id, search } = arg;
         return {
-          url: "tasks",
+          url: 'tasks',
           params: { limit, offset, sortBy, sortAsc, id, search },
         };
       },

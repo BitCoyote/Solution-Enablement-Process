@@ -1,9 +1,9 @@
-import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
-import React from "react";
-import HandWaveIcon from "../../assets/img/Hand-wave.png";
-import NoteIcon from "../../assets/img/Note.png";
-import CheckIcon from "../../assets/img/Check.png";
-import { TaskStatus } from "../../../shared/types/Task";
+import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
+import React from 'react';
+import HandWaveIcon from '../../assets/img/Hand-wave.png';
+import NoteIcon from '../../assets/img/Note.png';
+import CheckIcon from '../../assets/img/Check.png';
+import { TaskStatus } from '../../../shared/types/Task';
 
 interface StatusInterface {
   id: TaskStatus;
@@ -14,27 +14,27 @@ interface StatusInterface {
 const statusLists: StatusInterface[] = [
   {
     id: TaskStatus.pending,
-    label: "Pending",
-    icon: "",
+    label: 'Pending',
+    icon: '',
   },
   {
     id: TaskStatus.todo,
-    label: "To-Do",
+    label: 'To-Do',
     icon: NoteIcon,
   },
   {
     id: TaskStatus.inReview,
-    label: "Needs Review",
+    label: 'Needs Review',
     icon: HandWaveIcon,
   },
   {
     id: TaskStatus.changesRequested,
-    label: "Changes Requested",
+    label: 'Changes Requested',
     icon: HandWaveIcon,
   },
   {
     id: TaskStatus.complete,
-    label: "Complete",
+    label: 'Complete',
     icon: CheckIcon,
   },
 ];
@@ -78,9 +78,9 @@ const TasksFilterBar = ({
 }) => {
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    id: TaskStatus | "all"
+    id: TaskStatus | 'all'
   ) => {
-    if (id === "all") {
+    if (id === 'all') {
       if (event.target.checked) {
         const newSelected = statusLists.map((n) => n.id);
         setStatusChecked(newSelected);
@@ -125,7 +125,7 @@ const TasksFilterBar = ({
         checked={
           statusLists.length > 0 && statusChecked.length === statusLists.length
         }
-        onChange={(event) => handleChange(event, "all")}
+        onChange={(event) => handleChange(event, 'all')}
         ariaLabel="Select All Statues"
         label={
           <Box>

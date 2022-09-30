@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Box,
   Checkbox,
@@ -10,11 +10,11 @@ import {
   TableRow,
   TableSortLabel,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-import SepDocIcon from "../../assets/img/sepdoc.png";
-import PlusIcon from "../../assets/img/plus.png";
-import { SEPSearchRow } from "../../../shared/types/SEP";
+import SepDocIcon from '../../assets/img/sepdoc.png';
+import PlusIcon from '../../assets/img/plus.png';
+import { SEPSearchRow } from '../../../shared/types/SEP';
 
 export interface HeadCell {
   id: string;
@@ -24,44 +24,44 @@ export interface HeadCell {
 
 export const headCells: readonly HeadCell[] = [
   {
-    id: "id",
-    key: "id",
-    label: "SEP#",
+    id: 'id',
+    key: 'id',
+    label: 'SEP#',
   },
   {
-    id: "name",
-    key: "name",
-    label: "SEP Name",
+    id: 'name',
+    key: 'name',
+    label: 'SEP Name',
   },
   {
-    id: "description",
-    key: "description",
-    label: "Description",
+    id: 'description',
+    key: 'description',
+    label: 'Description',
   },
   {
-    id: "phase",
-    key: "phase",
-    label: "Phase",
+    id: 'phase',
+    key: 'phase',
+    label: 'Phase',
   },
   {
-    id: "createdBy",
-    key: "createdBy",
-    label: "Created By",
+    id: 'createdBy',
+    key: 'createdBy',
+    label: 'Created By',
   },
   {
-    id: "creatorId",
-    key: "creator.id",
-    label: "Creator Id",
+    id: 'creatorId',
+    key: 'creator.id',
+    label: 'Creator Id',
   },
   {
-    id: "createdAt",
-    key: "createdAt",
-    label: "CreatedAt",
+    id: 'createdAt',
+    key: 'createdAt',
+    label: 'CreatedAt',
   },
   {
-    id: "updatedAt",
-    key: "updatedAt",
-    label: "UpdatedAt",
+    id: 'updatedAt',
+    key: 'updatedAt',
+    label: 'UpdatedAt',
   },
 ];
 
@@ -98,7 +98,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "Select all desserts",
+              'aria-label': 'Select all desserts',
             }}
           />
         </TableCell>
@@ -107,11 +107,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             key={headCell.id}
             align="left"
             padding="normal"
-            sortDirection={sortBy === headCell.key && sortAsc ? "asc" : false}
+            sortDirection={sortBy === headCell.key && sortAsc ? 'asc' : false}
           >
             <TableSortLabel
               active={sortBy === headCell.key}
-              direction={sortBy === headCell.key && sortAsc ? "asc" : "desc"}
+              direction={sortBy === headCell.key && sortAsc ? 'asc' : 'desc'}
               aria-label={`Table Sort Label ${headCell.key}`}
               onClick={createSortHandler(headCell.key)}
             >
@@ -141,7 +141,7 @@ function NoSEP() {
           alt=""
           width={24}
           mr="8px"
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: 'pointer' }}
           onMouseOver={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
         />
@@ -155,7 +155,7 @@ function NoSEP() {
         maxWidth="240px"
         textAlign="center"
       >
-        Choose{" "}
+        Choose{' '}
         <Typography
           component="span"
           color="solidGrey.main"
@@ -163,7 +163,7 @@ function NoSEP() {
           fontWeight="600"
         >
           Create an SEP
-        </Typography>{" "}
+        </Typography>{' '}
         from the navigation options to begin creating and SEP
       </Typography>
     </Box>
@@ -231,28 +231,28 @@ const SepTableBody = ({
 
   // Avoid a layout jump when reaching the last page with empty rows.
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: '100%' }}>
       {count ? (
         <TableContainer
           sx={{
             // width: 400,
             // height: 400,
             /* width */
-            "&::-webkit-scrollbar": {
-              width: "10px",
-              height: "10px",
+            '&::-webkit-scrollbar': {
+              width: '10px',
+              height: '10px',
             },
             /* Track */
-            "&::-webkit-scrollbar-track": {
-              background: "#f1f1f1",
+            '&::-webkit-scrollbar-track': {
+              background: '#f1f1f1',
             },
             /* Handle */
-            "&::-webkit-scrollbar-thumb": {
-              background: "#888",
-              borderRadius: "10px",
+            '&::-webkit-scrollbar-thumb': {
+              background: '#888',
+              borderRadius: '10px',
               /* Handle on hover */
-              "&:hover": {
-                background: "#555",
+              '&:hover': {
+                background: '#555',
               },
             },
           }}

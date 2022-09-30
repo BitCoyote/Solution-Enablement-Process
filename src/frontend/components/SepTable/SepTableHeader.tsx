@@ -1,9 +1,8 @@
-import { Box, Button, Divider, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { CSVLink } from "react-csv";
-import FileIcon from "../../assets/img/File.png";
-import TableIcon from "../../assets/img/Table.png";
-import { SEPSearchRow, SEPPhase } from "../../../shared/types/SEP";
+import { Box, Button, Divider, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { CSVLink } from 'react-csv';
+import FileIcon from '../../assets/img/File.png';
+import { SEPSearchRow, SEPPhase } from '../../../shared/types/SEP';
 
 interface HeadersInterface {
   key: string;
@@ -23,47 +22,45 @@ interface DataInterface {
 
 const headers: HeadersInterface[] = [
   {
-    key: "id",
-    label: "SEP#",
+    key: 'id',
+    label: 'SEP#',
   },
   {
-    key: "name",
-    label: "SEP Name",
+    key: 'name',
+    label: 'SEP Name',
   },
   {
-    key: "description",
-    label: "Description",
+    key: 'description',
+    label: 'Description',
   },
   {
-    key: "phase",
-    label: "SEP Phase",
+    key: 'phase',
+    label: 'SEP Phase',
   },
   {
-    key: "createdBy",
-    label: "Created By",
+    key: 'createdBy',
+    label: 'Created By',
   },
   {
-    key: "creatorId",
-    label: "Creator Id",
+    key: 'creatorId',
+    label: 'Creator Id',
   },
   {
-    key: "createdAt",
-    label: "CreatedAt",
+    key: 'createdAt',
+    label: 'CreatedAt',
   },
   {
-    key: "updatedAt",
-    label: "UpdatedAt",
+    key: 'updatedAt',
+    label: 'UpdatedAt',
   },
 ];
 
 const SepTableHeader = ({
   rows,
   resultNumber,
-  showEditColumnsButton,
 }: {
   rows: SEPSearchRow[];
   resultNumber: number;
-  showEditColumnsButton: boolean;
 }) => {
   const [csvData, setCsvData] = useState<DataInterface[]>([]);
 
@@ -95,21 +92,21 @@ const SepTableHeader = ({
         gap="8px"
         py="10px"
         sx={{
-          px: { xs: "24px", md: "40px" },
-          flexDirection: { xs: "column", sm: "row" },
+          px: { xs: '24px', md: '40px' },
+          flexDirection: { xs: 'column', sm: 'row' },
         }}
       >
         <Typography color="darkgray.main" fontSize="14px" fontWeight="600">
-          {new Intl.NumberFormat("en-US").format(resultNumber)} Results
+          {new Intl.NumberFormat('en-US').format(resultNumber)} Results
         </Typography>
         <Box display="flex" alignItems="center" flexWrap="nowrap">
           <CSVLink
             data={csvData}
             headers={headers}
             filename="seps.csv"
-            style={{ textDecoration: "none" }}
+            style={{ textDecoration: 'none' }}
           >
-            <Button variant="text" sx={{ py: "4px", textTransform: "inherit" }}>
+            <Button variant="text" sx={{ py: '4px', textTransform: 'inherit' }}>
               <Box component="img" src={FileIcon} mr="4px" />
               <Typography
                 component="span"
@@ -121,19 +118,6 @@ const SepTableHeader = ({
               </Typography>
             </Button>
           </CSVLink>
-          {showEditColumnsButton && (
-            <Button variant="text" sx={{ py: "4px", textTransform: "inherit" }}>
-              <Box component="img" src={TableIcon} mr="4px" />
-              <Typography
-                component="span"
-                fontSize="12px"
-                fontWeight="600"
-                whiteSpace="nowrap"
-              >
-                Edit Columns
-              </Typography>
-            </Button>
-          )}
         </Box>
       </Box>
       <Divider />

@@ -1,25 +1,25 @@
-import React from "react";
-import { renderWithProviders } from "../../../../testing/test-utils";
-import "@testing-library/jest-dom";
-import { fireEvent } from "@testing-library/react";
-import SepTableBody, { HeadCell } from "./SepTableBody";
-import { SEPSearchResult, SEPPhase } from "../../../shared/types/SEP";
+import React from 'react';
+import { renderWithProviders } from '../../../../testing/test-utils';
+import '@testing-library/jest-dom';
+import { fireEvent } from '@testing-library/react';
+import SepTableBody, { HeadCell } from './SepTableBody';
+import { SEPSearchResult, SEPPhase } from '../../../shared/types/SEP';
 
 const rows: SEPSearchResult = {
   count: 1,
   seps: [
     {
       id: 1,
-      createdAt: "01/01/2021",
-      updatedAt: "01/03/2021",
-      name: "name",
-      description: "description",
-      createdBy: "createdBy",
+      createdAt: '01/01/2021',
+      updatedAt: '01/03/2021',
+      name: 'name',
+      description: 'description',
+      createdBy: 'createdBy',
       phase: SEPPhase.complete,
       creator: {
-        id: "1",
-        createdAt: "01/01/2021",
-        updatedAt: "01/03/2021",
+        id: '1',
+        createdAt: '01/01/2021',
+        updatedAt: '01/03/2021',
       },
     },
   ],
@@ -27,50 +27,50 @@ const rows: SEPSearchResult = {
 
 export const headCells: readonly HeadCell[] = [
   {
-    id: "id",
-    key: "id",
-    label: "SEP#",
+    id: 'id',
+    key: 'id',
+    label: 'SEP#',
   },
   {
-    id: "name",
-    key: "name",
-    label: "SEP Name",
+    id: 'name',
+    key: 'name',
+    label: 'SEP Name',
   },
   {
-    id: "description",
-    key: "description",
-    label: "Description",
+    id: 'description',
+    key: 'description',
+    label: 'Description',
   },
   {
-    id: "phase",
-    key: "phase",
-    label: "Phase",
+    id: 'phase',
+    key: 'phase',
+    label: 'Phase',
   },
   {
-    id: "createdBy",
-    key: "createdBy",
-    label: "Created By",
+    id: 'createdBy',
+    key: 'createdBy',
+    label: 'Created By',
   },
   {
-    id: "creatorId",
-    key: "creator.id",
-    label: "Creator Id",
+    id: 'creatorId',
+    key: 'creator.id',
+    label: 'Creator Id',
   },
   {
-    id: "createdAt",
-    key: "createdAt",
-    label: "CreatedAt",
+    id: 'createdAt',
+    key: 'createdAt',
+    label: 'CreatedAt',
   },
   {
-    id: "updatedAt",
-    key: "updatedAt",
-    label: "UpdatedAt",
+    id: 'updatedAt',
+    key: 'updatedAt',
+    label: 'UpdatedAt',
   },
 ];
 
-describe("SepTableBody component", () => {
-  it("should show the table body cells", async () => {
-    let sortBy = "createdAt";
+describe('SepTableBody component', () => {
+  it('should show the table body cells', async () => {
+    let sortBy = 'createdAt';
     const setSortBy = (value: string) => {
       sortBy = value;
     };
@@ -97,20 +97,20 @@ describe("SepTableBody component", () => {
     );
 
     const row = rows.seps[0];
-    expect(getByLabelText("SEP Id")).toHaveTextContent(row.id.toString());
-    expect(getByLabelText("SEP Name")).toHaveTextContent(row.name);
-    expect(getByLabelText("SEP Description")).toHaveTextContent(
-      row.description ? row.description : ""
+    expect(getByLabelText('SEP Id')).toHaveTextContent(row.id.toString());
+    expect(getByLabelText('SEP Name')).toHaveTextContent(row.name);
+    expect(getByLabelText('SEP Description')).toHaveTextContent(
+      row.description ? row.description : ''
     );
-    expect(getByLabelText("SEP Phase")).toHaveTextContent(row.phase.toString());
-    expect(getByLabelText("Create By")).toHaveTextContent(row.createdBy);
-    expect(getByLabelText("Creator Id")).toHaveTextContent(row.creator.id);
-    expect(getByLabelText("SEP CreatedAt")).toHaveTextContent(row.createdAt);
-    expect(getByLabelText("SEP UpdatedAt")).toHaveTextContent(row.updatedAt);
+    expect(getByLabelText('SEP Phase')).toHaveTextContent(row.phase.toString());
+    expect(getByLabelText('Create By')).toHaveTextContent(row.createdBy);
+    expect(getByLabelText('Creator Id')).toHaveTextContent(row.creator.id);
+    expect(getByLabelText('SEP CreatedAt')).toHaveTextContent(row.createdAt);
+    expect(getByLabelText('SEP UpdatedAt')).toHaveTextContent(row.updatedAt);
   });
 
-  it("should check the seps row checkbox", async () => {
-    let sortBy = "createdAt";
+  it('should check the seps row checkbox', async () => {
+    let sortBy = 'createdAt';
     const setSortBy = (value: string) => {
       sortBy = value;
     };
@@ -143,8 +143,8 @@ describe("SepTableBody component", () => {
     });
   });
 
-  it("should check the all checkbox", async () => {
-    let sortBy = "createdAt";
+  it('should check the all checkbox', async () => {
+    let sortBy = 'createdAt';
     const setSortBy = (value: string) => {
       sortBy = value;
     };
@@ -177,8 +177,8 @@ describe("SepTableBody component", () => {
     expect(selectedRow.length).toBe(rows.seps.length);
   });
 
-  it("should check the sort", async () => {
-    let sortBy = "createdAt";
+  it('should check the sort', async () => {
+    let sortBy = 'createdAt';
     const setSortBy = (value: string) => {
       sortBy = value;
     };
@@ -206,11 +206,11 @@ describe("SepTableBody component", () => {
 
     const createdAtLabelText = getByLabelText(`Table Sort Label createdAt`);
     await fireEvent.click(createdAtLabelText);
-    expect(sortBy).toBe("createdAt");
+    expect(sortBy).toBe('createdAt');
     expect(sortAsc).toBe(false);
     const NameLabelText = getByLabelText(`Table Sort Label name`);
     await fireEvent.click(NameLabelText);
-    expect(sortBy).toBe("name");
+    expect(sortBy).toBe('name');
     expect(sortAsc).toBe(true);
   });
 });

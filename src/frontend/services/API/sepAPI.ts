@@ -1,11 +1,11 @@
-import { AccountInfo } from "@azure/msal-browser";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import pca, { authRequest } from "../../app/msal";
+import { AccountInfo } from '@azure/msal-browser';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import pca, { authRequest } from '../../app/msal';
 import type {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
-} from "@reduxjs/toolkit/query/react";
+} from '@reduxjs/toolkit/query/react';
 import {
   CreateSEPBody,
   GetSEPResponse,
@@ -13,7 +13,7 @@ import {
   SEPSearchResult,
   SearchParams,
   SEP,
-} from "../../../shared/types/SEP";
+} from '../../../shared/types/SEP';
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_API_BASE_URL,
@@ -23,8 +23,8 @@ const rawBaseQuery = fetchBaseQuery({
       ...authRequest,
       account: pca.getAllAccounts()[0] as AccountInfo,
     });
-    headers.set("Authorization", `Bearer ${response.idToken}`);
-    headers.set("access_token", `${response.accessToken}`);
+    headers.set('Authorization', `Bearer ${response.idToken}`);
+    headers.set('access_token', `${response.accessToken}`);
     return headers;
   },
 });
@@ -36,25 +36,25 @@ const dynamicBaseQuery: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   // Provide a dynamic base query that attaches the correct base url.
   // This is necessary for easily integration testing with the backend because the REACT_APP_API_BASE_URL is dynamic and changes at the start of every test.
-  const urlEnd = typeof args === "string" ? args : args.url;
+  const urlEnd = typeof args === 'string' ? args : args.url;
   // construct a dynamically generated portion of the url
   const adjustedUrl = `${process.env.REACT_APP_API_BASE_URL}/${urlEnd}`;
   const adjustedArgs =
-    typeof args === "string" ? adjustedUrl : { ...args, url: adjustedUrl };
+    typeof args === 'string' ? adjustedUrl : { ...args, url: adjustedUrl };
   // provide the amended url and other params to the raw base query
   return rawBaseQuery(adjustedArgs, api, extraOptions);
 };
 
 let keepUnusedDataFor = 60;
 /* istanbul ignore if */
-if (process.env.NODE_ENV === "test") {
+if (process.env.NODE_ENV === 'test') {
   // Do not cache data for tests
   keepUnusedDataFor = 0;
 }
 // Define a service using a base URL and expected endpoints
 
 export const sepAPI = createApi({
-  reducerPath: "sepAPI",
+  reducerPath: 'sepAPI',
   baseQuery: dynamicBaseQuery,
   keepUnusedDataFor,
   endpoints: (builder) => ({
@@ -62,7 +62,7 @@ export const sepAPI = createApi({
       query: (arg) => {
         const { limit, offset, sortBy, sortAsc, id, search } = arg;
         return {
-          url: "seps",
+          url: 'seps',
           params: { limit, offset, sortBy, sortAsc, id, search },
         };
       },
@@ -77,7 +77,7 @@ export const sepAPI = createApi({
       query: ({ ...body }) => {
         return {
           url: `sep`,
-          method: "POST",
+          method: 'POST',
           body,
         };
       },

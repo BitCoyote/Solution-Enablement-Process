@@ -1,12 +1,12 @@
-import React from "react";
-import { renderWithProviders } from "../../../../testing/test-utils";
-import "@testing-library/jest-dom";
-import TasksFilterBar from "./TasksFilterBar";
-import { fireEvent } from "@testing-library/react";
-import { TaskStatus } from "../../../shared/types/Task";
+import React from 'react';
+import { renderWithProviders } from '../../../../testing/test-utils';
+import '@testing-library/jest-dom';
+import TasksFilterBar from './TasksFilterBar';
+import { fireEvent } from '@testing-library/react';
+import { TaskStatus } from '../../../shared/types/Task';
 
-describe("TasksFilterBar component", () => {
-  it("should check all-checkbox", async () => {
+describe('TasksFilterBar component', () => {
+  it('should check all-checkbox', async () => {
     let statusChecked: TaskStatus[] = [];
     const setStatusChecked = (value: TaskStatus[]) => {
       statusChecked = value;
@@ -18,13 +18,13 @@ describe("TasksFilterBar component", () => {
       />
     );
     const allCheckbox = getByLabelText(
-      "Select All Statues"
+      'Select All Statues'
     ) as HTMLInputElement;
     await fireEvent.click(allCheckbox);
     expect(statusChecked.length).toEqual(5);
   });
 
-  it("should check status checkbox", async () => {
+  it('should check status checkbox', async () => {
     let statusChecked: TaskStatus[] = [];
     const setStatusChecked = (value: TaskStatus[]) => {
       statusChecked = value;
