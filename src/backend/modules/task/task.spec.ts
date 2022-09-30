@@ -129,4 +129,12 @@ describe('task module', () => {
         .expect(400);
     });
   });
+  describe('GET /sep/{sepID}/tasks', () => {
+    it('should return a list of tasks for a given SEP id', async () => {
+      const response = await globals.request.get(`/sep/1/tasks`).expect(200);
+      expect(response.body.length).toEqual(1);
+      expect(response.body[0].id).toEqual(1);
+      expect(response.body[0].parentTasks).toBeDefined();
+    });
+  });
 });

@@ -3,7 +3,7 @@ import { CountOptions, FindOptions, Op, OrderItem } from 'sequelize';
 import { TaskStatus, ValidTaskStatusUpdate } from '../../../shared/types/Task';
 import Database from '../../models';
 const taskController = {
-  getTasks: async (
+  searchTasks: async (
     req: express.Request,
     res: express.Response,
     db: Database
@@ -218,6 +218,34 @@ const taskController = {
     });
 
     return res.send();
+  },
+  getTasksBySEPID: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    const sepID = parseInt(req.params.sepID);
+    const tasks = await db.Task.findAll({
+      where: { sepID },
+      include: [
+        {
+          model: db.Task,
+          as: 'parentTasks',
+          through: { attributes: [] },
+        },
+        {
+          model: db.User,
+          as: 'assignee',
+          attributes: ['id', 'email', 'displayName'],
+        },
+        {
+          model: db.User,
+          as: 'defaultReviewer',
+          attributes: ['id', 'email', 'displayName'],
+        },
+      ],
+    });
+    return res.send(tasks);
   },
 };
 
