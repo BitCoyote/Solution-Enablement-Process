@@ -5,7 +5,7 @@ import { checkForValidTaskStatusUpdate } from '../../utils/authorization';
 const paths: Paths = {
   '/tasks': {
     get: {
-      handler: taskController.getTasks,
+      handler: taskController.searchTasks,
       tags: ['Task'],
       summary: 'Search Tasks',
       description: 'Get a list of tasks by given search parameters',
@@ -101,6 +101,36 @@ const paths: Paths = {
       responses: {
         '200': {
           description: 'Success',
+        },
+      },
+    },
+  },
+  '/sep/{sepID}/tasks': {
+    get: {
+      handler: taskController.getTasksBySEPID,
+      tags: ['Task'],
+      summary: 'Get Tasks by SEP ID',
+      description: 'Get a list of tasks by given SEP ID',
+      parameters: [
+        {
+          name: 'sepID',
+          in: 'path',
+          description: 'The SEP ID to get the tasks for',
+        },
+      ],
+      responses: {
+        '200': {
+          description: 'A list of tasks for a given SEP.',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: {
+                  $ref: '#/components/schemas/TaskExtended',
+                },
+              },
+            },
+          },
         },
       },
     },

@@ -41,7 +41,7 @@ export interface Task extends SequelizeTimestamps {
 
 export interface TaskExtended extends Task {
   assignee: UserShort;
-  reviewer: UserShort;
+  defaultReviewer: UserShort;
   parentTasks: Task[];
 }
 
@@ -86,7 +86,7 @@ export interface TaskSearchRow {
   };
   dependentTaskCount: number;
   assignee: UserShort;
-  reviewer: UserShort;
+  defaultReviewer: UserShort;
 }
 
 export interface TaskSearchResult {
