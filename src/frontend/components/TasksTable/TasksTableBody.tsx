@@ -14,7 +14,8 @@ import {
 
 import SepDocIcon from "../../assets/img/sepdoc.png";
 import PlusIcon from "../../assets/img/plus.png";
-import { SEPSearchRow } from "../../../shared/types/SEP";
+import { TaskSearchRow } from "../../../shared/types/Task";
+import StatusCell from "./StatusCell";
 
 export interface HeadCell {
   id: string;
@@ -25,33 +26,58 @@ export interface HeadCell {
 export const headCells: readonly HeadCell[] = [
   {
     id: "id",
-    key: "id",
+    key: "sep.id",
     label: "SEP#",
   },
   {
     id: "name",
-    key: "name",
+    key: "sep.name",
     label: "SEP Name",
   },
   {
-    id: "description",
-    key: "description",
-    label: "Description",
-  },
-  {
     id: "phase",
+    key: "sep.phase",
+    label: "SEP Phase",
+  },
+  {
+    id: "tasksId",
+    key: "id",
+    label: "Tasks Id",
+  },
+  {
+    id: "tasksName",
+    key: "name",
+    label: "Tasks Name",
+  },
+  {
+    id: "tasksPhase",
     key: "phase",
-    label: "Phase",
+    label: "Tasks Phase",
   },
   {
-    id: "createdBy",
-    key: "createdBy",
-    label: "Created By",
+    id: "tasksStatus",
+    key: "status",
+    label: "Tasks Status",
   },
   {
-    id: "creatorId",
-    key: "creator.id",
-    label: "Creator Id",
+    id: "departmentID",
+    key: "departmentID",
+    label: "Department ID",
+  },
+  {
+    id: "dependentTaskCount",
+    key: "dependentTaskCount",
+    label: "Dependent Task Count",
+  },
+  {
+    id: "assigneeId",
+    key: "assignee.id",
+    label: "Assignee Id",
+  },
+  {
+    id: "reviewerId",
+    key: "reviewer.id",
+    label: "Reviewer Id",
   },
   {
     id: "createdAt",
@@ -124,7 +150,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-function NoSEP() {
+function NoTask() {
   const [isHover, setIsHover] = useState<boolean>(false);
   return (
     <Box
@@ -146,31 +172,14 @@ function NoSEP() {
           onMouseLeave={() => setIsHover(false)}
         />
         <Typography color="solidGrey.main" fontSize="18px">
-          Don’t have any SEPs
+          Don’t have any Tasks
         </Typography>
       </Box>
-      <Typography
-        color="solidGrey.main"
-        fontSize="12px"
-        maxWidth="240px"
-        textAlign="center"
-      >
-        Choose{" "}
-        <Typography
-          component="span"
-          color="solidGrey.main"
-          fontSize="12px"
-          fontWeight="600"
-        >
-          Create an SEP
-        </Typography>{" "}
-        from the navigation options to begin creating and SEP
-      </Typography>
     </Box>
   );
 }
 
-const SepTableBody = ({
+const TasksTableBody = ({
   rows,
   count,
   sortBy,
@@ -180,7 +189,7 @@ const SepTableBody = ({
   selected,
   setSelected,
 }: {
-  rows: SEPSearchRow[];
+  rows: TaskSearchRow[];
   count: number;
   sortBy: string;
   setSortBy: (sortBy: string) => void;
@@ -271,14 +280,14 @@ const SepTableBody = ({
               rowCount={count}
             />
             <TableBody>
-              {rows.map((row: SEPSearchRow) => {
+              {rows.map((row: TaskSearchRow) => {
                 const isItemSelected = isSelected(row.name);
 
                 return (
                   <TableRow
                     hover
                     onClick={(event) => handleClick(event, row.name)}
-                    aria-label={`SEPs Row ${row.name}`}
+                    aria-label={`Tasks Row ${row.name}`}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -288,35 +297,54 @@ const SepTableBody = ({
                     <TableCell padding="checkbox">
                       <Checkbox color="primary" checked={isItemSelected} />
                     </TableCell>
-                    <TableCell aria-label="SEP Id">{row.id}</TableCell>
-                    <TableCell aria-label="SEP Name">{row.name}</TableCell>
-                    <TableCell aria-label="SEP Description">
-                      {row.description}
+                    <TableCell aria-label="SEP Id">{row.sep.id}</TableCell>
+                    <TableCell aria-label="SEP Name">{row.sep.name}</TableCell>
+                    <TableCell aria-label="SEP Phase">
+                      <StatusCell status={row.sep.phase} />
                     </TableCell>
-                    <TableCell aria-label="SEP Phase">{row.phase}</TableCell>
-                    <TableCell aria-label="Create By">
-                      {row.createdBy}
+                    <TableCell aria-label="Tasks Id">{row.id}</TableCell>
+                    <TableCell aria-label="Tasks Name">{row.name}</TableCell>
+                    <TableCell aria-label="Tasks Phase">{row.phase}</TableCell>
+                    <TableCell aria-label="Tasks Status">
+                      {row.status}
                     </TableCell>
-                    <TableCell aria-label="Creator Id">
-                      {row.creator.id}
+                    <TableCell aria-label="Tasks DepartmentID">
+                      {row.departmentID}
                     </TableCell>
-                    <TableCell aria-label="SEP CreatedAt">
+                    <TableCell aria-label="Tasks DependentTaskCount">
+                      {row.dependentTaskCount}
+                    </TableCell>
+                    <TableCell aria-label="Assignee Id">
+                      {row.assignee.id}
+                    </TableCell>
+                    <TableCell aria-label="Reviewer Id">
+                      {row.reviewer.id}
+                    </TableCell>
+                    <TableCell aria-label="Tasks CreatedAt">
                       {row.createdAt}
                     </TableCell>
-                    <TableCell aria-label="SEP UpdatedAt">
+                    <TableCell aria-label="Tasks UpdatedAt">
                       {row.updatedAt}
                     </TableCell>
                   </TableRow>
                 );
               })}
+              {/* <TableRow
+                  style={{
+                    height: 53 * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )} */}
             </TableBody>
           </Table>
         </TableContainer>
       ) : (
-        <NoSEP />
+        <NoTask />
       )}
     </Box>
   );
 };
 
-export default SepTableBody;
+export default TasksTableBody;

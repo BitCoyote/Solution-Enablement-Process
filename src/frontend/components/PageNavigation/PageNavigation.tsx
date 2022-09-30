@@ -7,7 +7,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const rowsPerPageOptions: number[] = [5, 10, 25];
 
-const SepTablePageNavigation = ({
+const PageNavigation = ({
   count,
   page,
   setPage,
@@ -132,6 +132,7 @@ const SepTablePageNavigation = ({
           <Button
             variant="text"
             size="small"
+            aria-label="Prev Page Button"
             onClick={() => handleChangePage(page - 1)}
           >
             <KeyboardArrowLeftIcon />
@@ -143,6 +144,7 @@ const SepTablePageNavigation = ({
           <Button
             variant="text"
             size="small"
+            aria-label="Next Page Button"
             onClick={() => handleChangePage(page + 1)}
           >
             <Typography component="span" fontSize="12px" fontWeight="600">
@@ -163,7 +165,12 @@ const SepTablePageNavigation = ({
         <Typography color="darkgray.main" fontSize="12px" mr="4px">
           Items per Page
         </Typography>
-        <Button variant="text" onClick={handleClick} size="small">
+        <Button
+          variant="text"
+          aria-label="Rows Per Page Dropdown Button"
+          onClick={handleClick}
+          size="small"
+        >
           {rowsPerPage} {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
         </Button>
         <Menu
@@ -184,6 +191,7 @@ const SepTablePageNavigation = ({
           {rowsPerPageOptions.map((option) => (
             <MenuItem
               key={option.toString()}
+              aria-label={`Rows Per Page Option ${option}`}
               onClick={() => handleChangeRowsPerPage(option)}
             >
               {option}
@@ -195,4 +203,4 @@ const SepTablePageNavigation = ({
   );
 };
 
-export default SepTablePageNavigation;
+export default PageNavigation;

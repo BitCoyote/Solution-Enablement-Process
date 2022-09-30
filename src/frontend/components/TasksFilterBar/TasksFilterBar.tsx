@@ -3,39 +3,39 @@ import React from "react";
 import HandWaveIcon from "../../assets/img/Hand-wave.png";
 import NoteIcon from "../../assets/img/Note.png";
 import CheckIcon from "../../assets/img/Check.png";
-import { SEPPhase } from "../../../shared/types/SEP";
+import { TaskStatus } from "../../../shared/types/Task";
 
 interface StatusInterface {
-  id: SEPPhase;
+  id: TaskStatus;
   label: string;
   icon: string;
 }
 
 const statusLists: StatusInterface[] = [
   {
-    id: SEPPhase.complete,
-    label: "Complete",
-    icon: CheckIcon,
+    id: TaskStatus.pending,
+    label: "Pending",
+    icon: "",
   },
   {
-    id: SEPPhase.design,
-    label: "Design",
+    id: TaskStatus.todo,
+    label: "To-Do",
     icon: NoteIcon,
   },
   {
-    id: SEPPhase.implement,
-    label: "Implement",
+    id: TaskStatus.inReview,
+    label: "Needs Review",
     icon: HandWaveIcon,
   },
   {
-    id: SEPPhase.initiate,
-    label: "Initiate",
+    id: TaskStatus.changesRequested,
+    label: "Changes Requested",
     icon: HandWaveIcon,
   },
   {
-    id: SEPPhase.knockout,
-    label: "Knockout",
-    icon: "",
+    id: TaskStatus.complete,
+    label: "Complete",
+    icon: CheckIcon,
   },
 ];
 
@@ -69,16 +69,16 @@ const StyledCheckBox = ({
   );
 };
 
-const SepFilterBar = ({
+const TasksFilterBar = ({
   statusChecked,
   setStatusChecked,
 }: {
-  statusChecked: SEPPhase[];
-  setStatusChecked: (value: SEPPhase[]) => void;
+  statusChecked: TaskStatus[];
+  setStatusChecked: (value: TaskStatus[]) => void;
 }) => {
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    id: SEPPhase | "all"
+    id: TaskStatus | "all"
   ) => {
     if (id === "all") {
       if (event.target.checked) {
@@ -90,7 +90,7 @@ const SepFilterBar = ({
       return;
     }
     const selectedIndex = statusChecked.indexOf(id);
-    let newSelected: SEPPhase[] = [];
+    let newSelected: TaskStatus[] = [];
 
     if (selectedIndex < 0) {
       newSelected = newSelected.concat(statusChecked, id);
@@ -103,7 +103,7 @@ const SepFilterBar = ({
     setStatusChecked(newSelected);
   };
 
-  const isSelected = (id: SEPPhase) => statusChecked.indexOf(id) !== -1;
+  const isSelected = (id: TaskStatus) => statusChecked.indexOf(id) !== -1;
 
   return (
     <Box
@@ -139,7 +139,7 @@ const SepFilterBar = ({
         <StyledCheckBox
           key={list.label}
           indeterminate={false}
-          ariaLabel={`SEP Status Checkbox ${index}`}
+          ariaLabel={`Status Checkbox ${index}`}
           checked={isSelected(list.id)}
           onChange={(event) => handleChange(event, list.id)}
           label={
@@ -156,4 +156,4 @@ const SepFilterBar = ({
   );
 };
 
-export default SepFilterBar;
+export default TasksFilterBar;

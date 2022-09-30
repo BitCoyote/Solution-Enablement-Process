@@ -1,88 +1,44 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import React, { useMemo, useState } from "react";
+import SearchBar from "../../components/SearchBar/SearchBar";
 import SepFilterBar from "../../components/SepFilterBar/SepFilterBar";
-import SepSearch from "../../components/SepSearch/SepSearch";
+import PageNavigation from "../../components/PageNavigation/PageNavigation";
 import SepTableHeader from "../../components/SepTable/SepTableHeader";
 import SepTableBody from "../../components/SepTable/SepTableBody";
-import SepTablePageNavigation from "../../components/SepTable/SepTablePageNavigation";
+import { useGetSepsQuery } from "../../services/API/sepAPI";
+import { SEPSearchResult, SEPPhase } from "../../../shared/types/SEP";
 
-import { useGetTasksQuery } from "../../services/API/taskAPI";
-
-import {
-  TaskSearchResult,
-  TaskStatus,
-  TaskPhase,
-} from "../../../shared/types/Task";
-import { DepartmentID } from "../../../shared/types/Department";
-
-const taskSearchResultData: TaskSearchResult = {
-  count: 7,
-  tasks: [
-    {
-      id: 1,
-      createdAt: "01/01/2021",
-      updatedAt: "01/03/2021",
-      name: "name",
-      phase: TaskPhase.design,
-      status: TaskStatus.inReview,
-      departmentID: DepartmentID.legal,
-      sep: {
-        id: 1,
-        name: "sepname",
-        phase: TaskStatus.inReview,
-      },
-      dependentTaskCount: 2,
-      assignee: { id: "1" },
-      reviewer: { id: "1" },
-    },
-    {
-      id: 2,
-      createdAt: "04/05/2021",
-      updatedAt: "06/03/2021",
-      name: "name2",
-      phase: TaskPhase.implement,
-      status: TaskStatus.complete,
-      departmentID: DepartmentID.po,
-      sep: {
-        id: 2,
-        name: "sepname2",
-        phase: TaskStatus.todo,
-      },
-      dependentTaskCount: 2,
-      assignee: { id: "2" },
-      reviewer: { id: "2" },
-    },
-  ],
-};
-
-const AllSEPs = () => {
+const MySEPs = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [sortBy, setSortBy] = useState<string>("createdAt");
   const [sortAsc, setSortAsc] = useState<boolean>(false);
-  const [statusChecked, setStatusChecked] = useState<TaskStatus[]>([]);
+  const [statusChecked, setStatusChecked] = useState<SEPPhase[]>([]);
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(25);
+  const [selectedRow, setSelectedRow] = useState<string[]>([]);
 
-  const { data, isLoading, isError } = useGetTasksQuery({
+  const { data, isLoading, isError } = useGetSepsQuery({
     limit: rowsPerPage,
     offset: page * rowsPerPage,
     sortBy,
     sortAsc,
     search: searchText.length < 3 ? "" : searchText,
   });
-  console.log(data);
 
   const rows = useMemo(() => {
-    if (statusChecked.length === 0) return taskSearchResultData.tasks;
-    return taskSearchResultData.tasks.filter((task) =>
-      statusChecked.includes(task.sep.phase)
-    );
+    if (data) {
+      if (statusChecked.length === 0) return data.seps;
+      return data.seps.filter((sep) =>
+        statusChecked.includes(sep.phase)
+      );
+    }
+    return []
   }, [statusChecked]);
 
   return (
     <Box display="flex" flexDirection="column" flexGrow={1} pt="24px">
-      <SepSearch
-        title="All SEPs"
+      <SearchBar
+        title="My SEPs"
         searchText={searchText}
         setSearchText={setSearchText}
       />
@@ -100,24 +56,23 @@ const AllSEPs = () => {
         >
           <CircularProgress />
         </Box>
-      ) : isError ? (
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          flexGrow={1}
-          py="24px"
-        >
-          <Typography color="error.main" fontSize="24px">
-            Error
-          </Typography>
-        </Box>
-      ) : (
+        ) : isError ? (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexGrow={1}
+            py="24px"
+          >
+            <Typography color="error.main" fontSize="24px">
+              Error
+            </Typography>
+          </Box>
+        ) : (
         <>
           <SepTableHeader
             rows={rows}
             resultNumber={rows.length}
-            closedNumber={197}
             showEditColumnsButton={true}
           />
           <SepTableBody
@@ -127,8 +82,10 @@ const AllSEPs = () => {
             setSortBy={setSortBy}
             sortAsc={sortAsc}
             setSortAsc={setSortAsc}
+            selected={selectedRow}
+            setSelected={setSelectedRow}
           />
-          <SepTablePageNavigation
+          <PageNavigation
             count={rows.length}
             page={page}
             setPage={setPage}
@@ -141,4 +98,4 @@ const AllSEPs = () => {
   );
 };
 
-export default AllSEPs;
+export default MySEPs;

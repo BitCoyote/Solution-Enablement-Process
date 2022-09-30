@@ -2,12 +2,12 @@ import React from "react";
 import { Box, TextField, Typography, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-const SepSearch = ({
+const SearchBar = ({
   title,
   searchText,
   setSearchText,
 }: {
-  title: string,
+  title: string;
   searchText: string;
   setSearchText: (text: string) => void;
 }) => {
@@ -21,7 +21,10 @@ const SepSearch = ({
       alignItems="center"
       gap="8px"
       mb="20px"
-      sx={{ px: { xs: "24px", md: "40px" }, flexDirection: {xs: 'column', md: 'row'} }}
+      sx={{
+        px: { xs: "24px", md: "40px" },
+        flexDirection: { xs: "column", md: "row" },
+      }}
     >
       <Typography color="darkgray.main" fontSize="25px" fontWeight="600">
         {title}
@@ -35,6 +38,7 @@ const SepSearch = ({
             </InputAdornment>
           ),
         }}
+        aria-label="Search TextField"
         value={searchText}
         onChange={handleChange}
         sx={{
@@ -67,4 +71,4 @@ const SepSearch = ({
   );
 };
 
-export default SepSearch;
+export default SearchBar;

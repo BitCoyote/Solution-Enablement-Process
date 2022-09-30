@@ -3,7 +3,12 @@ import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import FileIcon from "../../assets/img/File.png";
 import TableIcon from "../../assets/img/Table.png";
-import { SEPSearchRow, SEPPhase } from "../../../shared/types/SEP";
+import {
+  TaskSearchRow,
+  TaskStatus,
+  TaskPhase,
+} from "../../../shared/types/Task";
+import { DepartmentID } from "../../../shared/types/Department";
 
 interface HeadersInterface {
   key: string;
@@ -13,12 +18,21 @@ interface HeadersInterface {
 interface DataInterface {
   id: number;
   name: string;
-  description?: string;
-  createdBy: string;
-  phase: SEPPhase;
-  creatorId: string;
+  phase: TaskStatus;
+  tasksId: number;
+  tasksName: string;
   createdAt: string;
   updatedAt: string;
+  tasksPhase: TaskPhase;
+  tasksStatus: TaskStatus;
+  departmentID: DepartmentID;
+  dependentTaskCount: number;
+  assigneeId: string;
+  assigneeEmail?: string;
+  assigneeDisplayName?: string;
+  reviewerId: string;
+  reviewerEmail?: string;
+  reviewerDisplayName?: string;
 }
 
 const headers: HeadersInterface[] = [
@@ -31,20 +45,56 @@ const headers: HeadersInterface[] = [
     label: "SEP Name",
   },
   {
-    key: "description",
-    label: "Description",
-  },
-  {
     key: "phase",
     label: "SEP Phase",
   },
   {
-    key: "createdBy",
-    label: "Created By",
+    key: "tasksId",
+    label: "Tasks Id",
   },
   {
-    key: "creatorId",
-    label: "Creator Id",
+    key: "tasksName",
+    label: "Tasks Name",
+  },
+  {
+    key: "tasksPhase",
+    label: "Tasks Phase",
+  },
+  {
+    key: "tasksStatus",
+    label: "Tasks Status",
+  },
+  {
+    key: "departmentID",
+    label: "Department ID",
+  },
+  {
+    key: "dependentTaskCount",
+    label: "Dependent Task Count",
+  },
+  {
+    key: "assigneeId",
+    label: "Assignee Id",
+  },
+  {
+    key: "assigneeEmail",
+    label: "Assignee Email",
+  },
+  {
+    key: "assigneeDisplayName",
+    label: "Assignee Display Name",
+  },
+  {
+    key: "reviewerId",
+    label: "Reviewer Id",
+  },
+  {
+    key: "reviewerEmail",
+    label: "Reviewer Email",
+  },
+  {
+    key: "reviewerDisplayName",
+    label: "Reviewer Display Name",
   },
   {
     key: "createdAt",
@@ -56,12 +106,12 @@ const headers: HeadersInterface[] = [
   },
 ];
 
-const SepTableHeader = ({
+const TasksTableHeader = ({
   rows,
   resultNumber,
   showEditColumnsButton,
 }: {
-  rows: SEPSearchRow[];
+  rows: TaskSearchRow[];
   resultNumber: number;
   showEditColumnsButton: boolean;
 }) => {
@@ -70,16 +120,25 @@ const SepTableHeader = ({
   useEffect(() => {
     if (rows.length) {
       const newData: DataInterface[] = [];
-      rows.forEach((row: SEPSearchRow) => {
+      rows.forEach((row: TaskSearchRow) => {
         newData.push({
-          id: row.id,
-          name: row.name,
-          description: row.description,
-          phase: row.phase,
-          createdBy: row.createdBy,
-          creatorId: row.creator.id,
+          id: row.sep.id,
+          name: row.sep.name,
+          phase: row.sep.phase,
+          tasksId: row.id,
+          tasksName: row.name,
           createdAt: row.createdAt,
           updatedAt: row.updatedAt,
+          tasksPhase: row.phase,
+          tasksStatus: row.status,
+          departmentID: row.departmentID,
+          dependentTaskCount: row.dependentTaskCount,
+          assigneeId: row.assignee.id,
+          assigneeEmail: row.assignee?.email,
+          assigneeDisplayName: row.assignee?.displayName,
+          reviewerId: row.reviewer.id,
+          reviewerEmail: row.reviewer?.email,
+          reviewerDisplayName: row.reviewer?.displayName,
         });
       });
       setCsvData(newData);
@@ -106,7 +165,7 @@ const SepTableHeader = ({
           <CSVLink
             data={csvData}
             headers={headers}
-            filename="seps.csv"
+            filename="tasks.csv"
             style={{ textDecoration: "none" }}
           >
             <Button variant="text" sx={{ py: "4px", textTransform: "inherit" }}>
@@ -141,4 +200,4 @@ const SepTableHeader = ({
   );
 };
 
-export default SepTableHeader;
+export default TasksTableHeader;
