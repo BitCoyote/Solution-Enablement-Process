@@ -6,10 +6,10 @@ export const tasksSlice = sepAPI.injectEndpoints({
   endpoints: (builder) => ({
     getTasks: builder.query<TaskSearchResult, SearchParams>({
       query: (arg) => {
-        const { limit, offset, sortBy, sortAsc, id, search } = arg;
+        const { limit, offset, sortBy, sortAsc, status, search } = arg;
         return {
           url: 'tasks',
-          params: { limit, offset, sortBy, sortAsc, id, search },
+          params: { limit, offset, sortBy, sortAsc, status, search },
         };
       },
     }),

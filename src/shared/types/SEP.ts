@@ -59,6 +59,6 @@ export interface SearchParams {
   offset?: number;
   sortBy?: string;
   sortAsc?: boolean;
-  id?: string;
+  status?: string;
   search?: string;
 }

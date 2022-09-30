@@ -23,16 +23,16 @@ const AllSEPs = () => {
     offset: page * rowsPerPage,
     sortBy,
     sortAsc,
+    status: statusChecked.map((phase) => phase.toString()).join(','),
     search: searchFilter,
   });
 
   const rows = useMemo(() => {
     if (data) {
-      if (statusChecked.length === 0) return data.seps;
-      return data.seps.filter((sep) => statusChecked.includes(sep.phase));
+      return data.seps;
     }
     return [];
-  }, [statusChecked, data]);
+  }, [data]);
 
   useEffect(() => {
     // Debounce our search function here so we can wait 500ms for the user to stop typing

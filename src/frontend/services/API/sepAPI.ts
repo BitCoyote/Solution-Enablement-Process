@@ -60,10 +60,10 @@ export const sepAPI = createApi({
   endpoints: (builder) => ({
     getSeps: builder.query<SEPSearchResult, SearchParams>({
       query: (arg) => {
-        const { limit, offset, sortBy, sortAsc, id, search } = arg;
+        const { limit, offset, sortBy, sortAsc, status, search } = arg;
         return {
           url: 'seps',
-          params: { limit, offset, sortBy, sortAsc, id, search },
+          params: { limit, offset, sortBy, sortAsc, status, search },
         };
       },
     }),

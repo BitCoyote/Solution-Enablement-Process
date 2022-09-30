@@ -129,7 +129,6 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
-
           <Box sx={{ flexGrow: 0, mr: 3, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <NavButton
@@ -142,7 +141,6 @@ const ResponsiveAppBar = () => {
               </NavButton>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

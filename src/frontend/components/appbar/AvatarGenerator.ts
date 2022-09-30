@@ -39,7 +39,7 @@ function stringAvatar(name: string): object {
     return {
       children: `${name.split(' ')[0][0].toUpperCase()}${name
         .split(' ')[1][0]
-        .toUpperCase()}`,
+        ?.toUpperCase()}`,
     };
   } else {
     return {
