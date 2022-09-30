@@ -5,7 +5,7 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import TasksTableHeader from '../../components/TasksTable/TasksTableHeader';
 import TasksTableBody from '../../components/TasksTable/TasksTableBody';
 import PageNavigation from '../../components/PageNavigation/PageNavigation';
-import { useGetTasksQuery } from '../../services/API/taskAPI';
+import { useGetTasksQuery } from '../../services/tasksSlice/tasksSlice';
 import { TaskStatus } from '../../../shared/types/Task';
 
 const AllTasks = () => {

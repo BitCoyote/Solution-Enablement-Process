@@ -11,9 +11,7 @@ import ThemeProvider from './frontend/theme/ThemeProvider';
 import { MsalProvider } from '@azure/msal-react';
 import pca from './frontend/app/msal';
 import AllSEPs from './frontend/features/allSEPs/AllSEPs';
-import AllTasks from './frontend/features/allTasks/AllTasks';
 import MySEPs from './frontend/features/mySEPs/MySEPs';
-import Create from './frontend/features/create/Create';
 const container = document.getElementById('root')!;
 
 const root = createRoot(container);
@@ -29,8 +27,6 @@ root.render(
               <Route element={<AppContainer />}>
                 <Route index element={<MySEPs />} />
                 <Route path="/all-seps" element={<AllSEPs />} />
-                <Route path="/all-tasks" element={<AllTasks />} />
-                <Route path="/create" element={<Create />} />
               </Route>
             </Route>
           </Routes>

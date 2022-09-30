@@ -1,8 +1,8 @@
-import { sepAPI } from './sepAPI';
+import { sepAPI } from '../API';
 import { TaskSearchResult } from '../../../shared/types/Task';
 import { SearchParams } from '../../../shared/types/SEP';
 
-export const usersSlice = sepAPI.injectEndpoints({
+export const tasksSlice = sepAPI.injectEndpoints({
   endpoints: (builder) => ({
     getTasks: builder.query<TaskSearchResult, SearchParams>({
       query: (arg) => {
@@ -16,4 +16,4 @@ export const usersSlice = sepAPI.injectEndpoints({
   }),
 });
 
-export const { useGetTasksQuery } = usersSlice;
+export const { useGetTasksQuery } = tasksSlice;
