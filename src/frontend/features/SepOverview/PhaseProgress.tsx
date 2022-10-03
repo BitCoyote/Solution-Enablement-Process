@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { ReactComponent as Circle } from '../../assets/svg/alerts.svg';
@@ -16,10 +16,11 @@ type progress = {
 };
 
 const PhaseProgress = ({ phase, tasks, title, sepFinish }: progress) => {
-  const status = tasks?.length === phase.length ? true : false;
-  const unStarted =
-    tasks?.length === 0 || tasks?.length === undefined;
+
   const theme = useTheme();
+  const status: boolean = tasks?.length === phase.length ? true : false;
+  const unStarted: boolean = tasks?.length === 0 || tasks?.length === undefined;
+  const progressBarValue = tasks?.length !== undefined ? (tasks?.length / phase.length) * 100 : 0
 
   return (
     <>
@@ -33,41 +34,16 @@ const PhaseProgress = ({ phase, tasks, title, sepFinish }: progress) => {
           width: '97.8%',
         }}
       >
-        {status ? (
-          <i className="fa-solid fa-badge-check" style={{ color: 'green' }} />
-        ) : unStarted ? (
-          <StartCircle />
-        ) : (
-          <Circle />
-        )}
+        <ProgressIconToggle status={status} unStarted={unStarted} />
         &nbsp;
         <StyledLinearProgress
           variant="determinate"
           complete={status}
           theme={theme}
-          value={
-            tasks?.length !== undefined
-              ? (tasks?.length / phase.length) * 100
-              : 0
-          }
+          value={progressBarValue}
           sx={{ m: -0.4 }}
         />
-        {title === 'Implement Phase' &&
-          // sep.phase === complete
-          (sepFinish ? (
-            <>
-              &nbsp;
-              <i
-                className="fa-solid fa-badge-check"
-                style={{ color: 'green' }}
-              />
-            </>
-          ) : (
-            <>
-              &nbsp;
-              <StartCircle aria-label="gray-circle"/>
-            </>
-          ))}
+        <FinishSepIconToggle title={title} sepFinish={sepFinish!} />
       </Box>
 
       <p className="sep-progress-label">{title}</p>
@@ -80,3 +56,38 @@ const PhaseProgress = ({ phase, tasks, title, sepFinish }: progress) => {
 };
 
 export default PhaseProgress;
+
+
+const ProgressIconToggle = ({ status, unStarted }: { status: boolean, unStarted: boolean }) => {
+
+  if (status) {
+    return <i className="fa-solid fa-badge-check" style={{ color: 'green' }} />
+  } else {
+    return unStarted ? (<StartCircle aria-label="unstarted-circle" />) : (<Circle aria-label="started-circle" />)
+  }
+
+}
+
+const FinishSepIconToggle = ({ title, sepFinish }: { title: string, sepFinish: boolean }) => {
+
+  if (title === "Implement Phase") {
+    return sepFinish ? (
+      <>
+        &nbsp;
+        <i
+          className="fa-solid fa-badge-check"
+          style={{ color: 'green' }}
+          aria-label="finish-progress"
+        />
+      </>
+    ) : (
+      <>
+        &nbsp;
+        <StartCircle aria-label="unfinish-circle" />
+      </>
+    )
+  } else {
+    return <></>
+  }
+
+}
