@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PhaseProgress from './PhaseProgress';
 
@@ -32,12 +32,17 @@ describe('Sep overview header component', () => {
   });
 
   it('should show the progress bar filled to 100', () => {
-    render(
+    const { getByRole } =  render(
       <PhaseProgress
         title="Testing Phase Progress bar"
         phase={phase}
         tasks={{ complete: phase }}
       />
     );
+
+    const progressBar = getByRole('progressbar');
+    expect(progressBar.getAttribute('aria-valuenow')).toBe('100');
   });
+
+  
 });

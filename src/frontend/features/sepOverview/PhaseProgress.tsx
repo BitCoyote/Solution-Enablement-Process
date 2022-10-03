@@ -64,7 +64,7 @@ const PhaseProgress = ({ phase, tasks, title, sepFinish }: progress) => {
           ) : (
             <>
               &nbsp;
-              <StartCircle />
+              <StartCircle aria-label="gray-circle"/>
             </>
           ))}
       </Box>
