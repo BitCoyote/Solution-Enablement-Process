@@ -141,9 +141,9 @@ const paths: Paths = {
       handler: taskController.updateTask,
       role: allAppRoles,
       tags: ['Task'],
-      summary: 'Update a task of a task',
+      summary: 'Update a task ',
       description:
-        'Updates the status of a task and moves any dependent tasks from "pending" to "todo"',
+        'Updates  a task and moves any dependent tasks from "pending" to "todo"',
       parameters: [
         {
           name: 'id',
@@ -168,7 +168,7 @@ const paths: Paths = {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/TaskExtended',
+                $ref: '#/components/schemas/Task',
               },
             },
           },

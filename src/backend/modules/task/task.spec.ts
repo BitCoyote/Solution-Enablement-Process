@@ -193,12 +193,13 @@ describe('task module', () => {
   });
   describe('PATCH /task/{id}', () => {
     it('should successfully update a task', async () => {
-      await globals.request
+      const response = await globals.request
         .patch(`/task/5`)
         .send({ description: 'Cool!' } as UpdateTaskBody)
         .expect(200);
       const task = await globals.db.Task.findByPk(5);
       expect(task?.description).toEqual('Cool!');
+      expect(response.body.description).toEqual('Cool!');
     });
     it('should update dependent tasks to the "todo" status when a parent task is disabled', async () => {
       await globals.request

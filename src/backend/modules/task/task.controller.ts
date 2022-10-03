@@ -296,7 +296,7 @@ const taskController = {
     db: Database
   ): Promise<express.Response> => {
     // roles middleware has already validated that the user has the proper permissions to make this update
-    await db.sequelize.transaction(async (transaction) => {
+    const  task = await db.sequelize.transaction(async (transaction) => {
       const id = parseInt(req.params.id);
       const task = (await db.Task.findByPk(id, {
         include: [
@@ -332,9 +332,9 @@ const taskController = {
         }
       }
       await checkForPhaseComplete(db, task, transaction);
+      return task;
     });
-
-    return res.send();
+    return res.send(task);
   },
   getTasksBySEPID: async (
     req: express.Request,
