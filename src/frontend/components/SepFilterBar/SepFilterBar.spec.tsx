@@ -3,12 +3,12 @@ import { renderWithProviders } from '../../../../testing/test-utils';
 import '@testing-library/jest-dom';
 import SepFilterBar from './SepFilterBar';
 import { fireEvent } from '@testing-library/react';
-import { SEPPhase } from '../../../shared/types/SEP';
+import { TaskStatus } from '../../../shared/types/Task';
 
 describe('SepFilterBar component', () => {
   it('should check all-checkbox', async () => {
-    let statusChecked: SEPPhase[] = [];
-    const setStatusChecked = (value: SEPPhase[]) => {
+    let statusChecked: TaskStatus[] = [];
+    const setStatusChecked = (value: TaskStatus[]) => {
       statusChecked = value;
     };
     const { getByLabelText } = renderWithProviders(
@@ -25,8 +25,8 @@ describe('SepFilterBar component', () => {
   });
 
   it('should check status checkbox', async () => {
-    let statusChecked: SEPPhase[] = [];
-    const setStatusChecked = (value: SEPPhase[]) => {
+    let statusChecked: TaskStatus[] = [];
+    const setStatusChecked = (value: TaskStatus[]) => {
       statusChecked = value;
     };
     const { getByLabelText } = renderWithProviders(
@@ -36,8 +36,8 @@ describe('SepFilterBar component', () => {
       />
     );
 
-    const statusCheckBox = getByLabelText(`SEP Status Checkbox 2`);
+    const statusCheckBox = getByLabelText(`Status Checkbox 2`);
     await fireEvent.click(statusCheckBox);
-    expect(statusChecked.includes(SEPPhase.implement)).toEqual(true);
+    expect(statusChecked.includes(TaskStatus.inReview)).toEqual(true);
   });
 });

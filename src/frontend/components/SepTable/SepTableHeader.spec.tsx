@@ -2,24 +2,32 @@ import React from 'react';
 import { renderWithProviders } from '../../../../testing/test-utils';
 import '@testing-library/jest-dom';
 import SepTableHeader from './SepTableHeader';
-import { SEPSearchResult, SEPPhase } from '../../../shared/types/SEP';
+import {
+  TaskSearchResult,
+  TaskStatus,
+  TaskPhase,
+} from '../../../shared/types/Task';
+import { DepartmentID } from '../../../shared/types/Department';
 
-const rows: SEPSearchResult = {
+const rows: TaskSearchResult = {
   count: 1,
-  seps: [
+  tasks: [
     {
       id: 1,
       createdAt: '01/01/2021',
       updatedAt: '01/03/2021',
       name: 'name',
-      description: 'description',
-      createdBy: 'createdBy',
-      phase: SEPPhase.complete,
-      creator: {
-        id: '1',
-        createdAt: '01/01/2021',
-        updatedAt: '01/03/2021',
+      phase: TaskPhase.design,
+      status: TaskStatus.inReview,
+      departmentID: DepartmentID.legal,
+      sep: {
+        id: 1,
+        name: 'sepname',
+        phase: TaskStatus.inReview,
       },
+      dependentTaskCount: 2,
+      assignee: { id: '1' },
+      reviewer: { id: '1' },
     },
   ],
 };
@@ -27,11 +35,11 @@ const rows: SEPSearchResult = {
 describe('SepTableHeader component', () => {
   it('should show the result number', async () => {
     const { getByText } = renderWithProviders(
-      <SepTableHeader rows={rows.seps} resultNumber={rows.seps.length} />
+      <SepTableHeader rows={rows.tasks} resultNumber={rows.tasks.length} />
     );
     expect(
       getByText(
-        `${new Intl.NumberFormat('en-US').format(rows.seps.length)} Results`
+        `${new Intl.NumberFormat('en-US').format(rows.tasks.length)} Results`
       )
     ).toBeInTheDocument();
   });

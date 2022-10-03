@@ -2,7 +2,7 @@ import { Box, Button, Divider, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import FileIcon from '../../assets/img/File.png';
-import { SEPSearchRow, SEPPhase } from '../../../shared/types/SEP';
+import { TaskSearchRow, TaskStatus } from '../../../shared/types/Task';
 
 interface HeadersInterface {
   key: string;
@@ -10,48 +10,48 @@ interface HeadersInterface {
 }
 
 interface DataInterface {
-  id: number;
-  name: string;
-  description?: string;
-  createdBy: string;
-  phase: SEPPhase;
-  creatorId: string;
-  createdAt: string;
-  updatedAt: string;
+  sepId: number;
+  sepName: string;
+  tasksName: string;
+  assigned: string;
+  owedTo: string;
+  status: TaskStatus;
+  dependentTaskCount: number;
+  submitted: string;
 }
 
 const headers: HeadersInterface[] = [
   {
-    key: 'id',
+    key: 'sepId',
     label: 'SEP#',
   },
   {
-    key: 'name',
+    key: 'sepName',
     label: 'SEP Name',
   },
   {
-    key: 'description',
-    label: 'Description',
+    key: 'tasksName',
+    label: 'My Tasks',
   },
   {
-    key: 'phase',
-    label: 'SEP Phase',
+    key: 'assigned',
+    label: 'Assigned',
   },
   {
-    key: 'createdBy',
-    label: 'Created By',
+    key: 'owedTo',
+    label: 'Owed to',
   },
   {
-    key: 'creatorId',
-    label: 'Creator Id',
+    key: 'status',
+    label: 'Status',
   },
   {
-    key: 'createdAt',
-    label: 'CreatedAt',
+    key: 'dependentTaskCount',
+    label: 'Dependent Tasks',
   },
   {
-    key: 'updatedAt',
-    label: 'UpdatedAt',
+    key: 'submitted',
+    label: 'Submitted',
   },
 ];
 
@@ -59,7 +59,7 @@ const SepTableHeader = ({
   rows,
   resultNumber,
 }: {
-  rows: SEPSearchRow[];
+  rows: TaskSearchRow[];
   resultNumber: number;
 }) => {
   const [csvData, setCsvData] = useState<DataInterface[]>([]);
@@ -67,16 +67,16 @@ const SepTableHeader = ({
   useEffect(() => {
     if (rows.length) {
       const newData: DataInterface[] = [];
-      rows.forEach((row: SEPSearchRow) => {
+      rows.forEach((row: TaskSearchRow) => {
         newData.push({
-          id: row.id,
-          name: row.name,
-          description: row.description,
-          phase: row.phase,
-          createdBy: row.createdBy,
-          creatorId: row.creator.id,
-          createdAt: row.createdAt,
-          updatedAt: row.updatedAt,
+          sepId: row.sep.id,
+          sepName: row.sep.name,
+          tasksName: row.name,
+          assigned: '',
+          owedTo: row.reviewer?.displayName ? row.reviewer?.displayName : '',
+          status: row.status,
+          dependentTaskCount: row.dependentTaskCount,
+          submitted: '',
         });
       });
       setCsvData(newData);

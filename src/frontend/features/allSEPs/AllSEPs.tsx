@@ -5,20 +5,20 @@ import SepFilterBar from '../../components/SepFilterBar/SepFilterBar';
 import PageNavigation from '../../components/PageNavigation/PageNavigation';
 import SepTableHeader from '../../components/SepTable/SepTableHeader';
 import SepTableBody from '../../components/SepTable/SepTableBody';
-import { useGetSepsQuery } from '../../services/API/sepAPI';
-import { SEPPhase } from '../../../shared/types/SEP';
+import { useGetTasksQuery } from '../../services/tasksSlice/tasksSlice';
+import { TaskStatus } from '../../../shared/types/Task';
 
 const AllSEPs = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [searchFilter, setSearchFilter] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('createdAt');
   const [sortAsc, setSortAsc] = useState<boolean>(false);
-  const [statusChecked, setStatusChecked] = useState<SEPPhase[]>([]);
+  const [statusChecked, setStatusChecked] = useState<TaskStatus[]>([]);
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(25);
   const [selectedRow, setSelectedRow] = useState<string[]>([]);
 
-  const { data, isLoading, isError } = useGetSepsQuery({
+  const { data, isLoading, isError } = useGetTasksQuery({
     limit: rowsPerPage,
     offset: page * rowsPerPage,
     sortBy,
@@ -29,7 +29,7 @@ const AllSEPs = () => {
 
   const rows = useMemo(() => {
     if (data) {
-      return data.seps;
+      return data.tasks;
     }
     return [];
   }, [data]);

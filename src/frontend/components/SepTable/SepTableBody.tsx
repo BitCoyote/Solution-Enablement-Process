@@ -11,10 +11,10 @@ import {
   TableSortLabel,
   Typography,
 } from '@mui/material';
-
+import StatusCell from './StatusCell';
 import SepDocIcon from '../../assets/img/sepdoc.png';
 import PlusIcon from '../../assets/img/plus.png';
-import { SEPSearchRow } from '../../../shared/types/SEP';
+import { TaskSearchRow } from '../../../shared/types/Task';
 
 export interface HeadCell {
   id: string;
@@ -24,44 +24,44 @@ export interface HeadCell {
 
 export const headCells: readonly HeadCell[] = [
   {
-    id: 'id',
-    key: 'id',
+    id: 'sepId',
+    key: 'sep.id',
     label: 'SEP#',
   },
   {
-    id: 'name',
-    key: 'name',
+    id: 'sepName',
+    key: 'sep.name',
     label: 'SEP Name',
   },
   {
-    id: 'description',
-    key: 'description',
-    label: 'Description',
+    id: 'tasksName',
+    key: 'name',
+    label: 'My Tasks',
   },
   {
-    id: 'phase',
-    key: 'phase',
-    label: 'Phase',
+    id: 'assigned',
+    key: '',
+    label: 'Assigned',
   },
   {
-    id: 'createdBy',
-    key: 'createdBy',
-    label: 'Created By',
+    id: 'owedTo',
+    key: 'reviewer.displayName',
+    label: 'Owed to',
   },
   {
-    id: 'creatorId',
-    key: 'creator.id',
-    label: 'Creator Id',
+    id: 'status',
+    key: 'status',
+    label: 'Status',
   },
   {
-    id: 'createdAt',
-    key: 'createdAt',
-    label: 'CreatedAt',
+    id: 'dependentTaskCount',
+    key: 'dependentTaskCount',
+    label: 'Dependent Tasks',
   },
   {
-    id: 'updatedAt',
-    key: 'updatedAt',
-    label: 'UpdatedAt',
+    id: 'submitted',
+    key: '',
+    label: 'Submitted',
   },
 ];
 
@@ -180,7 +180,7 @@ const SepTableBody = ({
   selected,
   setSelected,
 }: {
-  rows: SEPSearchRow[];
+  rows: TaskSearchRow[];
   count: number;
   sortBy: string;
   setSortBy: (sortBy: string) => void;
@@ -271,7 +271,7 @@ const SepTableBody = ({
               rowCount={count}
             />
             <TableBody>
-              {rows.map((row: SEPSearchRow) => {
+              {rows.map((row: TaskSearchRow) => {
                 const isItemSelected = isSelected(row.name);
 
                 return (
@@ -288,24 +288,20 @@ const SepTableBody = ({
                     <TableCell padding="checkbox">
                       <Checkbox color="primary" checked={isItemSelected} />
                     </TableCell>
-                    <TableCell aria-label="SEP Id">{row.id}</TableCell>
-                    <TableCell aria-label="SEP Name">{row.name}</TableCell>
-                    <TableCell aria-label="SEP Description">
-                      {row.description}
+                    <TableCell aria-label="SEP Id">{row.sep.id}</TableCell>
+                    <TableCell aria-label="SEP Name">{row.sep.name}</TableCell>
+                    <TableCell aria-label="Tasks Name">{row.name}</TableCell>
+                    <TableCell aria-label="Assigned"></TableCell>
+                    <TableCell aria-label="Owed To">
+                      {row.reviewer?.displayName}
                     </TableCell>
-                    <TableCell aria-label="SEP Phase">{row.phase}</TableCell>
-                    <TableCell aria-label="Create By">
-                      {row.createdBy}
+                    <TableCell aria-label="Tasks Status">
+                      <StatusCell status={row.status} />
                     </TableCell>
-                    <TableCell aria-label="Creator Id">
-                      {row.creator.id}
+                    <TableCell aria-label="Tasks DependentTaskCount">
+                      {row.dependentTaskCount}
                     </TableCell>
-                    <TableCell aria-label="SEP CreatedAt">
-                      {row.createdAt}
-                    </TableCell>
-                    <TableCell aria-label="SEP UpdatedAt">
-                      {row.updatedAt}
-                    </TableCell>
+                    <TableCell aria-label="Submitted"></TableCell>
                   </TableRow>
                 );
               })}
