@@ -1,5 +1,11 @@
 import * as React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import OpenSansRegularWoff from '../assets/fonts/open-sans-v34-latin-regular.woff';
+import OpenSansRegularWoff2 from '../assets/fonts/open-sans-v34-latin-regular.woff2';
+import OpenSansRegularEot from '../assets/fonts/open-sans-v34-latin-regular.eot';
+import OpenSansRegularTtf from '../assets/fonts/open-sans-v34-latin-regular.ttf';
+import OpenSansRegularSvg from '../assets/fonts/open-sans-v34-latin-regular.svg';
+import { CssBaseline } from '@mui/material';
 
 declare module '@mui/material/styles' {
   interface Theme {
@@ -12,12 +18,14 @@ declare module '@mui/material/styles' {
     darkgray: Palette['primary'];
     solidBlue: Palette['primary'];
     mediumGrey: Palette['primary'];
+    darkGreen: Palette['primary'];
   }
   interface PaletteOptions {
     solidGrey: PaletteOptions['primary'];
     darkgray: PaletteOptions['primary'];
     solidBlue: PaletteOptions['primary'];
     mediumGrey: PaletteOptions['primary'];
+    darkGreen: PaletteOptions['primary'];
   }
   interface PaletteColor {
     darker?: string;
@@ -33,10 +41,21 @@ declare module '@mui/material/styles' {
     lightHover?: string;
     lightActive?: string;
   }
-  interface ThemeOptions {
-    status: {
-      danger: React.CSSProperties['color'];
-    };
+
+  interface TypographyVariants {
+    title: React.CSSProperties;
+  }
+
+  // allow configuration using `createTheme`
+  interface TypographyVariantsOptions {
+    title?: React.CSSProperties;
+  }
+}
+
+// Update the Typography's variant prop options
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    title: true;
   }
 }
 
@@ -45,9 +64,6 @@ type Props = {
 };
 
 const theme = createTheme({
-  status: {
-    danger: '#e53e3e',
-  },
   palette: {
     primary: {
       main: '#0971f1',
@@ -68,9 +84,39 @@ const theme = createTheme({
       main: '#7e8083',
       light: '#7e808340',
     },
+    darkGreen: {
+      main: '#6BA543',
+    },
+  },
+  typography: {
+    fontFamily: 'Open Sans',
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: `
+      /* open-sans-regular - latin */
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(${OpenSansRegularEot}); /* IE9 Compat Modes */
+        src: local(''),
+             url(${OpenSansRegularEot}) format('embedded-opentype'), /* IE6-IE8 */
+             url(${OpenSansRegularWoff2}) format('woff2'), /* Super Modern Browsers */
+             url(${OpenSansRegularWoff}) format('woff'), /* Modern Browsers */
+             url(${OpenSansRegularTtf}) format('truetype'), /* Safari, Android, iOS */
+             url(${OpenSansRegularSvg}) format('svg'); /* Legacy iOS */
+      }
+      `,
+    },
   },
 });
 
 export default function CustomStyles({ children }: Props) {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
 }

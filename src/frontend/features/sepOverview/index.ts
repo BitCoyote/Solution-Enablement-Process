@@ -1,1 +1,1 @@
-export { default } from './sepOverview'
+export { default } from './SepOverview';

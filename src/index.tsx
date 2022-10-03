@@ -2,7 +2,6 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { setupStore } from './frontend/app/store';
-import App from './frontend/app/App';
 import reportWebVitals from './frontend/reportWebVitals';
 import './frontend/app/index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -15,7 +14,7 @@ import pca from './frontend/app/msal';
 import AppContainer from './frontend/containers/AppContainer';
 
 //Route components
-import SepOverview from './frontend/features/sepOverview'
+import SepOverview from './frontend/features/sepOverview';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -29,7 +28,9 @@ root.render(
           <Routes>
             <Route element={<Auth />}>
               <Route path="/" element={<AppContainer />}>
-                <Route path="/overview" element={<SepOverview />} />
+                <Route path="sep">
+                  <Route path=":sepId" element={<SepOverview />} />
+                </Route>
               </Route>
             </Route>
           </Routes>

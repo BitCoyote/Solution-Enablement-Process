@@ -70,7 +70,7 @@
     "src/frontend/**/*",
     "src/shared/**/*",
     "src/frontend/custom.d.ts",
-    "testing/mocks/fileMock.js",
+    "testing/mocks/fileMock.ts",
     "testing/mocks/styleMock.js",
     "testing/test-utils.tsx"
   ],
