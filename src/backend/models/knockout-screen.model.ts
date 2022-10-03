@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import { Sequelize as SequelizeType } from 'sequelize/types';
 import { KnockoutScreen } from '../../shared/types/Knockout';
-// import Database from './index';
+import Database from './index';
 
 // Merge the Typescript interface with the class so our typescript definitions are applied to the model
 export interface KnockoutScreenModel extends KnockoutScreen {}
@@ -59,15 +59,9 @@ export const initKnockoutScreen = (db: SequelizeType) => {
 };
 
 /** Creates all the table associations for this model */
-// export const commentAssociations = (db: Database) => {
-//   db.KnockoutScreen.belongsTo(db.SEP, {
-//     foreignKey: 'commentableID',
-//     constraints: false,
-//     as: 'sep',
-//   });
-//   db.KnockoutScreen.belongsTo(db.Task, {
-//     foreignKey: 'commentableID',
-//     constraints: false,
-//     as: 'task',
-//   });
-// };
+export const knockoutScreenAssociations = (db: Database) => {
+  db.KnockoutScreen.hasMany(db.DataField, {
+    foreignKey: 'knockoutScreenID',
+    as: 'dataFields',
+  });
+};

@@ -50,8 +50,60 @@ describe('authorization', () => {
       expect(next).toHaveBeenCalled();
     });
   });
+  describe('mustBeRequestorOrResourceOwner middleware', () => {
+    it('should return a 403 error when the requesting user is not the sep requestor or a resource owner', async () => {
+      res.locals.user = {
+        oid: 'incorrect oid',
+        roles: [],
+      };
+      await authorization.mustBeRequestorOrResourceOwner(
+        res,
+        next,
+        globals.db,
+        1
+      );
+      expect(res.status).toHaveBeenCalledWith(403);
+    });
+    it('should proceed when the requesting user is the sep requestor', async () => {
+      res.locals.user = {
+        oid: 'abc',
+      };
+      await authorization.mustBeRequestorOrResourceOwner(
+        res,
+        next,
+        globals.db,
+        1
+      );
+      expect(next).toHaveBeenCalled();
+    });
+    it('should proceed when the requesting user is a resource owner', async () => {
+      res.locals.user = {
+        oid: globals.loggedInUserID,
+        roles: ['AuthLegal'],
+      };
+      await authorization.mustBeRequestorOrResourceOwner(
+        res,
+        next,
+        globals.db,
+        1
+      );
+      expect(next).toHaveBeenCalled();
+    });
+  });
+
   describe('checkForRole middleware', () => {
     it('should return a 403 error when the requesting user does not have the required role', async () => {
+      res.locals.user = {
+        oid: globals.loggedInUserID,
+        roles: [],
+      };
+      await authorization.checkForRoleMiddleware(res, next, 'FLOOP');
+      expect(res.status).toHaveBeenCalledWith(403);
+    });
+    it('should return a 403 error when the requesting user does not have any roles', async () => {
+      res.locals.user = {
+        oid: globals.loggedInUserID,
+      };
       await authorization.checkForRoleMiddleware(res, next, 'FLOOP');
       expect(res.status).toHaveBeenCalledWith(403);
     });
