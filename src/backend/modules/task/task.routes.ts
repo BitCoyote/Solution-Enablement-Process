@@ -1,10 +1,11 @@
 import taskController from './task.controller';
 import { Paths } from '../../routes';
+import { checkForValidTaskStatusUpdate } from '../../utils/authorization';
 
 const paths: Paths = {
   '/tasks': {
     get: {
-      handler: taskController.getTasks,
+      handler: taskController.searchTasks,
       tags: ['Task'],
       summary: 'Search Tasks',
       description: 'Get a list of tasks by given search parameters',
@@ -54,6 +55,79 @@ const paths: Paths = {
             'application/json': {
               schema: {
                 $ref: '#/components/schemas/TaskSearchResult',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  '/task/{id}/status': {
+    patch: {
+      handler: taskController.updateTaskStatus,
+      middleware: [
+        (req, res, next, db) => {
+          checkForValidTaskStatusUpdate(
+            res,
+            next,
+            db,
+            parseInt(req.params.id),
+            req.body.status
+          );
+        },
+      ],
+      tags: ['Task'],
+      summary: 'Update the status of a task',
+      description:
+        'Updates the status of a task and moves any dependent tasks from "pending" to "todo"',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+        },
+      ],
+      requestBody: {
+        description: 'The status to move the task to',
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/UpdateTaskStatusBody',
+            },
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'Success',
+        },
+      },
+    },
+  },
+  '/sep/{sepID}/tasks': {
+    get: {
+      handler: taskController.getTasksBySEPID,
+      tags: ['Task'],
+      summary: 'Get Tasks by SEP ID',
+      description: 'Get a list of tasks by given SEP ID',
+      parameters: [
+        {
+          name: 'sepID',
+          in: 'path',
+          description: 'The SEP ID to get the tasks for',
+        },
+      ],
+      responses: {
+        '200': {
+          description: 'A list of tasks for a given SEP.',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: {
+                  $ref: '#/components/schemas/TaskExtended',
+                },
               },
             },
           },

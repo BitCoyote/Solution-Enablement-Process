@@ -1,8 +1,9 @@
 import express from 'express';
 import { CountOptions, FindOptions, Op, OrderItem } from 'sequelize';
+import { TaskStatus, ValidTaskStatusUpdate } from '../../../shared/types/Task';
 import Database from '../../models';
 const taskController = {
-  getTasks: async (
+  searchTasks: async (
     req: express.Request,
     res: express.Response,
     db: Database
@@ -167,6 +168,84 @@ const taskController = {
     countOpts.distinct = true;
     const count = await db.Task.count(countOpts);
     return res.send({ count, tasks });
+  },
+  updateTaskStatus: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    // checkForValidTaskStatusUpdate middleware has already validated that this is a valid task status transition
+    await db.sequelize.transaction(async (transaction) => {
+      const id = parseInt(req.params.id);
+      const newStatus = req.body.status as ValidTaskStatusUpdate;
+      const task = (await db.Task.findByPk(id, {
+        include: [
+          {
+            model: db.Task,
+            as: 'dependentTasks',
+            through: { attributes: ['status'] },
+          },
+        ],
+      })) as any;
+      // Update task status
+      await task.update({ status: newStatus }, { where: { id }, transaction });
+
+      // Check if any dependent tasks can be moved from "pending" to "todo"
+      // TaskDependency.status works like an "at-least" hierarchy. So if TaskDependency.status === 'inReview', that means that the dependency is fulfilled if the parent task is in "inReview" or "complete" status.
+      const statusHierarchy = {
+        [TaskStatus.pending]: 0,
+        [TaskStatus.todo]: 1,
+        [TaskStatus.changesRequested]: 1, // "todo" and "changesRequested" are considered to be equal
+        [TaskStatus.inReview]: 2,
+        [TaskStatus.complete]: 3,
+      };
+      for (let i = 0; i < task.dependentTasks.length; i++) {
+        const dependentTask = task.dependentTasks[i];
+        const taskDependencyStatus = dependentTask.TaskDependency
+          .status as TaskStatus;
+        // The task dependency is fulfilled and the dependent task is still in "pending" status, move the dependent task to "todo" status!
+        if (
+          statusHierarchy[task.status as TaskStatus] >=
+            statusHierarchy[taskDependencyStatus] &&
+          dependentTask.status === TaskStatus.pending
+        ) {
+          await dependentTask.update(
+            { status: TaskStatus.todo },
+            { transaction }
+          );
+        }
+      }
+    });
+
+    return res.send();
+  },
+  getTasksBySEPID: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    const sepID = parseInt(req.params.sepID);
+    const tasks = await db.Task.findAll({
+      where: { sepID },
+      include: [
+        {
+          model: db.Task,
+          as: 'parentTasks',
+          through: { attributes: [] },
+        },
+        {
+          model: db.User,
+          as: 'assignee',
+          attributes: ['id', 'email', 'displayName'],
+        },
+        {
+          model: db.User,
+          as: 'defaultReviewer',
+          attributes: ['id', 'email', 'displayName'],
+        },
+      ],
+    });
+    return res.send(tasks);
   },
 };
 

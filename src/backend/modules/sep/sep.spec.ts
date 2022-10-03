@@ -5,12 +5,12 @@ describe('sep module', () => {
   describe('GET /seps', () => {
     it('should return a list of seps', async () => {
       const response = await globals.request.get(`/seps`).expect(200);
-      expect(response.body.count).toEqual(2);
-      expect(response.body.seps.length).toEqual(2);
+      expect(response.body.count).toEqual(3);
+      expect(response.body.seps.length).toEqual(3);
     });
     it('should return a list of seps limited by the limit query param', async () => {
       const response = await globals.request.get(`/seps?limit=1`).expect(200);
-      expect(response.body.count).toEqual(2);
+      expect(response.body.count).toEqual(3);
       expect(response.body.seps.length).toEqual(1);
       expect(response.body.seps[0].id).toEqual(1);
     });
@@ -18,7 +18,7 @@ describe('sep module', () => {
       const response = await globals.request
         .get(`/seps?limit=1&offset=1`)
         .expect(200);
-      expect(response.body.count).toEqual(2);
+      expect(response.body.count).toEqual(3);
       expect(response.body.seps.length).toEqual(1);
       expect(response.body.seps[0].id).toEqual(2);
     });
@@ -26,24 +26,24 @@ describe('sep module', () => {
       const response = await globals.request
         .get(`/seps?sortBy=name`)
         .expect(200);
-      expect(response.body.count).toEqual(2);
-      expect(response.body.seps.length).toEqual(2);
-      expect(response.body.seps[0].id).toEqual(2);
+      expect(response.body.count).toEqual(3);
+      expect(response.body.seps.length).toEqual(3);
+      expect(response.body.seps[0].id).toEqual(3);
     });
     it('should return a list of seps sorted by the "sortAsc" param', async () => {
       const response = await globals.request
         .get(`/seps?sortBy=name&sortAsc=true`)
         .expect(200);
-      expect(response.body.count).toEqual(2);
-      expect(response.body.seps.length).toEqual(2);
+      expect(response.body.count).toEqual(3);
+      expect(response.body.seps.length).toEqual(3);
       expect(response.body.seps[0].id).toEqual(1);
     });
     it('should return a list of seps sorted by a nested "sortBy" param', async () => {
       const response = await globals.request
         .get(`/seps?sortBy=creator.displayName`)
         .expect(200);
-      expect(response.body.count).toEqual(2);
-      expect(response.body.seps.length).toEqual(2);
+      expect(response.body.count).toEqual(3);
+      expect(response.body.seps.length).toEqual(3);
       expect(response.body.seps[0].id).toEqual(2);
     });
     it('should return a list of seps filtered by a given filter', async () => {
