@@ -10,23 +10,24 @@ import {
 import { format, parseISO } from 'date-fns';
 import './styles.css';
 import PhaseProgress from './PhaseProgress';
-import { TaskExtended } from '../../../shared/types/Task'
+import { TaskExtended } from '../../../shared/types/Task';
 
 interface GroupTasks {
-  initiate: TaskExtended[]
-  design:TaskExtended[]
-  implement:TaskExtended[]
+  initiate: TaskExtended[];
+  design: TaskExtended[];
+  implement: TaskExtended[];
 }
 
 const SepHeader = ({ sep }: any) => {
   const theme = useTheme();
   const groupByPhase: GroupTasks = groupBy(sep.tasks, 'phase');
-  console.log("🚀 ~ file: sepHeader.tsx ~ line 17 ~ SepHeader ~ groupByPhase", groupByPhase)
 
-  const completeInitiatePhase = groupBy(groupByPhase.initiate, 'status').complete as TaskExtended[];
-  const completeDesignPhase = groupBy(groupByPhase.design, 'status').complete as TaskExtended[];
-  console.log("🚀 ~ file: sepHeader.tsx ~ line 28 ~ SepHeader ~ completeDesignPhase", completeDesignPhase)
-  const completeImplementPhase = groupBy(groupByPhase.implement, 'status').complete as TaskExtended[];
+  const completeInitiatePhase = groupBy(groupByPhase.initiate, 'status')
+    .complete as TaskExtended[];
+  const completeDesignPhase = groupBy(groupByPhase.design, 'status')
+    .complete as TaskExtended[];
+  const completeImplementPhase = groupBy(groupByPhase.implement, 'status')
+    .complete as TaskExtended[];
 
   function groupBy(objectArray: object[], property: string) {
     return objectArray.reduce((acc: any, obj: any) => {
@@ -141,22 +142,22 @@ const SepHeader = ({ sep }: any) => {
               <Grid item md={4}>
                 <PhaseProgress
                   title="Initiate Phase"
-                  phase={groupByPhase.initiate}
-                  tasks={completeInitiatePhase}
+                  sepPhase={groupByPhase.initiate}
+                  completedTasks={completeInitiatePhase}
                 />
               </Grid>
               <Grid item md={4}>
                 <PhaseProgress
                   title="Design Phase"
-                  phase={groupByPhase.design}
-                  tasks={completeDesignPhase}
+                  sepPhase={groupByPhase.design}
+                  completedTasks={completeDesignPhase}
                 />
               </Grid>
               <Grid item md={4}>
                 <PhaseProgress
                   title="Implement Phase"
-                  phase={groupByPhase.implement}
-                  tasks={completeImplementPhase}
+                  sepPhase={groupByPhase.implement}
+                  completedTasks={completeImplementPhase}
                   sepFinish={sepFinish}
                 />
               </Grid>

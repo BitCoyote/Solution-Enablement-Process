@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { ReactComponent as Circle } from '../../assets/svg/alerts.svg';
@@ -8,19 +8,26 @@ import { TaskExtended } from '../../../shared/types/Task';
 
 type progress = {
   title: string;
-  //phaseTask
-  phase: TaskExtended[];
-  //completedTask
-  tasks: TaskExtended[];
+  sepPhase: TaskExtended[];
+  completedTasks: TaskExtended[];
   sepFinish?: boolean;
 };
 
-const PhaseProgress = ({ phase, tasks, title, sepFinish }: progress) => {
-
+const PhaseProgress = ({
+  sepPhase,
+  completedTasks,
+  title,
+  sepFinish,
+}: progress) => {
   const theme = useTheme();
-  const status: boolean = tasks?.length === phase.length ? true : false;
-  const unStarted: boolean = tasks?.length === 0 || tasks?.length === undefined;
-  const progressBarValue = tasks?.length !== undefined ? (tasks?.length / phase.length) * 100 : 0
+  const status: boolean =
+    completedTasks?.length === sepPhase.length ? true : false;
+  const unStarted: boolean =
+    completedTasks?.length === 0 || completedTasks?.length === undefined;
+  const progressBarValue =
+    completedTasks?.length !== undefined
+      ? (completedTasks?.length / sepPhase.length) * 100
+      : 0;
 
   return (
     <>
@@ -48,7 +55,7 @@ const PhaseProgress = ({ phase, tasks, title, sepFinish }: progress) => {
 
       <p className="sep-progress-label">{title}</p>
       <p className="sep-progress-num">
-        {tasks?.length ?? 0}/{phase.length}{' '}
+        {completedTasks?.length ?? 0}/{sepPhase.length}{' '}
         <span className="task">Task Complete</span>
       </p>
     </>
@@ -57,20 +64,32 @@ const PhaseProgress = ({ phase, tasks, title, sepFinish }: progress) => {
 
 export default PhaseProgress;
 
-
-const ProgressIconToggle = ({ status, unStarted }: { status: boolean, unStarted: boolean }) => {
-
+const ProgressIconToggle = ({
+  status,
+  unStarted,
+}: {
+  status: boolean;
+  unStarted: boolean;
+}) => {
   if (status) {
-    return <i className="fa-solid fa-badge-check" style={{ color: 'green' }} />
+    return <i className="fa-solid fa-badge-check" style={{ color: 'green' }} />;
   } else {
-    return unStarted ? (<StartCircle aria-label="unstarted-circle" />) : (<Circle aria-label="started-circle" />)
+    return unStarted ? (
+      <StartCircle aria-label="unstarted-circle" />
+    ) : (
+      <Circle aria-label="started-circle" />
+    );
   }
+};
 
-}
-
-const FinishSepIconToggle = ({ title, sepFinish }: { title: string, sepFinish: boolean }) => {
-
-  if (title === "Implement Phase") {
+const FinishSepIconToggle = ({
+  title,
+  sepFinish,
+}: {
+  title: string;
+  sepFinish: boolean;
+}) => {
+  if (title === 'Implement Phase') {
     return sepFinish ? (
       <>
         &nbsp;
@@ -85,9 +104,8 @@ const FinishSepIconToggle = ({ title, sepFinish }: { title: string, sepFinish: b
         &nbsp;
         <StartCircle aria-label="unfinish-circle" />
       </>
-    )
+    );
   } else {
-    return <></>
+    return <></>;
   }
-
-}
+};
