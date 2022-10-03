@@ -6,6 +6,8 @@ const MuiButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: theme.palette.darkgray.main,
   display: 'block',
   textTransform: 'none',
+  padding: '12px',
+  font: 'normal normal 600 14px/19px Open Sans;',
   '&:hover': {
     backgroundColor: theme.palette.solidBlue.lightHover,
     color: theme.palette.solidBlue.main,

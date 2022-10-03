@@ -6,7 +6,7 @@ import {
   useMsal,
   useMsalAuthentication,
 } from '@azure/msal-react';
-import { useGetUserQuery } from '../../services/usersSlice/usersSlice';
+import { useGetUserQuery } from '../../services/usersSlice';
 import { InteractionType } from '@azure/msal-browser';
 import { authRequest } from '../../../frontend/app/msal';
 import pca from '../../app/msal';
