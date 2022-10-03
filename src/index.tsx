@@ -14,7 +14,7 @@ import pca from './frontend/app/msal';
 import AppContainer from './frontend/containers/AppContainer';
 
 //Route components
-import SepOverview from './frontend/features/sepOverview';
+import SepOverview from './frontend/features/SepOverview';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);

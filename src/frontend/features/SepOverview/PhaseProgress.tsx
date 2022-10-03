@@ -4,20 +4,21 @@ import { useTheme } from '@mui/material/styles';
 import { ReactComponent as Circle } from '../../assets/svg/alerts.svg';
 import { ReactComponent as StartCircle } from '../../assets/svg/alerts-grey.svg';
 import StyledLinearProgress from '../../components/LinearProgress';
+import { TaskExtended } from '../../../shared/types/Task';
 
 type progress = {
   title: string;
-  phase: object[];
-  tasks: {
-    complete: object[];
-  };
+  //phaseTask
+  phase: TaskExtended[];
+  //completedTask
+  tasks: TaskExtended[];
   sepFinish?: boolean;
 };
 
 const PhaseProgress = ({ phase, tasks, title, sepFinish }: progress) => {
-  const status = tasks?.complete?.length === phase.length ? true : false;
+  const status = tasks?.length === phase.length ? true : false;
   const unStarted =
-    tasks?.complete?.length === 0 || tasks?.complete?.length === undefined;
+    tasks?.length === 0 || tasks?.length === undefined;
   const theme = useTheme();
 
   return (
@@ -45,8 +46,8 @@ const PhaseProgress = ({ phase, tasks, title, sepFinish }: progress) => {
           complete={status}
           theme={theme}
           value={
-            tasks.complete?.length !== undefined
-              ? (tasks?.complete.length / phase.length) * 100
+            tasks?.length !== undefined
+              ? (tasks?.length / phase.length) * 100
               : 0
           }
           sx={{ m: -0.4 }}
@@ -71,7 +72,7 @@ const PhaseProgress = ({ phase, tasks, title, sepFinish }: progress) => {
 
       <p className="sep-progress-label">{title}</p>
       <p className="sep-progress-num">
-        {tasks?.complete?.length ?? 0}/{phase.length}{' '}
+        {tasks?.length ?? 0}/{phase.length}{' '}
         <span className="task">Task Complete</span>
       </p>
     </>
