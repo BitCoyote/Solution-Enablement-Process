@@ -1,6 +1,7 @@
 import taskController from './task.controller';
 import { Paths } from '../../routes';
 import { checkForValidTaskStatusUpdate } from '../../utils/authorization';
+import { allAppRoles } from '../../../shared/utils/helpers';
 
 const paths: Paths = {
   '/tasks': {
@@ -128,6 +129,46 @@ const paths: Paths = {
                 items: {
                   $ref: '#/components/schemas/TaskExtended',
                 },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  '/task/{id}': {
+    patch: {
+      handler: taskController.updateTask,
+      role: allAppRoles,
+      tags: ['Task'],
+      summary: 'Update a task of a task',
+      description:
+        'Updates the status of a task and moves any dependent tasks from "pending" to "todo"',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+        },
+      ],
+      requestBody: {
+        description: 'The attributes of the task to update',
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/UpdateTaskBody',
+            },
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'Success',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/TaskExtended',
               },
             },
           },

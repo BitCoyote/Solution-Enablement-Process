@@ -1,7 +1,54 @@
 import express from 'express';
-import { CountOptions, FindOptions, Op, OrderItem } from 'sequelize';
-import { TaskStatus, ValidTaskStatusUpdate } from '../../../shared/types/Task';
+import {
+  CountOptions,
+  FindOptions,
+  Op,
+  OrderItem,
+  Transaction,
+} from 'sequelize';
+import { SEPPhase } from '../../../shared/types/SEP';
+import {
+  TaskPhase,
+  TaskStatus,
+  UpdateTaskBody,
+  ValidTaskStatusUpdate,
+} from '../../../shared/types/Task';
 import Database from '../../models';
+import { TaskModel } from '../../models/task.model';
+
+const checkForPhaseComplete = async (
+  db: Database,
+  task: TaskModel,
+  transaction?: Transaction
+) => {
+  // Check if all other enabled tasks in this phase have been completed. If so, set "task.locked" to true so the statuses cannot be changed and update the SEP phase!
+  const incompleteTasksForThisPhase = await db.Task.findAll({
+    where: {
+      sepID: task.sepID,
+      phase: task.phase,
+      enabled: true,
+      status: { [Op.ne]: TaskStatus.complete },
+    },
+  });
+  if (incompleteTasksForThisPhase.length === 0) {
+    // All enabled tasks for this phase are complete! Let's lock the tasks and update the SEP Phase
+    await db.Task.update(
+      { locked: true },
+      { where: { sepID: task.sepID, phase: task.phase }, transaction }
+    );
+    const phases: (TaskPhase | SEPPhase)[] = [
+      TaskPhase.initiate,
+      TaskPhase.design,
+      TaskPhase.implement,
+      SEPPhase.complete,
+    ];
+    const newPhase = phases[phases.findIndex((p) => p === task.phase) + 1];
+    await db.SEP.update(
+      { phase: newPhase },
+      { where: { id: task.sepID }, transaction }
+    );
+  }
+};
 const taskController = {
   searchTasks: async (
     req: express.Request,
@@ -185,10 +232,33 @@ const taskController = {
             as: 'dependentTasks',
             through: { attributes: ['status'] },
           },
+          {
+            model: db.SEP,
+            as: 'sep',
+          },
         ],
       })) as any;
+      // Reassign task to correct user based on status
+      let newAssignee;
+      if (
+        newStatus === ValidTaskStatusUpdate.inReview &&
+        task.defaultReviewerID
+      ) {
+        // When sent to "inReview" status, assign task to the default reviewer
+        newAssignee = task.defaultReviewerID;
+      } else if (
+        newStatus === ValidTaskStatusUpdate.todo ||
+        newStatus === ValidTaskStatusUpdate.changesRequested
+      ) {
+        // When sent to "todo" or "changesRequested" status, assign task to the sep creator (requestor)
+        newAssignee = task.sep.createdBy;
+      }
+      const updateBody: any = { status: newStatus };
+      if (newAssignee) {
+        updateBody.assignedUserID = newAssignee;
+      }
       // Update task status
-      await task.update({ status: newStatus }, { where: { id }, transaction });
+      await task.update(updateBody, { transaction });
 
       // Check if any dependent tasks can be moved from "pending" to "todo"
       // TaskDependency.status works like an "at-least" hierarchy. So if TaskDependency.status === 'inReview', that means that the dependency is fulfilled if the parent task is in "inReview" or "complete" status.
@@ -215,6 +285,53 @@ const taskController = {
           );
         }
       }
+      await checkForPhaseComplete(db, task, transaction);
+    });
+
+    return res.send();
+  },
+  updateTask: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    // roles middleware has already validated that the user has the proper permissions to make this update
+    await db.sequelize.transaction(async (transaction) => {
+      const id = parseInt(req.params.id);
+      const task = (await db.Task.findByPk(id, {
+        include: [
+          {
+            model: db.Task,
+            as: 'dependentTasks',
+            through: { attributes: [] },
+          },
+        ],
+      })) as any;
+      // Update task
+      const updateBody: UpdateTaskBody = {
+        enabled: req.body.enabled ?? task.enabled,
+        review: req.body.enabled ?? task.review,
+        name: req.body.name ?? task.name,
+        description: req.body.description ?? task.description,
+        assignedUserID: req.body.assignedUserID ?? task.assignedUserID,
+        defaultReviewerID: req.body.defaultReviewerID ?? task.defaultReviewerID,
+        phase: req.body.phase ?? task.phase,
+      };
+      await task.update(updateBody, { transaction });
+
+      // Check if any dependent tasks can be moved from "pending" to "todo" if this task was disabled
+      if (!task.enabled) {
+        for (let i = 0; i < task.dependentTasks.length; i++) {
+          const dependentTask = task.dependentTasks[i];
+          if (dependentTask.status === TaskStatus.pending) {
+            await dependentTask.update(
+              { status: TaskStatus.todo },
+              { transaction }
+            );
+          }
+        }
+      }
+      await checkForPhaseComplete(db, task, transaction);
     });
 
     return res.send();

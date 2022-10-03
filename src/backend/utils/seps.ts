@@ -46,12 +46,10 @@ export const updateSEPPhaseAndTasks = async (db: Database, sepID: number) => {
         await sep.update({ phase: SEPPhase.initiate });
 
         // Enable all default tasks (based on knockout answers)
-        const dataFields = sep
-          .getDataValue('dataFields')
-          .map((df: any) => ({
-            ...df,
-            knockoutTaskFollowups: df.knockoutFollowups,
-          })) as DataFieldWithOptionsAndKnockoutFollowupTasks[];
+        const dataFields = sep.getDataValue('dataFields').map((df: any) => ({
+          ...df,
+          knockoutTaskFollowups: df.knockoutFollowups,
+        })) as DataFieldWithOptionsAndKnockoutFollowupTasks[];
         const defaultTaskIDs = getDefaultEnabledTasks(dataFields);
         await db.Task.update(
           { enabled: true },

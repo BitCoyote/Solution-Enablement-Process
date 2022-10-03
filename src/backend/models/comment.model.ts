@@ -23,6 +23,10 @@ export const CommentSchema: Sequelize.ModelAttributes = {
     type: Sequelize.DATE,
     allowNull: false,
   },
+  deletedAt: {
+    type: Sequelize.DATE,
+    allowNull: true,
+  },
   createdBy: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -66,6 +70,7 @@ export const initComment = (db: SequelizeType) => {
   CommentModel.init(CommentSchema, {
     sequelize: db,
     modelName: 'Comment',
+    paranoid: true, // This causes .destroy calls to do a soft delete with the deletedAt column
   });
   return CommentModel;
 };

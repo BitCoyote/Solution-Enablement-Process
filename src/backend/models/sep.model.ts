@@ -47,6 +47,11 @@ export const SEPSchema: Sequelize.ModelAttributes = {
     type: Sequelize.STRING(2048),
     allowNull: true,
   },
+  locked: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
 };
 
 /** Initializes this model for use */

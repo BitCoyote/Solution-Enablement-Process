@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material';
 import { useGetUserQuery } from '../../services/usersSlice/usersSlice';
 import { useGetUserPhotoQuery } from '../../services/microsoftSlice/microsoftSlice';
-import { stringAvatar, generateColorHsl } from '../avatarGenerator';
+import { stringAvatar, generateColorHsl } from '../AvatarGenerator';
 import NavButton from '../NavButton';
 import './styles.css';
 
