@@ -1,6 +1,7 @@
 module.exports = {
   transform: {
-    '^.+\\.(t|j)sx?$': 'ts-jest',
+    '^.+\\.(t|j)sx?$': 'ts-jest', 
+    "^.+\\.svg$": "jest-svg-transformer"  
   },
   moduleFileExtensions: [
     'js',
@@ -20,7 +21,7 @@ module.exports = {
     "setupFilesAfterEnv": ['./testing/test-env-setup.frontend.ts'],
     moduleNameMapper: {
       '\\.(css|less|sass|scss)$': '<rootDir>/testing/mocks/styleMock.js',
-      '\\.(gif|ttf|woff|otf|eot|png|jpg|svg)$': '<rootDir>/testing/mocks/fileMock.js'
+      '\\.(gif|ttf|woff|otf|eot|png|jpg|svg|woff2)$': '<rootDir>/testing/mocks/fileMock.ts'
     },
     globals: {
       'ts-jest': {
