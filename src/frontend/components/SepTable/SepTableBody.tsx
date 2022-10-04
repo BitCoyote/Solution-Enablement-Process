@@ -314,18 +314,36 @@ const SepTableBody = ({
                     </TableCell>
                     <TableCell
                       aria-label="SEP Id"
+                      sx={{
+                        cursor: 'pointer',
+                        "&:hover": {
+                          color: 'solidBlue.main'
+                        }
+                      }}
                       onClick={() => handleGoToSep(row.sep.id)}
                     >
                       {row.sep.id}
                     </TableCell>
                     <TableCell
                       aria-label="SEP Name"
+                      sx={{
+                        cursor: 'pointer',
+                        "&:hover": {
+                          color: 'solidBlue.main'
+                        }
+                      }}
                       onClick={() => handleGoToSep(row.sep.id)}
                     >
                       {row.sep.name}
                     </TableCell>
                     <TableCell
                       aria-label="Tasks Name"
+                      sx={{
+                        cursor: 'pointer',
+                        "&:hover": {
+                          color: 'solidBlue.main'
+                        }
+                      }}
                       onClick={() => handleGoToSep(row.sep.id)}
                     >
                       {row.name}

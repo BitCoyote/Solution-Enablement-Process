@@ -23,7 +23,7 @@ const CellItem = ({
     }}
   >
     {icon}
-    <Typography fontSize="16px" fontWeight="600" color={color} ml="4px">
+    <Typography fontSize="16px" fontWeight="600" color={color} ml="4px" textTransform="capitalize">
       {text}
     </Typography>
   </Box>
