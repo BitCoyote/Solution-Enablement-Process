@@ -832,6 +832,18 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     followupID: 14,
   },
   {
+    dataFieldTemplateID: 1, // Request Area
+    value: 'New Ventures',
+    followupType: KnockoutFollowupType.KnockoutScreen,
+    followupID: 5,
+  },
+  {
+    dataFieldTemplateID: 1, // Request Area
+    value: 'Product Renewal/Extension',
+    followupType: KnockoutFollowupType.KnockoutScreen,
+    followupID: 4,
+  },
+  {
     dataFieldTemplateID: 7, // Cloud Type
     value: 'Constellation Cloud (Azure)',
     followupType: KnockoutFollowupType.KnockoutScreen,
@@ -891,6 +903,12 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     followupType: KnockoutFollowupType.KnockoutScreen,
     followupID: 9,
   },
+  {
+    dataFieldTemplateID: 2, // Installed Software Type
+    value: 'Desktop',
+    followupType: KnockoutFollowupType.KnockoutScreen,
+    followupID: 3,
+  },
 
   /*
    ** TASK FOLLOWUPS
@@ -901,14 +919,14 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     DepartmentID.supply,
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 3, // Does the desktop software send data externally (outside the Constellation Network)?
-    value: 'false',
+    value: false,
     followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.tps]).map(
     (taskTemplate) => ({
       dataFieldTemplateID: 4, // Was the Application internally developed?
-      value: 'false',
+      value: false,
       followupType: KnockoutFollowupType.Task,
       followupID: taskTemplate.id,
     })
@@ -920,7 +938,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     DepartmentID.supply,
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 5, // Are there any changes to configuration or data schema?
-    value: 'false',
+    value: false,
     followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
@@ -931,7 +949,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     DepartmentID.supply,
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 6, // Will this interface with any systems on the Constellation Network?
-    value: 'false',
+    value: false,
     followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
@@ -942,14 +960,14 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     DepartmentID.supply,
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 6, // Will this interface with any systems on the Constellation Network?
-    value: 'false',
+    value: false,
     followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.sa]).map(
     (taskTemplate) => ({
       dataFieldTemplateID: 10, // Is this service currently in use by other approved applications with the same data classification?
-      value: 'true',
+      value: true,
       followupType: KnockoutFollowupType.Task,
       followupID: taskTemplate.id,
     })
@@ -959,14 +977,14 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     DepartmentID.supply,
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 11, // Will it require additional licensing?
-    value: 'true',
+    value: true,
     followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.sa]).map(
     (taskTemplate) => ({
       dataFieldTemplateID: 12, // Is this a Constellation Standard IaaS Configuration??
-      value: 'true',
+      value: true,
       followupType: KnockoutFollowupType.Task,
       followupID: taskTemplate.id,
     })
@@ -976,14 +994,14 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     DepartmentID.supply,
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 13, // Will it require additional licensing? (IaaS)
-    value: 'true',
+    value: true,
     followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.sa]).map(
     (taskTemplate) => ({
       dataFieldTemplateID: 14, // Does this align to the Mobile 2.0 Strategy?
-      value: 'true',
+      value: true,
       followupType: KnockoutFollowupType.Task,
       followupID: taskTemplate.id,
     })
@@ -994,7 +1012,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     DepartmentID.tps,
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 15, // Does the application send data outside of the Constellation network?
-    value: 'true',
+    value: true,
     followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
@@ -1003,7 +1021,7 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     DepartmentID.po,
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 16, // Does the integration use one of the standard integration platforms?
-    value: 'true',
+    value: true,
     followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
@@ -1012,14 +1030,14 @@ export const knockoutFollowupTemplates: KnockoutFollowupTemplate[] = [
     DepartmentID.po,
   ]).map((taskTemplate) => ({
     dataFieldTemplateID: 17, // Is the destination data classification equal or greater than the source data classification?
-    value: 'true',
+    value: true,
     followupType: KnockoutFollowupType.Task,
     followupID: taskTemplate.id,
   })),
   ...getAllTaskTemplatesByDeptIDs(taskTemplates, [DepartmentID.supply]).map(
     (taskTemplate) => ({
       dataFieldTemplateID: 18, // Will this require additional licensing? (Integration)
-      value: 'true',
+      value: true,
       followupType: KnockoutFollowupType.Task,
       followupID: taskTemplate.id,
     })

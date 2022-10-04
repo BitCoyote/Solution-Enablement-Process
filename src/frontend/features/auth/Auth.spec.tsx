@@ -9,7 +9,7 @@ import msalReact, {
 import { FrontendTestingGlobals } from '../../../../testing/types';
 import { waitFor } from '@testing-library/react';
 //import * as sep from '../../services/API/sepAPI';
-import * as usersSlice from '../../services/usersSlice/usersSlice';
+import * as usersSlice from '../../services/usersSlice';
 const globals = globalThis as unknown as FrontendTestingGlobals;
 // For testing the Auth component, we need to mock @azure/msal-react because we Microsoft does not permit headless browsers to authenticate.
 // This will be the default mock for @azure/msal-react for this file. Methods can be overwritten in individual tests use jest.spyOn

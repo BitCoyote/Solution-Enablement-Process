@@ -1,28 +1,21 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import { TaskStatus } from '../../../shared/types/Task';
-import HandWaveIcon from '../../assets/img/Hand-wave.png';
-import NoteIcon from '../../assets/img/Note.png';
-import CheckIcon from '../../assets/img/Check.png';
+import { ReactComponent as HandWaveIcon } from '../../assets/svg/Hand-wave.svg';
+import { ReactComponent as NoteIcon } from '../../assets/svg/Note.svg';
+import { ReactComponent as CheckIcon } from '../../assets/svg/Check.svg';
 
 const CellItem = ({
   icon,
   text,
   color,
 }: {
-  icon: string;
+  icon: JSX.Element;
   text: string;
   color: string;
 }) => (
   <Box display="flex" alignItems="center">
-    <Box
-      component="img"
-      width="14px"
-      minWidth="14px"
-      mr="8px"
-      src={icon}
-      alt=""
-    />
+    {icon}
     <Typography color={color}>{text}</Typography>
   </Box>
 );
@@ -34,7 +27,7 @@ const StatusCell = ({ status }: { status: TaskStatus }) => {
   ) {
     return (
       <CellItem
-        icon={HandWaveIcon}
+        icon={<HandWaveIcon />}
         color="solidOrange.main"
         text={status.toString()}
       />
@@ -43,7 +36,7 @@ const StatusCell = ({ status }: { status: TaskStatus }) => {
   if (status === TaskStatus.complete) {
     return (
       <CellItem
-        icon={CheckIcon}
+        icon={<CheckIcon />}
         color="darkGreen.main"
         text={status.toString()}
       />
@@ -52,7 +45,7 @@ const StatusCell = ({ status }: { status: TaskStatus }) => {
   if (status === TaskStatus.todo) {
     return (
       <CellItem
-        icon={NoteIcon}
+        icon={<NoteIcon />}
         color="solidBlue.main"
         text={status.toString()}
       />

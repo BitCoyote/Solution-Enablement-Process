@@ -28,7 +28,7 @@ const rows: TaskSearchResult = {
       },
       dependentTaskCount: 2,
       assignee: { id: '1' },
-      reviewer: { id: '1' },
+      defaultReviewer: { id: '1' },
     },
   ],
 };
@@ -109,7 +109,7 @@ describe('SepTableBody component', () => {
     expect(getByLabelText('SEP Name')).toHaveTextContent(row.sep.name);
     expect(getByLabelText('Tasks Name')).toHaveTextContent(row.name);
     expect(getByLabelText('Owed To')).toHaveTextContent(
-      row.reviewer.displayName ? row.reviewer.displayName : ''
+      row.defaultReviewer?.displayName ? row.defaultReviewer?.displayName : ''
     );
     expect(getByLabelText('Tasks Status')).toHaveTextContent(
       row.status.toString()

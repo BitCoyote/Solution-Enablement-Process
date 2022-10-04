@@ -79,10 +79,10 @@ const AllSEPs = () => {
         </Box>
       ) : (
         <>
-          <SepTableHeader rows={rows} resultNumber={rows.length} />
+          <SepTableHeader rows={rows} resultNumber={data?.count ?? 0} />
           <SepTableBody
             rows={rows}
-            count={rows.length}
+            count={data?.count ?? 0}
             sortBy={sortBy}
             setSortBy={setSortBy}
             sortAsc={sortAsc}
@@ -91,7 +91,7 @@ const AllSEPs = () => {
             setSelected={setSelectedRow}
           />
           <PageNavigation
-            count={rows.length}
+            count={data?.count ?? 0}
             page={page}
             setPage={setPage}
             rowsPerPage={rowsPerPage}

@@ -44,7 +44,7 @@ export interface KnockoutScreenTemplate {
 
 export interface KnockoutFollowupTemplate {
   id: number;
-  value: string;
+  value: string | number | boolean;
   dataFieldTemplateID: number;
   followupType: KnockoutFollowupType;
   followupID: number;

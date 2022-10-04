@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
-import FileIcon from '../../assets/img/File.png';
+import { ReactComponent as FileIcon } from '../../assets/svg/File.svg';
 import { TaskSearchRow, TaskStatus } from '../../../shared/types/Task';
 
 interface HeadersInterface {
@@ -73,7 +73,9 @@ const SepTableHeader = ({
           sepName: row.sep.name,
           tasksName: row.name,
           assigned: '',
-          owedTo: row.reviewer?.displayName ? row.reviewer?.displayName : '',
+          owedTo: row.defaultReviewer?.displayName
+            ? row.defaultReviewer?.displayName
+            : '',
           status: row.status,
           dependentTaskCount: row.dependentTaskCount,
           submitted: '',
@@ -107,12 +109,13 @@ const SepTableHeader = ({
             style={{ textDecoration: 'none' }}
           >
             <Button variant="text" sx={{ py: '4px', textTransform: 'inherit' }}>
-              <Box component="img" src={FileIcon} mr="4px" />
+              <FileIcon />
               <Typography
                 component="span"
                 fontSize="12px"
                 fontWeight="600"
                 whiteSpace="nowrap"
+                ml="4px"
               >
                 Export to CSV
               </Typography>

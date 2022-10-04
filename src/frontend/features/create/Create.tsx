@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField } from '@mui/material';
-import { useCreateSepMutation } from '../../services/API/sepAPI';
+import { useCreateSepMutation } from '../../services/sepSlice';
 
 const Create = () => {
   const [name, setName] = useState<string>('');

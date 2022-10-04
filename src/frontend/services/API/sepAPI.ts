@@ -6,14 +6,6 @@ import type {
   FetchArgs,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
-import {
-  CreateSEPBody,
-  GetSEPResponse,
-  GetSEPExtendedResponse,
-  SEPSearchResult,
-  SearchParams,
-  SEP,
-} from '../../../shared/types/SEP';
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_API_BASE_URL,
@@ -52,37 +44,11 @@ if (process.env.NODE_ENV === 'test') {
   keepUnusedDataFor = 0;
 }
 // Define a service using a base URL and expected endpoints
-
 export const sepAPI = createApi({
   reducerPath: 'sepAPI',
   baseQuery: dynamicBaseQuery,
   keepUnusedDataFor,
   endpoints: (builder) => ({
-    getSeps: builder.query<SEPSearchResult, SearchParams>({
-      query: (arg) => {
-        const { limit, offset, sortBy, sortAsc, status, search } = arg;
-        return {
-          url: 'seps',
-          params: { limit, offset, sortBy, sortAsc, status, search },
-        };
-      },
-    }),
-    getSepById: builder.query<GetSEPResponse, string>({
-      query: (id) => `sep/${id}`,
-    }),
-    getExtendedSepById: builder.query<GetSEPExtendedResponse, string>({
-      query: (id) => `sep/${id}/extended`,
-    }),
-    createSep: builder.mutation<SEP, Partial<CreateSEPBody>>({
-      query: ({ ...body }) => {
-        return {
-          url: `sep`,
-          method: 'POST',
-          body,
-        };
-      },
-    }),
-
     // getUser: builder.query<User, string>({
     //   query: (id) => `users/${id}`,
     // }),
@@ -100,10 +66,3 @@ export const sepAPI = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 //export const { useGetUserQuery } = sepAPI;
-
-export const {
-  useGetSepsQuery,
-  useGetSepByIdQuery,
-  useGetExtendedSepByIdQuery,
-  useCreateSepMutation,
-} = sepAPI;

@@ -1,41 +1,41 @@
 import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import React from 'react';
-import HandWaveIcon from '../../assets/img/Hand-wave.png';
-import NoteIcon from '../../assets/img/Note.png';
-import CheckIcon from '../../assets/img/Check.png';
+import { ReactComponent as HandWaveIcon } from '../../assets/svg/Hand-wave.svg';
+import { ReactComponent as NoteIcon } from '../../assets/svg/Note.svg';
+import { ReactComponent as CheckIcon } from '../../assets/svg/Check.svg';
 import { TaskStatus } from '../../../shared/types/Task';
 
 interface StatusInterface {
   id: TaskStatus;
   label: string;
-  icon: string;
+  icon: JSX.Element | null;
 }
 
 const statusLists: StatusInterface[] = [
   {
     id: TaskStatus.pending,
     label: 'Pending',
-    icon: '',
+    icon: null,
   },
   {
     id: TaskStatus.todo,
     label: 'To-Do',
-    icon: NoteIcon,
+    icon: <NoteIcon />,
   },
   {
     id: TaskStatus.inReview,
     label: 'Needs Review',
-    icon: HandWaveIcon,
+    icon: <HandWaveIcon />,
   },
   {
     id: TaskStatus.changesRequested,
     label: 'Changes Requested',
-    icon: HandWaveIcon,
+    icon: <HandWaveIcon />,
   },
   {
     id: TaskStatus.complete,
     label: 'Complete',
-    icon: CheckIcon,
+    icon: <CheckIcon />,
   },
 ];
 
@@ -144,7 +144,7 @@ const TasksFilterBar = ({
           onChange={(event) => handleChange(event, list.id)}
           label={
             <Box display="flex" alignItems="center" gap="4px">
-              {list.icon && <Box component="img" src={list.icon} />}
+              {list.icon}
               <Typography fontSize="12px" color="darkgray.main">
                 {list.label}
               </Typography>

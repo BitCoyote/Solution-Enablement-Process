@@ -108,7 +108,18 @@ export const initDataField = (db: SequelizeType) => {
       beforeUpdate: castValueToString,
       beforeCreate: castValueToString,
       beforeUpsert: castValueToString,
-      afterFind: castToOriginalType,
+      afterFind: async (models) => {
+        if (Array.isArray(models)) {
+          for (let i = 0; i < models.length; i++) {
+            const model = models[i];
+            castToOriginalType(model as DataFieldModel, model.type);
+          }
+        } else if (models) {
+          // The afterFind hook can sometimes give a single model instead of an array of models
+          const model = models as DataFieldModel;
+          castToOriginalType(model, model.type);
+        }
+      },
     },
   });
   return DataFieldModel;

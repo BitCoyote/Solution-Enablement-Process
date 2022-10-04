@@ -12,9 +12,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
-import { useGetUserQuery } from '../../services/usersSlice/usersSlice';
-// import { useGetUserPhotoQuery } from '../../services/microsoftSlice/microsoftSlice';
-import { stringAvatar, generateColorHsl } from './AvatarGenerator';
+import { useGetUserQuery } from '../../services/usersSlice';
+import { useGetUserPhotoQuery } from '../../services/microsoftSlice';
+import { stringAvatar, generateColorHsl } from '../AvatarGenerator';
+
 import NavButton from '../NavButton';
 
 import './styles.css';
@@ -37,15 +38,14 @@ const pages = [
 const settings = ['Logout'];
 
 const ResponsiveAppBar = () => {
+  const {
+    data: userPhoto,
+    isLoading,
+    error: photoErr,
+  } = useGetUserPhotoQuery();
   const theme = useTheme();
 
   const navigate: NavigateFunction = useNavigate();
-  // const {
-  //   data: photo,
-  //   isSuccess: photoIsSuccess,
-  //   isError: photoIsError,
-  //   error: photoErr,
-  // } = useGetUserPhotoQuery();
   const { data: loggedInUser } = useGetUserQuery('me');
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -57,9 +57,6 @@ const ResponsiveAppBar = () => {
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -88,7 +85,12 @@ const ResponsiveAppBar = () => {
     >
       <Container maxWidth={false}>
         <Toolbar disableGutters>
-          <img src={Logo} height="50px" alt="" style={{ marginTop: '5px' }} />
+          <img
+            src={Logo}
+            height="50px"
+            alt="Constellation"
+            style={{ marginTop: '5px' }}
+          />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -142,12 +144,20 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  sx={{ bgcolor: generateColorHsl(userName) }}
-                  {...stringAvatar(userName)}
-                />
+            <Tooltip title={userName}>
+              <IconButton sx={{ p: 0 }}>
+                {isLoading ||
+                ((typeof photoErr === 'undefined' ||
+                  typeof photoErr === 'object') &&
+                  typeof userPhoto === 'undefined') ? (
+                  <Avatar
+                    sx={{ bgcolor: generateColorHsl(userName) }}
+                    {...stringAvatar(userName)}
+                    alt="Profile picture"
+                  />
+                ) : (
+                  <Avatar alt="Profile picture" src={userPhoto} />
+                )}
               </IconButton>
             </Tooltip>
             <Menu

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box, Button, Container } from '@mui/material';
-import { Outlet } from 'react-router';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { Outlet, useNavigate } from 'react-router';
 
-const SepContainer = () => {
+const Login = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Box
@@ -16,7 +17,7 @@ const SepContainer = () => {
           minWidth: '100%vw',
           bgcolor: '#FBFCFC',
           flexDirection: 'column',
-          p: 2.7,
+          p: 3,
         }}
       >
         <Box
@@ -24,21 +25,19 @@ const SepContainer = () => {
             alignItems: 'flex-start',
           }}
         >
-          <Button variant="text">
-            {' '}
-            <ChevronLeftIcon /> Back{' '}
+          <Button variant="text" onClick={() => navigate(-1)}>
+            <i className="fa-solid fa-angle-left"></i> &nbsp; Back
           </Button>
           <Container
             maxWidth="lg"
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
               bgcolor: '#FFFFFF',
               minHeight: '85vh',
               minWidth: '90vw',
               borderRadius: '10px',
               boxShadow: '0px 1px 5px #0000001A;',
-              m: 2,
+              padding: '0px !important',
+              marginTop: '25px',
             }}
           >
             <Outlet />
@@ -49,4 +48,4 @@ const SepContainer = () => {
   );
 };
 
-export default SepContainer;
+export default Login;

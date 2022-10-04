@@ -27,7 +27,7 @@ const rows: TaskSearchResult = {
       },
       dependentTaskCount: 2,
       assignee: { id: '1' },
-      reviewer: { id: '1' },
+      defaultReviewer: { id: '1' },
     },
   ],
 };

@@ -37,9 +37,9 @@ const generateColorHsl = (userName: string) => {
 function stringAvatar(name: string): object {
   if (name.length > 1) {
     return {
-      children: `${name.split(' ')[0][0].toUpperCase()}${name
+      children: `${name.split(' ')[0][0]?.toUpperCase()}${name
         .split(' ')[1][0]
-        .toUpperCase()}`,
+        ?.toUpperCase()}`,
     };
   } else {
     return {

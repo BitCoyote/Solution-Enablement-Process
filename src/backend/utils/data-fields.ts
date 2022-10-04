@@ -1,27 +1,33 @@
 import { DataFieldType } from '../../shared/types/DataField';
 import { DataFieldModel } from '../models/data-field.model';
+import { KnockoutFollowupModel } from '../models/knockout-followup.model';
 
 /**  Typecast value to string for storage */
-export const castValueToString = (dataField: DataFieldModel) => {
-  if (dataField.value !== undefined && dataField.value !== null) {
-    dataField.value = '' + dataField.value + '';
+export const castValueToString = (
+  model: DataFieldModel | KnockoutFollowupModel
+) => {
+  if (model.value !== undefined && model.value !== null) {
+    model.value = String(model.value);
   }
 };
 
 /**  Typecast value back to original type for application use */
-export const castToOriginalType = (dataField: DataFieldModel) => {
+export const castToOriginalType = (
+  model: DataFieldModel | KnockoutFollowupModel,
+  type: DataFieldType
+) => {
   const booleanTypes: DataFieldType[] = [
     DataFieldType.yesNo,
     DataFieldType.checkbox,
     DataFieldType.toggle,
   ];
-  if (dataField.value !== undefined && dataField.value !== null) {
-    if (dataField.type === DataFieldType.number) {
+  if (model.value !== undefined && model.value !== null) {
+    if (type === DataFieldType.number) {
       // Cast as number
-      dataField.value = parseFloat(dataField.value as string);
-    } else if (booleanTypes.includes(dataField.type)) {
+      model.value = parseFloat(model.value as string);
+    } else if (booleanTypes.includes(type)) {
       // Cast as boolean
-      dataField.value = dataField.value === 'true';
+      model.value = model.value === 'true';
     }
   }
 };

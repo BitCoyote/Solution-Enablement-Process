@@ -277,12 +277,12 @@ const SepTableBody = ({
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.name)}
+                    onClick={(event: any) => handleClick(event, row.name)}
                     aria-label={`SEPs Row ${row.name}`}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.name}
+                    key={row.id}
                     selected={isItemSelected}
                   >
                     <TableCell padding="checkbox">
@@ -293,7 +293,7 @@ const SepTableBody = ({
                     <TableCell aria-label="Tasks Name">{row.name}</TableCell>
                     <TableCell aria-label="Assigned"></TableCell>
                     <TableCell aria-label="Owed To">
-                      {row.reviewer?.displayName}
+                      {row.defaultReviewer?.displayName}
                     </TableCell>
                     <TableCell aria-label="Tasks Status">
                       <StatusCell status={row.status} />
