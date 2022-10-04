@@ -163,7 +163,7 @@ function NoSEP() {
           ></i>
         )}
         <Typography color="solidGrey.main" fontSize="18px" ml="8px">
-          Don’t have any SEPs
+          You don’t have any SEPs
         </Typography>
       </Box>
       <Typography
@@ -181,7 +181,7 @@ function NoSEP() {
         >
           Create an SEP
         </Typography>{' '}
-        from the navigation options to begin creating and SEP
+        from the navigation options to begin creating an SEP
       </Typography>
     </Box>
   );

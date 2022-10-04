@@ -37,7 +37,10 @@ const StatusCell = ({ status }: { status: TaskStatus }) => {
     return (
       <CellItem
         icon={
-          <i className="fa-solid fa-hand-wave" style={{ color: '#F47B27' }}></i>
+          <i
+            className="fa-regular fa-hand-wave"
+            style={{ color: '#F47B27' }}
+          ></i>
         }
         color="#F47B27"
         text={status.toString()}

@@ -25,13 +25,13 @@ const statusLists: StatusInterface[] = [
   {
     id: TaskStatus.inReview,
     label: 'Needs Review',
-    icon: 'fa-solid fa-hand-wave',
+    icon: 'fa-regular fa-hand-wave',
     iconColor: '#F47B27',
   },
   {
     id: TaskStatus.changesRequested,
     label: 'Changes Requested',
-    icon: 'fa-solid fa-hand-wave',
+    icon: 'fa-regular fa-hand-wave',
     iconColor: '#F47B27',
   },
   {
