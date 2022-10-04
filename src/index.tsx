@@ -16,6 +16,7 @@ import AppContainer from './frontend/containers/AppContainer';
 //Route components
 import AllSEPs from './frontend/features/allSEPs/AllSEPs';
 import MySEPs from './frontend/features/mySEPs/MySEPs';
+import SepOverview from './frontend/features/SepOverview';
 
 const container = document.getElementById('root')!;
 
@@ -32,6 +33,9 @@ root.render(
               <Route path="/" element={<AppContainer />}>
                 <Route index element={<MySEPs />} />
                 <Route path="/all-seps" element={<AllSEPs />} />
+                <Route path="sep">
+                  <Route path=":sepId" element={<SepOverview />} />
+                </Route>
               </Route>
             </Route>
           </Routes>
