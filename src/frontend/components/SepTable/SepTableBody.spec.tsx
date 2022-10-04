@@ -3,6 +3,7 @@ import { renderWithProviders } from '../../../../testing/test-utils';
 import '@testing-library/jest-dom';
 import { fireEvent } from '@testing-library/react';
 import SepTableBody, { HeadCell } from './SepTableBody';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   TaskSearchResult,
   TaskStatus,
@@ -92,16 +93,18 @@ describe('SepTableBody component', () => {
     };
 
     const { getByLabelText } = renderWithProviders(
-      <SepTableBody
-        rows={rows.tasks}
-        count={rows.tasks.length}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        sortAsc={sortAsc}
-        setSortAsc={setSortAsc}
-        selected={selectedRow}
-        setSelected={setSelectedRow}
-      />
+      <Router>
+        <SepTableBody
+          rows={rows.tasks}
+          count={rows.tasks.length}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          sortAsc={sortAsc}
+          setSortAsc={setSortAsc}
+          selected={selectedRow}
+          setSelected={setSelectedRow}
+        />
+      </Router>
     );
 
     const row = rows.tasks[0];
@@ -134,16 +137,18 @@ describe('SepTableBody component', () => {
     };
 
     const { getByLabelText } = renderWithProviders(
-      <SepTableBody
-        rows={rows.tasks}
-        count={rows.tasks.length}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        sortAsc={sortAsc}
-        setSortAsc={setSortAsc}
-        selected={selectedRow}
-        setSelected={setSelectedRow}
-      />
+      <Router>
+        <SepTableBody
+          rows={rows.tasks}
+          count={rows.tasks.length}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          sortAsc={sortAsc}
+          setSortAsc={setSortAsc}
+          selected={selectedRow}
+          setSelected={setSelectedRow}
+        />
+      </Router>
     );
 
     rows.tasks.forEach(async (row) => {
@@ -168,16 +173,18 @@ describe('SepTableBody component', () => {
     };
 
     const { getByLabelText } = renderWithProviders(
-      <SepTableBody
-        rows={rows.tasks}
-        count={rows.tasks.length}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        sortAsc={sortAsc}
-        setSortAsc={setSortAsc}
-        selected={selectedRow}
-        setSelected={setSelectedRow}
-      />
+      <Router>
+        <SepTableBody
+          rows={rows.tasks}
+          count={rows.tasks.length}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          sortAsc={sortAsc}
+          setSortAsc={setSortAsc}
+          selected={selectedRow}
+          setSelected={setSelectedRow}
+        />
+      </Router>
     );
 
     const allCheckbox = getByLabelText(
@@ -202,16 +209,18 @@ describe('SepTableBody component', () => {
     };
 
     const { getByLabelText } = renderWithProviders(
-      <SepTableBody
-        rows={rows.tasks}
-        count={rows.tasks.length}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        sortAsc={sortAsc}
-        setSortAsc={setSortAsc}
-        selected={selectedRow}
-        setSelected={setSelectedRow}
-      />
+      <Router>
+        <SepTableBody
+          rows={rows.tasks}
+          count={rows.tasks.length}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          sortAsc={sortAsc}
+          setSortAsc={setSortAsc}
+          selected={selectedRow}
+          setSelected={setSelectedRow}
+        />
+      </Router>
     );
 
     const NameLabelText = getByLabelText(`Table Sort Label name`);

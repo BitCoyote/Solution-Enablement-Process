@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import StatusCell from './StatusCell';
 import { TaskSearchRow } from '../../../shared/types/Task';
-import { useNavigate, NavigateFunction } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -23,6 +23,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
+  },
+}));
+
+const StyledLink = styled(Link)(({ theme }) => ({
+  textDecoration: 'none',
+  color: theme.palette.darkgray.main,
+  '&:hover': {
+    color: theme.palette.solidBlue.main,
   },
 }));
 
@@ -207,8 +215,6 @@ const SepTableBody = ({
   selected: string[];
   setSelected: (value: string[]) => void;
 }) => {
-  const navigate: NavigateFunction = useNavigate();
-
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: string
@@ -245,10 +251,6 @@ const SepTableBody = ({
     }
 
     setSelected(newSelected);
-  };
-
-  const handleGoToSep = (id: number) => {
-    navigate(`/sep/${id}`);
   };
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
@@ -312,41 +314,20 @@ const SepTableBody = ({
                     <TableCell padding="checkbox">
                       <Checkbox color="primary" checked={isItemSelected} />
                     </TableCell>
-                    <TableCell
-                      aria-label="SEP Id"
-                      sx={{
-                        cursor: 'pointer',
-                        "&:hover": {
-                          color: 'solidBlue.main'
-                        }
-                      }}
-                      onClick={() => handleGoToSep(row.sep.id)}
-                    >
-                      {row.sep.id}
+                    <TableCell aria-label="SEP Id">
+                      <StyledLink to={`sep/${row.sep.id}`}>
+                        {row.sep.id}
+                      </StyledLink>
                     </TableCell>
-                    <TableCell
-                      aria-label="SEP Name"
-                      sx={{
-                        cursor: 'pointer',
-                        "&:hover": {
-                          color: 'solidBlue.main'
-                        }
-                      }}
-                      onClick={() => handleGoToSep(row.sep.id)}
-                    >
-                      {row.sep.name}
+                    <TableCell aria-label="SEP Name">
+                      <StyledLink to={`sep/${row.sep.id}`}>
+                        {row.sep.name}
+                      </StyledLink>
                     </TableCell>
-                    <TableCell
-                      aria-label="Tasks Name"
-                      sx={{
-                        cursor: 'pointer',
-                        "&:hover": {
-                          color: 'solidBlue.main'
-                        }
-                      }}
-                      onClick={() => handleGoToSep(row.sep.id)}
-                    >
-                      {row.name}
+                    <TableCell aria-label="Tasks Name">
+                      <StyledLink to={`sep/${row.sep.id}`}>
+                        {row.name}
+                      </StyledLink>
                     </TableCell>
                     <TableCell aria-label="Assigned"></TableCell>
                     <TableCell aria-label="Owed To">

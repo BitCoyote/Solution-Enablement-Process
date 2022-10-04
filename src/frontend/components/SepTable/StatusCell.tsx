@@ -18,12 +18,19 @@ const CellItem = ({
     px="16px"
     py="1px"
     sx={{
+      cursor: 'pointer',
       backgroundColor: alpha(color, 0.05),
       borderRadius: '100px',
     }}
   >
     {icon}
-    <Typography fontSize="16px" fontWeight="600" color={color} ml="4px" textTransform="capitalize">
+    <Typography
+      fontSize="16px"
+      fontWeight="600"
+      color={color}
+      ml="4px"
+      textTransform="capitalize"
+    >
       {text}
     </Typography>
   </Box>
