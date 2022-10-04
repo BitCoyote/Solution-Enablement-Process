@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import StatusCell from './StatusCell';
 import { TaskSearchRow } from '../../../shared/types/Task';
+import { useNavigate, NavigateFunction } from 'react-router-dom';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -206,6 +207,8 @@ const SepTableBody = ({
   selected: string[];
   setSelected: (value: string[]) => void;
 }) => {
+  const navigate: NavigateFunction = useNavigate();
+
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: string
@@ -242,6 +245,10 @@ const SepTableBody = ({
     }
 
     setSelected(newSelected);
+  };
+
+  const handleGoToSep = (id: number) => {
+    navigate(`/sep/${id}`);
   };
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
@@ -305,9 +312,24 @@ const SepTableBody = ({
                     <TableCell padding="checkbox">
                       <Checkbox color="primary" checked={isItemSelected} />
                     </TableCell>
-                    <TableCell aria-label="SEP Id">{row.sep.id}</TableCell>
-                    <TableCell aria-label="SEP Name">{row.sep.name}</TableCell>
-                    <TableCell aria-label="Tasks Name">{row.name}</TableCell>
+                    <TableCell
+                      aria-label="SEP Id"
+                      onClick={() => handleGoToSep(row.sep.id)}
+                    >
+                      {row.sep.id}
+                    </TableCell>
+                    <TableCell
+                      aria-label="SEP Name"
+                      onClick={() => handleGoToSep(row.sep.id)}
+                    >
+                      {row.sep.name}
+                    </TableCell>
+                    <TableCell
+                      aria-label="Tasks Name"
+                      onClick={() => handleGoToSep(row.sep.id)}
+                    >
+                      {row.name}
+                    </TableCell>
                     <TableCell aria-label="Assigned"></TableCell>
                     <TableCell aria-label="Owed To">
                       {row.defaultReviewer?.displayName}
