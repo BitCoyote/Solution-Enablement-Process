@@ -5,7 +5,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-const rowsPerPageOptions: number[] = [5, 10, 25];
+const rowsPerPageOptions: number[] = [5, 10, 25, 50];
 
 const PageNavigation = ({
   count,

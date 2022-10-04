@@ -24,7 +24,9 @@ const StatusCell = ({ status }: { status: TaskStatus }) => {
   ) {
     return (
       <CellItem
-        icon={<i className="fa-solid fa-hand-wave" style={{ color: "#F47B27" }}></i>}
+        icon={
+          <i className="fa-solid fa-hand-wave" style={{ color: '#F47B27' }}></i>
+        }
         color="solidOrange.main"
         text={status.toString()}
       />
@@ -33,7 +35,9 @@ const StatusCell = ({ status }: { status: TaskStatus }) => {
   if (status === TaskStatus.complete) {
     return (
       <CellItem
-        icon={<i className="fa-solid fa-check" style={{ color: "#6BA543" }}></i>}
+        icon={
+          <i className="fa-solid fa-check" style={{ color: '#6BA543' }}></i>
+        }
         color="darkGreen.main"
         text={status.toString()}
       />
@@ -42,7 +46,12 @@ const StatusCell = ({ status }: { status: TaskStatus }) => {
   if (status === TaskStatus.todo) {
     return (
       <CellItem
-        icon={<i className="fa-solid fa-note-sticky" style={{ color: "#2372B9" }}></i>}
+        icon={
+          <i
+            className="fa-solid fa-note-sticky"
+            style={{ color: '#2372B9' }}
+          ></i>
+        }
         color="solidBlue.main"
         text={status.toString()}
       />

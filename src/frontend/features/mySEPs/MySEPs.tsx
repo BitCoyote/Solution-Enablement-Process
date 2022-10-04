@@ -5,6 +5,7 @@ import SepFilterBar from '../../components/SepFilterBar/SepFilterBar';
 import PageNavigation from '../../components/PageNavigation/PageNavigation';
 import SepTableHeader from '../../components/SepTable/SepTableHeader';
 import SepTableBody from '../../components/SepTable/SepTableBody';
+import { useGetUserQuery } from '../../services/usersSlice';
 import { useGetTasksQuery } from '../../services/tasksSlice/tasksSlice';
 import { TaskStatus } from '../../../shared/types/Task';
 
@@ -18,6 +19,12 @@ const AllSEPs = () => {
   const [rowsPerPage, setRowsPerPage] = useState<number>(25);
   const [selectedRow, setSelectedRow] = useState<string[]>([]);
 
+  const {
+    data: loggedInUser,
+    error: getUserError,
+    isLoading: getUserIsLoading,
+  } = useGetUserQuery('me');
+
   const { data, isLoading, isError } = useGetTasksQuery({
     limit: rowsPerPage,
     offset: page * rowsPerPage,
@@ -26,6 +33,7 @@ const AllSEPs = () => {
     status: statusChecked
       .map((phase: TaskStatus) => phase.toString())
       .join(','),
+    assigneeId: loggedInUser?.id,
     search: searchFilter,
   });
 
@@ -57,7 +65,7 @@ const AllSEPs = () => {
         statusChecked={statusChecked}
         setStatusChecked={setStatusChecked}
       />
-      {isLoading ? (
+      {isLoading || getUserIsLoading ? (
         <Box
           display="flex"
           justifyContent="center"
@@ -67,7 +75,7 @@ const AllSEPs = () => {
         >
           <CircularProgress />
         </Box>
-      ) : isError ? (
+      ) : isError || getUserError ? (
         <Box
           display="flex"
           justifyContent="center"

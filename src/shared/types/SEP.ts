@@ -60,5 +60,6 @@ export interface SearchParams {
   sortBy?: string;
   sortAsc?: boolean;
   status?: string;
+  assigneeId?: string;
   search?: string;
 }

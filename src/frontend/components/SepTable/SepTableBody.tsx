@@ -12,8 +12,6 @@ import {
   Typography,
 } from '@mui/material';
 import StatusCell from './StatusCell';
-import SepDocIcon from '../../assets/img/sepdoc.png';
-import PlusIcon from '../../assets/img/plus.png';
 import { TaskSearchRow } from '../../../shared/types/Task';
 
 export interface HeadCell {
@@ -134,18 +132,26 @@ function NoSEP() {
       alignItems="center"
       py="36px"
     >
-      <Box display="flex" alignItems="center" mb="20px">
-        <Box
-          component="img"
-          src={isHover ? PlusIcon : SepDocIcon}
-          alt=""
-          width={24}
-          mr="8px"
-          sx={{ cursor: 'pointer' }}
-          onMouseOver={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}
-        />
-        <Typography color="solidGrey.main" fontSize="18px">
+      <Box
+        display="flex"
+        alignItems="center"
+        mb="20px"
+        sx={{ cursor: 'pointer' }}
+        onMouseOver={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+      >
+        {isHover ? (
+          <i
+            className="fa-solid fa-plus"
+            style={{ color: '#2372B9', width: '16px', fontSize: '18px' }}
+          ></i>
+        ) : (
+          <i
+            className="fa-solid fa-file-magnifying-glass"
+            style={{ color: '#7e8083', width: '16px', fontSize: '18px' }}
+          ></i>
+        )}
+        <Typography color="solidGrey.main" fontSize="18px" ml="8px">
           Don’t have any SEPs
         </Typography>
       </Box>

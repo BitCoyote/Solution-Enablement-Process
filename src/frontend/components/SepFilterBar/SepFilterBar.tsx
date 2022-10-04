@@ -17,22 +17,28 @@ const statusLists: StatusInterface[] = [
   {
     id: TaskStatus.todo,
     label: 'To-Do',
-    icon: <i className="fa-solid fa-note-sticky" style={{ color: "#2372B9" }}></i>,
+    icon: (
+      <i className="fa-solid fa-note-sticky" style={{ color: '#2372B9' }}></i>
+    ),
   },
   {
     id: TaskStatus.inReview,
     label: 'Needs Review',
-    icon: <i className="fa-solid fa-hand-wave" style={{ color: "#F47B27" }}></i>,
+    icon: (
+      <i className="fa-solid fa-hand-wave" style={{ color: '#F47B27' }}></i>
+    ),
   },
   {
     id: TaskStatus.changesRequested,
     label: 'Changes Requested',
-    icon: <i className="fa-solid fa-hand-wave" style={{ color: "#F47B27" }}></i>,
+    icon: (
+      <i className="fa-solid fa-hand-wave" style={{ color: '#F47B27' }}></i>
+    ),
   },
   {
     id: TaskStatus.complete,
     label: 'Complete',
-    icon: <i className="fa-solid fa-check" style={{ color: "#6BA543" }}></i>,
+    icon: <i className="fa-solid fa-check" style={{ color: '#6BA543' }}></i>,
   },
 ];
 

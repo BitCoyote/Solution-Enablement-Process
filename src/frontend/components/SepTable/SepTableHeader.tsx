@@ -108,7 +108,7 @@ const SepTableHeader = ({
             style={{ textDecoration: 'none' }}
           >
             <Button variant="text" sx={{ py: '4px', textTransform: 'inherit' }}>
-              <i className="fa-solid fa-file" style={{ color: "#2372B9" }}></i>
+              <i className="fa-solid fa-file" style={{ color: '#2372B9' }}></i>
               <Typography
                 component="span"
                 fontSize="12px"
