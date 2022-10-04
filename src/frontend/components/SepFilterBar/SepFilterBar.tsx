@@ -1,14 +1,11 @@
 import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import React from 'react';
-import { ReactComponent as HandWaveIcon } from '../../assets/svg/Hand-wave.svg';
-import { ReactComponent as NoteIcon } from '../../assets/svg/Note.svg';
-import { ReactComponent as CheckIcon } from '../../assets/svg/Check.svg';
 import { TaskStatus } from '../../../shared/types/Task';
 
 interface StatusInterface {
   id: TaskStatus;
   label: string;
-  icon: JSX.Element | null;
+  icon: React.ReactNode | null;
 }
 
 const statusLists: StatusInterface[] = [
@@ -20,22 +17,22 @@ const statusLists: StatusInterface[] = [
   {
     id: TaskStatus.todo,
     label: 'To-Do',
-    icon: <NoteIcon />,
+    icon: <i className="fa-solid fa-note-sticky" style={{ color: "#2372B9" }}></i>,
   },
   {
     id: TaskStatus.inReview,
     label: 'Needs Review',
-    icon: <HandWaveIcon />,
+    icon: <i className="fa-solid fa-hand-wave" style={{ color: "#F47B27" }}></i>,
   },
   {
     id: TaskStatus.changesRequested,
     label: 'Changes Requested',
-    icon: <HandWaveIcon />,
+    icon: <i className="fa-solid fa-hand-wave" style={{ color: "#F47B27" }}></i>,
   },
   {
     id: TaskStatus.complete,
     label: 'Complete',
-    icon: <CheckIcon />,
+    icon: <i className="fa-solid fa-check" style={{ color: "#6BA543" }}></i>,
   },
 ];
 

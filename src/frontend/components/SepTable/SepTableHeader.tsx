@@ -1,7 +1,6 @@
 import { Box, Button, Divider, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
-import { ReactComponent as FileIcon } from '../../assets/svg/File.svg';
 import { TaskSearchRow, TaskStatus } from '../../../shared/types/Task';
 
 interface HeadersInterface {
@@ -109,7 +108,7 @@ const SepTableHeader = ({
             style={{ textDecoration: 'none' }}
           >
             <Button variant="text" sx={{ py: '4px', textTransform: 'inherit' }}>
-              <FileIcon />
+              <i className="fa-solid fa-file" style={{ color: "#2372B9" }}></i>
               <Typography
                 component="span"
                 fontSize="12px"
