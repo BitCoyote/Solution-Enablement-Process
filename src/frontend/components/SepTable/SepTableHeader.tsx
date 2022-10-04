@@ -1,6 +1,7 @@
 import { Box, Button, Divider, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
+import { useGetTasksQuery } from '../../services/tasksSlice/tasksSlice';
 import { TaskSearchRow, TaskStatus } from '../../../shared/types/Task';
 
 interface HeadersInterface {
@@ -55,18 +56,22 @@ const headers: HeadersInterface[] = [
 ];
 
 const SepTableHeader = ({
-  rows,
+  count,
   resultNumber,
 }: {
-  rows: TaskSearchRow[];
+  count: number;
   resultNumber: number;
 }) => {
   const [csvData, setCsvData] = useState<DataInterface[]>([]);
 
+  const { data } = useGetTasksQuery({
+    limit: count,
+  });
+
   useEffect(() => {
-    if (rows.length) {
+    if (data) {
       const newData: DataInterface[] = [];
-      rows.forEach((row: TaskSearchRow) => {
+      data.tasks.forEach((row: TaskSearchRow) => {
         newData.push({
           sepId: row.sep.id,
           sepName: row.sep.name,
@@ -82,7 +87,7 @@ const SepTableHeader = ({
       });
       setCsvData(newData);
     }
-  }, [rows]);
+  }, [data]);
   return (
     <Box>
       <Divider />

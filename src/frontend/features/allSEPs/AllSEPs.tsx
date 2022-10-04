@@ -39,6 +39,8 @@ const AllSEPs = () => {
     const delayDebounceFn = setTimeout(() => {
       if (searchText.length >= 3) {
         setSearchFilter(searchText);
+      } else {
+        setSearchFilter('');
       }
     }, 500);
     return () => clearTimeout(delayDebounceFn);
@@ -79,7 +81,10 @@ const AllSEPs = () => {
         </Box>
       ) : (
         <>
-          <SepTableHeader rows={rows} resultNumber={data?.count ?? 0} />
+          <SepTableHeader
+            count={data?.count ?? 0}
+            resultNumber={data?.count ?? 0}
+          />
           <SepTableBody
             rows={rows}
             count={data?.count ?? 0}

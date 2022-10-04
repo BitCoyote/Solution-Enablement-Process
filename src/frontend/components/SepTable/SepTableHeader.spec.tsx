@@ -35,7 +35,10 @@ const rows: TaskSearchResult = {
 describe('SepTableHeader component', () => {
   it('should show the result number', async () => {
     const { getByText } = renderWithProviders(
-      <SepTableHeader rows={rows.tasks} resultNumber={rows.tasks.length} />
+      <SepTableHeader
+        count={rows?.count ?? 0}
+        resultNumber={rows.tasks.length}
+      />
     );
     expect(
       getByText(
