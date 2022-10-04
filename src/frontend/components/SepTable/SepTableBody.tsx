@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { styled } from '@mui/material/styles';
 import {
   Box,
   Checkbox,
@@ -13,6 +14,16 @@ import {
 } from '@mui/material';
 import StatusCell from './StatusCell';
 import { TaskSearchRow } from '../../../shared/types/Task';
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.lightGray.light,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
 export interface HeadCell {
   id: string;
@@ -43,7 +54,7 @@ export const headCells: readonly HeadCell[] = [
   },
   {
     id: 'owedTo',
-    key: 'reviewer.displayName',
+    key: 'defaultReviewer.displayName',
     label: 'Owed to',
   },
   {
@@ -281,7 +292,7 @@ const SepTableBody = ({
                 const isItemSelected = isSelected(row.name);
 
                 return (
-                  <TableRow
+                  <StyledTableRow
                     hover
                     onClick={(event: any) => handleClick(event, row.name)}
                     aria-label={`SEPs Row ${row.name}`}
@@ -308,7 +319,7 @@ const SepTableBody = ({
                       {row.dependentTaskCount}
                     </TableCell>
                     <TableCell aria-label="Submitted"></TableCell>
-                  </TableRow>
+                  </StyledTableRow>
                 );
               })}
             </TableBody>

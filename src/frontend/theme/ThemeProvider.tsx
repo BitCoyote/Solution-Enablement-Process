@@ -96,6 +96,7 @@ const theme = createTheme({
     },
     lightGray: {
       main: '#F2F2F2',
+      light: '#F8F9FA',
     },
     solidOrange: {
       main: '#F47B27',

@@ -56,7 +56,7 @@ export const headCells: readonly HeadCell[] = [
   },
   {
     id: 'owedTo',
-    key: 'reviewer.displayName',
+    key: 'defaultReviewer.displayName',
     label: 'Owed to',
   },
   {
