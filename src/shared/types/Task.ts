@@ -34,6 +34,7 @@ export interface Task extends SequelizeTimestamps {
   defaultReviewerID?: string;
   review: boolean;
   enabled: boolean;
+  locked: boolean;
   assignedUserID?: string;
   taskTemplateID?: number;
   phase: TaskPhase;
@@ -96,4 +97,26 @@ export interface TaskSearchResult {
 
 export interface UpdateTaskStatusBody {
   status: ValidTaskStatusUpdate;
+}
+
+export interface UpdateTaskBody {
+  enabled?: boolean;
+  review?: boolean;
+  name?: string;
+  description?: string;
+  assignedUserID?: string;
+  defaultReviewerID?: string;
+  phase?: TaskPhase;
+}
+
+export interface CreateTaskBody {
+  sepID: number;
+  name: string;
+  phase: TaskPhase;
+  departmentID?: string;
+  enabled?: boolean;
+  review?: boolean;
+  description?: string;
+  assignedUserID?: string;
+  defaultReviewerID?: string;
 }

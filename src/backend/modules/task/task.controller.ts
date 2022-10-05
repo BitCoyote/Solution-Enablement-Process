@@ -1,7 +1,15 @@
 import express from 'express';
 import { CountOptions, FindOptions, Op, OrderItem } from 'sequelize';
-import { TaskStatus, ValidTaskStatusUpdate } from '../../../shared/types/Task';
+import {
+  CreateTaskBody,
+  TaskStatus,
+  UpdateTaskBody,
+  ValidTaskStatusUpdate,
+} from '../../../shared/types/Task';
 import Database from '../../models';
+import { TaskModel } from '../../models/task.model';
+import { updateSEPProgress } from '../../utils/seps';
+
 const taskController = {
   searchTasks: async (
     req: express.Request,
@@ -185,10 +193,33 @@ const taskController = {
             as: 'dependentTasks',
             through: { attributes: ['status'] },
           },
+          {
+            model: db.SEP,
+            as: 'sep',
+          },
         ],
       })) as any;
+      // Reassign task to correct user based on status
+      let newAssignee;
+      if (
+        newStatus === ValidTaskStatusUpdate.inReview &&
+        task.defaultReviewerID
+      ) {
+        // When sent to "inReview" status, assign task to the default reviewer
+        newAssignee = task.defaultReviewerID;
+      } else if (
+        newStatus === ValidTaskStatusUpdate.todo ||
+        newStatus === ValidTaskStatusUpdate.changesRequested
+      ) {
+        // When sent to "todo" or "changesRequested" status, assign task to the sep creator (requestor)
+        newAssignee = task.sep.createdBy;
+      }
+      const updateBody: any = { status: newStatus };
+      if (newAssignee) {
+        updateBody.assignedUserID = newAssignee;
+      }
       // Update task status
-      await task.update({ status: newStatus }, { where: { id }, transaction });
+      await task.update(updateBody, { transaction });
 
       // Check if any dependent tasks can be moved from "pending" to "todo"
       // TaskDependency.status works like an "at-least" hierarchy. So if TaskDependency.status === 'inReview', that means that the dependency is fulfilled if the parent task is in "inReview" or "complete" status.
@@ -215,9 +246,57 @@ const taskController = {
           );
         }
       }
+      await updateSEPProgress(db, task.sepID, transaction);
     });
 
     return res.send();
+  },
+  updateTask: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    // roles middleware has already validated that the user has the proper permissions to make this update
+    const task = await db.sequelize.transaction(async (transaction) => {
+      const id = parseInt(req.params.id);
+      const task = (await db.Task.findByPk(id, {
+        include: [
+          {
+            model: db.Task,
+            as: 'dependentTasks',
+            through: { attributes: [] },
+          },
+        ],
+      })) as any;
+      // Update task
+      const updateBody: UpdateTaskBody = {
+        enabled: req.body.enabled ?? task.enabled,
+        review: req.body.enabled ?? task.review,
+        name: req.body.name ?? task.name,
+        description: req.body.description ?? task.description,
+        assignedUserID: req.body.assignedUserID ?? task.assignedUserID,
+        defaultReviewerID: req.body.defaultReviewerID ?? task.defaultReviewerID,
+        phase: req.body.phase ?? task.phase,
+      };
+      await task.update(updateBody, { transaction });
+
+      // Check if any dependent tasks can be moved from "pending" to "todo" if this task was disabled
+      if (!task.enabled) {
+        for (let i = 0; i < task.dependentTasks.length; i++) {
+          const dependentTask = task.dependentTasks[i];
+          if (dependentTask.status === TaskStatus.pending) {
+            await dependentTask.update(
+              { status: TaskStatus.todo },
+              { transaction }
+            );
+          }
+        }
+      }
+      await updateSEPProgress(db, task.sepID, transaction);
+      return task;
+    });
+
+    return res.send(task);
   },
   getTasksBySEPID: async (
     req: express.Request,
@@ -246,6 +325,39 @@ const taskController = {
       ],
     });
     return res.send(tasks);
+  },
+  createTask: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    const taskToCreate = req.body as CreateTaskBody;
+    const sep = await db.SEP.findByPk(taskToCreate.sepID);
+    const task = await db.Task.create({
+      ...taskToCreate,
+      enabled: taskToCreate.enabled || true,
+      review: taskToCreate.review || true,
+      assignedUserID: taskToCreate.assignedUserID ?? sep?.createdBy,
+      createdBy: res.locals.user.oid,
+      locked: false,
+      status: 'todo',
+    });
+    return res.send(task);
+  },
+  deleteTask: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    // The task model has paranoid: true so this will perform a soft-deleted using the "deletedAt" column
+    await db.sequelize.transaction(async (transaction) => {
+      const task = (await db.Task.findByPk(
+        parseInt(req.params.id)
+      )) as TaskModel;
+      await task.destroy({ transaction });
+      await updateSEPProgress(db, task.sepID, transaction);
+    });
+    return res.send();
   },
 };
 

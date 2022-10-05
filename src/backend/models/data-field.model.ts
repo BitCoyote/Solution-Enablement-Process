@@ -24,6 +24,10 @@ export const DataFieldSchema: Sequelize.ModelAttributes = {
     type: Sequelize.DATE,
     allowNull: false,
   },
+  deletedAt: {
+    type: Sequelize.DATE,
+    allowNull: true,
+  },
   createdBy: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -104,6 +108,7 @@ export const initDataField = (db: SequelizeType) => {
   DataFieldModel.init(DataFieldSchema, {
     sequelize: db,
     modelName: 'DataField',
+    paranoid: true, // This causes .destroy calls to do a soft delete with the deletedAt column
     hooks: {
       beforeUpdate: castValueToString,
       beforeCreate: castValueToString,

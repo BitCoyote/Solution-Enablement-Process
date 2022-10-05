@@ -88,6 +88,7 @@ export const getKnockoutScreenList = async (
 
 /** Returns a list of task IDs that should be enabled by default for an SEP, based on user knockout answers */
 export const getDefaultEnabledTasks = (dataFields: any[]): number[] => {
+  // TODO: Should this also return all tasks in each task's dependency tree? Or should an admin have to add each task in the dependency tree manually?
   const taskList: number[] = [];
   dataFields.forEach((dataField: any) => {
     dataField.knockoutTaskFollowups.forEach(
