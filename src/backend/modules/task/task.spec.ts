@@ -1,5 +1,7 @@
 import { BackendTestingGlobals } from '../../../../testing/types';
 import {
+  CreateTaskBody,
+  TaskPhase,
   TaskStatus,
   UpdateTaskBody,
   UpdateTaskStatusBody,
@@ -157,6 +159,7 @@ describe('task module', () => {
       expect(task?.assignedUserID).toEqual('system');
     });
     it('should lock tasks in the same phase if all tasks in the same phase are complete', async () => {
+      await globals.db.SEP.update({ phase: 'initiate' }, { where: { id: 3 } });
       await globals.request
         .patch(`/task/4/status`)
         .send({ status: 'complete' } as UpdateTaskStatusBody)
@@ -210,6 +213,7 @@ describe('task module', () => {
       expect(task?.status).toEqual(TaskStatus.todo);
     });
     it('should lock tasks in the same phase if all tasks in the same phase are complete', async () => {
+      await globals.db.SEP.update({ phase: 'initiate' }, { where: { id: 3 } });
       await globals.request
         .patch(`/task/4`)
         .send({ enabled: false } as UpdateTaskBody)
@@ -224,6 +228,8 @@ describe('task module', () => {
       expect(unlockedTaskCount).toEqual(0);
     });
     it('should update the SEP phase when all enabled tasks in a single phase are complete', async () => {
+      await globals.db.SEP.update({ phase: 'initiate' }, { where: { id: 3 } });
+
       await globals.request
         .patch(`/task/4`)
         .send({ enabled: false } as UpdateTaskBody)
@@ -232,8 +238,72 @@ describe('task module', () => {
         .patch(`/task/5`)
         .send({ enabled: false } as UpdateTaskBody)
         .expect(200);
-      const sep = await globals.db.Task.findByPk(3);
+      const sep = await globals.db.SEP.findByPk(3);
       expect(sep?.phase).toEqual('design');
+    });
+  });
+  describe('POST /task', () => {
+    it('should create a new task', async () => {
+      const newTask: CreateTaskBody = {
+        sepID: 1,
+        name: 'blorg',
+        phase: TaskPhase.initiate,
+      };
+      const response = await globals.request
+        .post(`/task`)
+        .send(newTask)
+        .expect(200);
+      expect(response.body.status).toEqual(TaskStatus.todo);
+      expect(response.body.createdBy).toEqual(globals.loggedInUserID);
+    });
+    it('should assign the task to the assigned user when given in the request body', async () => {
+      const newTask: CreateTaskBody = {
+        sepID: 1,
+        name: 'blorg',
+        phase: TaskPhase.initiate,
+        assignedUserID: 'system',
+      };
+      const response = await globals.request
+        .post(`/task`)
+        .send(newTask)
+        .expect(200);
+      expect(response.body.assignedUserID).toEqual('system');
+    });
+    it('should assign the task to the sep creator when no assignedUserID is given', async () => {
+      const newTask: CreateTaskBody = {
+        sepID: 1,
+        name: 'blorg',
+        phase: TaskPhase.initiate,
+      };
+      const response = await globals.request
+        .post(`/task`)
+        .send(newTask)
+        .expect(200);
+      expect(response.body.assignedUserID).toEqual('abc');
+    });
+  });
+  describe('DELETE /task/{id}', () => {
+    it('should delete a task', async () => {
+      await globals.request.delete(`/task/5`).expect(200);
+      const task = await globals.db.Task.findByPk(5);
+      expect(task).toBeNull();
+    });
+    it('should update the SEP phase if deleting the last incomplete task for a phase', async () => {
+      await globals.db.SEP.update({ phase: 'initiate' }, { where: { id: 3 } });
+      await globals.request.delete(`/task/4`).expect(200);
+      await globals.request.delete(`/task/5`).expect(200);
+      const sep = await globals.db.SEP.findByPk(3);
+      expect(sep?.phase).toEqual('design');
+    });
+    it('should lock tasks in the same phase if all tasks in the same phase are complete', async () => {
+      await globals.db.SEP.update({ phase: 'initiate' }, { where: { id: 3 } });
+      await globals.request
+        .patch(`/task/5/status`)
+        .send({ status: TaskStatus.complete })
+        .expect(200);
+      await globals.request.delete(`/task/4`).expect(200);
+      const task = await globals.db.Task.findByPk(5);
+      expect(task?.locked).toEqual(true);
     });
   });
 });

@@ -5,7 +5,7 @@ import {
   DataFieldUpdate,
 } from '../../../shared/types/DataField';
 import Database from '../../models';
-import { updateSEPPhaseAndTasks } from '../../utils/seps';
+import { updateSEPProgress } from '../../utils/seps';
 
 const dataFieldController = {
   updateDataFields: async (
@@ -49,8 +49,8 @@ const dataFieldController = {
           );
         }
       }
+      await updateSEPProgress(db, sepID, transaction);
     });
-    updateSEPPhaseAndTasks(db, sepID);
     const dataFieldIDs = dataFields.map((df) => df.id);
     // Fields have been successfully updated. Send updated fields in response.
     const updatedFields = await db.DataField.findAll({

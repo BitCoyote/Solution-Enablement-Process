@@ -106,5 +106,17 @@ export interface UpdateTaskBody {
   description?: string;
   assignedUserID?: string;
   defaultReviewerID?: string;
-  phase?: string;
+  phase?: TaskPhase;
+}
+
+export interface CreateTaskBody {
+  sepID: number;
+  name: string;
+  phase: TaskPhase;
+  departmentID?: string;
+  enabled?: boolean;
+  review?: boolean;
+  description?: string;
+  assignedUserID?: string;
+  defaultReviewerID?: string;
 }

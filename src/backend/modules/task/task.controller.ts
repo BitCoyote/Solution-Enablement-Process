@@ -1,54 +1,15 @@
 import express from 'express';
+import { CountOptions, FindOptions, Op, OrderItem } from 'sequelize';
 import {
-  CountOptions,
-  FindOptions,
-  Op,
-  OrderItem,
-  Transaction,
-} from 'sequelize';
-import { SEPPhase } from '../../../shared/types/SEP';
-import {
-  TaskPhase,
+  CreateTaskBody,
   TaskStatus,
   UpdateTaskBody,
   ValidTaskStatusUpdate,
 } from '../../../shared/types/Task';
 import Database from '../../models';
 import { TaskModel } from '../../models/task.model';
+import { updateSEPProgress } from '../../utils/seps';
 
-const checkForPhaseComplete = async (
-  db: Database,
-  task: TaskModel,
-  transaction?: Transaction
-) => {
-  // Check if all other enabled tasks in this phase have been completed. If so, set "task.locked" to true so the statuses cannot be changed and update the SEP phase!
-  const incompleteTasksForThisPhase = await db.Task.findAll({
-    where: {
-      sepID: task.sepID,
-      phase: task.phase,
-      enabled: true,
-      status: { [Op.ne]: TaskStatus.complete },
-    },
-  });
-  if (incompleteTasksForThisPhase.length === 0) {
-    // All enabled tasks for this phase are complete! Let's lock the tasks and update the SEP Phase
-    await db.Task.update(
-      { locked: true },
-      { where: { sepID: task.sepID, phase: task.phase }, transaction }
-    );
-    const phases: (TaskPhase | SEPPhase)[] = [
-      TaskPhase.initiate,
-      TaskPhase.design,
-      TaskPhase.implement,
-      SEPPhase.complete,
-    ];
-    const newPhase = phases[phases.findIndex((p) => p === task.phase) + 1];
-    await db.SEP.update(
-      { phase: newPhase },
-      { where: { id: task.sepID }, transaction }
-    );
-  }
-};
 const taskController = {
   searchTasks: async (
     req: express.Request,
@@ -285,7 +246,7 @@ const taskController = {
           );
         }
       }
-      await checkForPhaseComplete(db, task, transaction);
+      await updateSEPProgress(db, task.sepID, transaction);
     });
 
     return res.send();
@@ -296,7 +257,7 @@ const taskController = {
     db: Database
   ): Promise<express.Response> => {
     // roles middleware has already validated that the user has the proper permissions to make this update
-    const  task = await db.sequelize.transaction(async (transaction) => {
+    const task = await db.sequelize.transaction(async (transaction) => {
       const id = parseInt(req.params.id);
       const task = (await db.Task.findByPk(id, {
         include: [
@@ -331,9 +292,10 @@ const taskController = {
           }
         }
       }
-      await checkForPhaseComplete(db, task, transaction);
+      await updateSEPProgress(db, task.sepID, transaction);
       return task;
     });
+
     return res.send(task);
   },
   getTasksBySEPID: async (
@@ -363,6 +325,39 @@ const taskController = {
       ],
     });
     return res.send(tasks);
+  },
+  createTask: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    const taskToCreate = req.body as CreateTaskBody;
+    const sep = await db.SEP.findByPk(taskToCreate.sepID);
+    const task = await db.Task.create({
+      ...taskToCreate,
+      enabled: taskToCreate.enabled || true,
+      review: taskToCreate.review || true,
+      assignedUserID: taskToCreate.assignedUserID ?? sep?.createdBy,
+      createdBy: res.locals.user.oid,
+      locked: false,
+      status: 'todo',
+    });
+    return res.send(task);
+  },
+  deleteTask: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    // The task model has paranoid: true so this will perform a soft-deleted using the "deletedAt" column
+    await db.sequelize.transaction(async (transaction) => {
+      const task = (await db.Task.findByPk(
+        parseInt(req.params.id)
+      )) as TaskModel;
+      await task.destroy({ transaction });
+      await updateSEPProgress(db, task.sepID, transaction);
+    });
+    return res.send();
   },
 };
 
