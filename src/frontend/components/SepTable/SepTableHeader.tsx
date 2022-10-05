@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { CSVLink } from 'react-csv';
+import React, { useState } from 'react';
+import { CSVDownload } from 'react-csv';
 import { useGetTasksQuery } from '../../services/tasksSlice/tasksSlice';
 import { TaskSearchRow, TaskStatus } from '../../../shared/types/Task';
 
@@ -55,39 +55,75 @@ const headers: HeadersInterface[] = [
   },
 ];
 
-const SepTableHeader = ({
+const CsvExport = ({
   count,
-  resultNumber,
+  sortBy,
+  sortAsc,
+  status,
+  searchFilter,
+  assigneeId,
+  setIsCsv,
 }: {
   count: number;
-  resultNumber: number;
+  sortBy?: string;
+  sortAsc?: boolean;
+  status?: string;
+  searchFilter?: string;
+  assigneeId?: string;
+  setIsCsv: (val: boolean) => void;
 }) => {
-  const [csvData, setCsvData] = useState<DataInterface[]>([]);
-
   const { data } = useGetTasksQuery({
     limit: count,
+    sortBy,
+    sortAsc,
+    status,
+    assigneeId,
+    search: searchFilter,
   });
-
-  useEffect(() => {
-    if (data) {
-      const newData: DataInterface[] = [];
-      data.tasks.forEach((row: TaskSearchRow) => {
-        newData.push({
-          sepId: row.sep.id,
-          sepName: row.sep.name,
-          tasksName: row.name,
-          assigned: '',
-          owedTo: row.defaultReviewer?.displayName
-            ? row.defaultReviewer?.displayName
-            : '',
-          status: row.status,
-          dependentTaskCount: row.dependentTaskCount,
-          submitted: '',
-        });
-      });
-      setCsvData(newData);
+  const csvData: DataInterface[] | undefined = data?.tasks.map(
+    (row: TaskSearchRow) => {
+      return {
+        sepId: row.sep.id,
+        sepName: row.sep.name,
+        tasksName: row.name,
+        assigned: '',
+        owedTo: row.defaultReviewer?.displayName ?? '',
+        status: row.status,
+        dependentTaskCount: row.dependentTaskCount,
+        submitted: '',
+      };
     }
-  }, [data]);
+  );
+  setIsCsv(!csvData);
+
+  return csvData ? (
+    <CSVDownload data={csvData} headers={headers} target="_blank" />
+  ) : null;
+};
+
+const SepTableHeader = ({
+  count,
+  sortBy,
+  sortAsc,
+  status,
+  searchFilter,
+  resultNumber,
+  assigneeId,
+}: {
+  count: number;
+  sortBy?: string;
+  sortAsc?: boolean;
+  status?: string;
+  searchFilter?: string;
+  resultNumber: number;
+  assigneeId?: string;
+}) => {
+  const [isCsv, setIsCsv] = useState<boolean>(false);
+
+  const handleDownload = () => {
+    setIsCsv(true);
+  };
+
   return (
     <Box>
       <Divider />
@@ -106,25 +142,33 @@ const SepTableHeader = ({
           {new Intl.NumberFormat('en-US').format(resultNumber)} Results
         </Typography>
         <Box display="flex" alignItems="center" flexWrap="nowrap">
-          <CSVLink
-            data={csvData}
-            headers={headers}
-            filename="seps.csv"
-            style={{ textDecoration: 'none' }}
+          <Button
+            variant="text"
+            sx={{ py: '4px', textTransform: 'inherit' }}
+            onClick={handleDownload}
           >
-            <Button variant="text" sx={{ py: '4px', textTransform: 'inherit' }}>
-              <i className="fa-solid fa-file" style={{ color: '#2372B9' }}></i>
-              <Typography
-                component="span"
-                fontSize="12px"
-                fontWeight="600"
-                whiteSpace="nowrap"
-                ml="4px"
-              >
-                Export to CSV
-              </Typography>
-            </Button>
-          </CSVLink>
+            <i className="fa-solid fa-file" style={{ color: '#2372B9' }}></i>
+            <Typography
+              component="span"
+              fontSize="12px"
+              fontWeight="600"
+              whiteSpace="nowrap"
+              ml="4px"
+            >
+              Export to CSV
+            </Typography>
+          </Button>
+          {isCsv && (
+            <CsvExport
+              count={count}
+              sortBy={sortBy}
+              sortAsc={sortAsc}
+              status={status}
+              searchFilter={searchFilter}
+              assigneeId={assigneeId}
+              setIsCsv={setIsCsv}
+            />
+          )}
         </Box>
       </Box>
       <Divider />

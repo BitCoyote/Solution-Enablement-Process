@@ -83,6 +83,12 @@ const AllSEPs = () => {
         <>
           <SepTableHeader
             count={data?.count ?? 0}
+            sortBy={sortBy}
+            sortAsc={sortAsc}
+            status={statusChecked
+              .map((phase: TaskStatus) => phase.toString())
+              .join(',')}
+            searchFilter={searchFilter}
             resultNumber={data?.count ?? 0}
           />
           <SepTableBody
