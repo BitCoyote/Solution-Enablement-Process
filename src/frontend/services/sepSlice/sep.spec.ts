@@ -7,7 +7,9 @@ describe('sepSlice', () => {
     store = setupStore();
   });
   it('should handle findSeps', async () => {
-    const result = await store.dispatch(sepSlice.endpoints.findSeps.initiate());
+    const result = await store.dispatch(
+      sepSlice.endpoints.findSeps.initiate({})
+    );
     expect(result.status).toBe('fulfilled');
     expect(result?.data?.count).toBe(3);
   });

@@ -11,15 +11,31 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material';
+import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { useGetUserQuery } from '../../services/usersSlice';
 import { useGetUserPhotoQuery } from '../../services/microsoftSlice';
 import { stringAvatar, generateColorHsl } from '../AvatarGenerator';
-import NavButton from '../NavButton';
-import './styles.css';
 
+import NavButton from '../NavButton';
+
+import './styles.css';
 const Logo = require('../../assets/img/constellation-logo.png');
 
-const pages = ['MySEPs', 'All SEPs', 'Create an SEP'];
+const pages = [
+  {
+    text: 'MySEPs',
+    link: '/',
+  },
+  {
+    text: 'All SEPs',
+    link: 'all-seps',
+  },
+  {
+    text: 'Create an SEP',
+    link: '/',
+  },
+];
+const settings = ['Logout'];
 
 const ResponsiveAppBar = () => {
   const {
@@ -28,8 +44,13 @@ const ResponsiveAppBar = () => {
     error: photoErr,
   } = useGetUserPhotoQuery();
   const theme = useTheme();
+
+  const navigate: NavigateFunction = useNavigate();
   const { data: loggedInUser } = useGetUserQuery('me');
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
   const userName: string = loggedInUser?.displayName ?? '';
@@ -40,6 +61,15 @@ const ResponsiveAppBar = () => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleChangeRoute = (route: string) => {
+    navigate(route);
+    handleCloseNavMenu();
   };
 
   return (
@@ -57,8 +87,8 @@ const ResponsiveAppBar = () => {
         <Toolbar disableGutters>
           <img
             src={Logo}
-            alt="Constellation"
             height="50px"
+            alt="Constellation"
             style={{ marginTop: '5px' }}
           />
           <Box sx={{ flexGrow: 1 }} />
@@ -92,48 +122,71 @@ const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem
+                  key={page.text}
+                  onClick={() => handleChangeRoute(page.link)}
+                >
+                  <Typography textAlign="center">{page.text}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-
           <Box sx={{ flexGrow: 0, mr: 3, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <NavButton
-                key={page}
+                key={page.text}
                 arial-label="navigation buttons"
-                onClick={handleCloseNavMenu}
+                onClick={() => handleChangeRoute(page.link)}
                 className="nav-buttons"
               >
-                {page}
+                {page.text}
               </NavButton>
             ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <>
-              <Tooltip title={userName}>
-                <IconButton sx={{ p: 0 }}>
-                  {isLoading ||
-                  ((typeof photoErr === 'undefined' ||
-                    typeof photoErr === 'object') &&
-                    typeof userPhoto === 'undefined') ? (
-                    <Avatar
-                      sx={{ bgcolor: generateColorHsl(userName) }}
-                      {...stringAvatar(userName)}
-                      alt="Profile picture"
-                    />
-                  ) : (
-                    <Avatar alt="Profile picture" src={userPhoto} />
-                  )}
-                </IconButton>
-              </Tooltip>
-            </>
+            <Tooltip title={userName}>
+              <IconButton sx={{ p: 0 }}>
+                {isLoading ||
+                ((typeof photoErr === 'undefined' ||
+                  typeof photoErr === 'object') &&
+                  typeof userPhoto === 'undefined') ? (
+                  <Avatar
+                    sx={{ bgcolor: generateColorHsl(userName) }}
+                    {...stringAvatar(userName)}
+                    alt="Profile picture"
+                  />
+                ) : (
+                  <Avatar alt="Profile picture" src={userPhoto} />
+                )}
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '35px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
 };
+
 export default ResponsiveAppBar;

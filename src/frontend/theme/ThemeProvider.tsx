@@ -13,12 +13,17 @@ declare module '@mui/material/styles' {
       danger: React.CSSProperties['color'];
     };
   }
+  interface TypeBackground {
+    knockoutOne?: string;
+  }
   interface Palette {
     solidGrey: Palette['primary'];
     darkgray: Palette['primary'];
     solidBlue: Palette['primary'];
     mediumGrey: Palette['primary'];
     darkGreen: Palette['primary'];
+    lightGray: Palette['primary'];
+    solidOrange: Palette['primary'];
   }
   interface PaletteOptions {
     solidGrey: PaletteOptions['primary'];
@@ -26,6 +31,8 @@ declare module '@mui/material/styles' {
     solidBlue: PaletteOptions['primary'];
     mediumGrey: PaletteOptions['primary'];
     darkGreen: PaletteOptions['primary'];
+    lightGray: PaletteOptions['primary'];
+    solidOrange: PaletteOptions['primary'];
   }
   interface PaletteColor {
     darker?: string;
@@ -41,7 +48,6 @@ declare module '@mui/material/styles' {
     lightHover?: string;
     lightActive?: string;
   }
-
   interface TypographyVariants {
     title: React.CSSProperties;
   }
@@ -79,6 +85,7 @@ const theme = createTheme({
     },
     mediumGrey: {
       main: '#646669',
+      light: '#F2F2F2',
     },
     solidGrey: {
       main: '#7e8083',
@@ -86,6 +93,16 @@ const theme = createTheme({
     },
     darkGreen: {
       main: '#6BA543',
+    },
+    lightGray: {
+      main: '#F2F2F2',
+      light: '#F8F9FA',
+    },
+    solidOrange: {
+      main: '#F47B27',
+    },
+    background: {
+      knockoutOne: '#F7FBF5',
     },
   },
   typography: {
