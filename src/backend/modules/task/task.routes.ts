@@ -1,6 +1,7 @@
 import taskController from './task.controller';
 import { Paths } from '../../routes';
 import { checkForValidTaskStatusUpdate } from '../../utils/authorization';
+import { allAppRoles } from '../../../shared/utils/helpers';
 
 const paths: Paths = {
   '/tasks': {
@@ -128,6 +129,96 @@ const paths: Paths = {
                 items: {
                   $ref: '#/components/schemas/TaskExtended',
                 },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  '/task/{id}': {
+    patch: {
+      handler: taskController.updateTask,
+      role: allAppRoles,
+      tags: ['Task'],
+      summary: 'Update a task ',
+      description: 'Updates a task',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+        },
+      ],
+      requestBody: {
+        description: 'The attributes of the task to update',
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/UpdateTaskBody',
+            },
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'Success',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Task',
+              },
+            },
+          },
+        },
+      },
+    },
+    delete: {
+      handler: taskController.deleteTask,
+      role: allAppRoles,
+      tags: ['Task'],
+      summary: 'Delete a task (soft-delete)',
+      description: 'Performs a soft-delete on a task',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+        },
+      ],
+      responses: {
+        '200': {
+          description: 'Success',
+        },
+      },
+    },
+  },
+  '/task': {
+    post: {
+      handler: taskController.createTask,
+      role: allAppRoles,
+      tags: ['Task'],
+      summary: 'Create a new task',
+      description: 'Create a new task',
+      requestBody: {
+        description: 'The task to create',
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/CreateTaskBody',
+            },
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'Success',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Task',
               },
             },
           },

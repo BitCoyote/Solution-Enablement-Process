@@ -20,6 +20,7 @@ export interface SEP extends SequelizeTimestamps {
   description?: string;
   createdBy: string;
   phase: SEPPhase;
+  locked: boolean;
   deletedAt?: string;
 }
 

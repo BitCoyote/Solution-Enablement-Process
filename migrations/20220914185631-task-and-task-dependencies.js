@@ -26,6 +26,10 @@ module.exports = {
                     type: Sequelize.DATE,
                     allowNull: false,
                   },
+                  deletedAt: {
+                    type: Sequelize.DATE,
+                    allowNull: true,
+                  },                
                   createdBy: {
                     type: Sequelize.STRING,
                     allowNull: false,
@@ -77,6 +81,11 @@ module.exports = {
                   review: {
                     type: Sequelize.BOOLEAN,
                     allowNull: false
+                  },
+                  locked: {
+                    type: Sequelize.BOOLEAN,
+                    allowNull: false,
+                    defaultValue: false
                   },
                   name: {
                     type: Sequelize.STRING,

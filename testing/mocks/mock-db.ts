@@ -35,13 +35,13 @@ export const testData: TestData = {
   ],
   SEP: [
     {
-      ...baseObject, id: 1, name: 'Fantastic SEP', phase: SEPPhase.initiate, createdBy: 'abc'
+      ...baseObject, id: 1, name: 'Fantastic SEP', phase: SEPPhase.initiate, createdBy: 'abc', locked: false,
     },
     {
-      ...baseObject, id: 2, name: 'Incredible SEP', phase: SEPPhase.design, createdBy: 'system'
+      ...baseObject, id: 2, name: 'Incredible SEP', phase: SEPPhase.design, createdBy: 'system', locked: false,
     },
     {
-      ...baseObject, id: 3, name: 'SEP to test phase and task update flow', phase: SEPPhase.knockout, createdBy: 'system'
+      ...baseObject, id: 3, name: 'SEP to test phase and task update flow', phase: SEPPhase.knockout, createdBy: 'system', locked: false,
     }
   ],
   Department: [
@@ -65,6 +65,7 @@ export const testData: TestData = {
       sepID: 1,
       review: true,
       enabled: true,
+      locked: false,
       name: 'Really great task'
     },
     {
@@ -76,6 +77,7 @@ export const testData: TestData = {
       createdBy: 'system',
       sepID: 2,
       review: true,
+      locked: false,
       enabled: true,
       name: 'Super great task'
     },
@@ -89,31 +91,35 @@ export const testData: TestData = {
       sepID: 3,
       review: true,
       enabled: false,
+      locked: false,
       name: 'A task to be enabled by answering a knockout question'
     },
     {
       ...baseObject,
       id: 4,
-      phase: TaskPhase.design,
+      phase: TaskPhase.initiate,
       status: TaskStatus.pending,
       departmentID: DepartmentID.sa,
       createdBy: 'system',
       assignedUserID: testUserID,
       sepID: 3,
       review: true,
-      enabled: false,
+      locked: false,
+      enabled: true,
       name: 'A task that has a parent task'
     },
     {
       ...baseObject,
       id: 5,
-      phase: TaskPhase.design,
+      phase: TaskPhase.initiate,
       status: TaskStatus.pending,
       departmentID: DepartmentID.sa,
       createdBy: 'system',
       sepID: 3,
       review: true,
-      enabled: false,
+      defaultReviewerID: 'abc',
+      locked: false,
+      enabled: true,
       name: 'A parent task for task 4'
     }
   ],

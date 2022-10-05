@@ -31,6 +31,10 @@ export const AttachmentSchema: Sequelize.ModelAttributes = {
       model: 'Users',
     },
   },
+  deletedAt: {
+    type: Sequelize.DATE,
+    allowNull: true,
+  },
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -58,6 +62,7 @@ export const initAttachment = (db: SequelizeType) => {
   AttachmentModel.init(AttachmentSchema, {
     sequelize: db,
     modelName: 'Attachment',
+    paranoid: true, // This causes .destroy calls to do a soft delete with the deletedAt column
   });
   return AttachmentModel;
 };
