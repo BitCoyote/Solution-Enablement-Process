@@ -10,6 +10,8 @@ import {
   TaskTemplate,
 } from '../../shared/types/Task';
 import {
+  DataFieldLocationTemplate,
+  DataFieldLocationType,
   DataFieldOptionTemplate,
   DataFieldTemplate,
   DataFieldType,
@@ -502,203 +504,342 @@ export const dataFieldTemplates: DataFieldTemplate[] = [
     name: 'Request Area',
     description: 'Choose an area for your SEP.',
     type: DataFieldType.select,
-    knockoutScreenTemplateID: 1, // Let's get started! What kind of request is this?
-    required: true,
   },
   {
     id: 2,
     name: 'Installed Software Type',
     type: DataFieldType.select,
-    knockoutScreenTemplateID: 2, // Installed Software: Let's get a little more specific.
-    required: true,
   },
   {
     id: 3,
     name: 'Does the desktop software send data externally (outside the Constellation Network)?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 3, // Desktop: What are the details?
-    required: false,
   },
   {
     id: 4,
     name: 'Was the Application internally developed?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 3, // Desktop: What are the details?
-    required: true,
   },
   {
     id: 5,
     name: 'Are there any changes to configuration or data schema?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 4, // Product Renewal/Extension: What are the details?
-    required: false,
   },
   {
     id: 6,
     name: 'Will this interface with any systems on the Constellation Network?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 5, // New Ventures: What are the details?
-    required: false,
   },
   {
     id: 7,
     name: 'Cloud Type',
     type: DataFieldType.select,
-    knockoutScreenTemplateID: 6, // Cloud: Which kind of cloud are we talking about here?
-    required: true,
   },
   {
     id: 8,
     name: 'Service Type',
     type: DataFieldType.select,
-    knockoutScreenTemplateID: 7, // Constellation Cloud: Let's get a little more specific.
-    required: true,
   },
   {
     id: 9,
     name: 'Service Type',
     type: DataFieldType.select,
-    knockoutScreenTemplateID: 8, // External Cloud: Let's get a little more specific.
-    required: true,
   },
   {
     id: 10,
     name: 'Is this service currently in use by other approved applications with the same data classification?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 9, // screen for SaaS, PaaS, SalesForce, and App Exchange
-    required: false,
   },
   {
     id: 11,
     name: 'Will it require additional licensing?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 9, // screen for SaaS, PaaS, SalesForce, and App Exchange
-    required: false,
   },
   {
     id: 12,
     name: 'Is this a Constellation Standard IaaS Configuration?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 10, // IaaS
-    required: false,
   },
   {
     id: 13,
     name: 'Will it require additional licensing?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 10, // IaaS
-    required: false,
   },
   {
     id: 14,
     name: 'Does this align to the Mobile 2.0 Strategy?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 11, // Mobile
-    required: false,
   },
   {
     id: 15,
     name: 'Does the application send data outside of the Constellation network?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 11, // Mobile
-    required: false,
   },
   {
     id: 16,
     name: 'Does the integration use one of the standard integration platforms?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 12, // Integration
-    required: false,
   },
   {
     id: 17,
     name: 'Is the destination data classification equal or greater than the source data classification?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 12, // Integration
-    required: false,
   },
   {
     id: 18,
     name: 'Will this require additional licensing?',
     type: DataFieldType.yesNo,
-    knockoutScreenTemplateID: 12, // Integration
-    required: false,
   },
   {
     id: 19,
     name: 'Hardware Type',
     type: DataFieldType.select,
-    knockoutScreenTemplateID: 13, // Hardware
-    required: true,
   },
   {
     id: 20,
     name: 'IAM Type',
     type: DataFieldType.select,
-    knockoutScreenTemplateID: 14, // IAM
-    required: true,
   },
 ];
+export const dataFieldLocationTemplates: DataFieldLocationTemplate[] = [
+  {
+    dataFieldTemplateID: 1,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 1, // Let's get started! What kind of request is this?
+    required: true,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 2,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 2, // Installed Software: Let's get a little more specific.
+    required: true,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 3,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 3, // Desktop: What are the details?
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 4,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 3, // Desktop: What are the details?
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 5,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 4, // Product Renewal/Extension: What are the details?
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 6,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 5, // New Ventures: What are the details?
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 7,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 6, // Cloud: Which kind of cloud are we talking about here?
+    required: true,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 8,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 7, // Constellation Cloud: Let's get a little more specific.
+    required: true,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 9,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 8, // External Cloud: Let's get a little more specific.
+    required: true,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 10,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 9, // screen for SaaS, PaaS, SalesForce, and App Exchange
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 11,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 9, // screen for SaaS, PaaS, SalesForce, and App Exchange
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 12,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 10, // IaaS
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 13,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 10, // IaaS
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 14,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 11, // Mobile
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 15,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 11, // Mobile
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 16,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 12, // Integration
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 17,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 12, // Integration
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 18,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 12, // Integration
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 19,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 13, // Hardware
+    required: false,
+    readOnly: false,
+  },
+  {
+    dataFieldTemplateID: 20,
+    locationType: DataFieldLocationType.KnockoutScreen,
+    locationID: 14, // IAM
+    required: true,
+    readOnly: false,
+  },
+  // DataFieldLocations for Tasks
+  {
+    dataFieldTemplateID: 1,
+    locationType: DataFieldLocationType.Task,
+    locationID: 1,
+    required: false,
+    readOnly: true,
+  },
+  // DataFieldLocations for Departments
+  {
+    dataFieldTemplateID: 1,
+    locationType: DataFieldLocationType.Department,
+    locationID: 1,
+    required: false,
+    readOnly: true,
+  },
+  // DataFieldLocations for Department Reviews
+  {
+    dataFieldTemplateID: 1,
+    locationType: DataFieldLocationType.DepartmentReview,
+    locationID: 1,
+    required: false,
+    readOnly: true,
+  },
+].map((f, idx) => ({ ...f, id: idx + 1 }));
+
 export const dataFieldOptionTemplates: DataFieldOptionTemplate[] = [
   {
     id: 1,
     dataFieldTemplateID: 1, // Request Area
     value: 'Product Renewal/Extension',
+    icon: 'arrow-right-arrow-left',
   },
   {
     id: 2,
     dataFieldTemplateID: 1, // Request Area
     value: 'New Ventures',
+    icon: 'lightbulb-on',
   },
   {
     id: 3,
     dataFieldTemplateID: 1, // Request Area
     value: 'Installed Software',
+    icon: 'download',
   },
   {
     id: 4,
     dataFieldTemplateID: 1, // Request Area
     value: 'Cloud',
+    icon: 'cloud',
   },
   {
     id: 5,
     dataFieldTemplateID: 1, // Request Area
     value: 'Mobile',
+    icon: 'mobile-screen',
   },
   {
     id: 6,
     dataFieldTemplateID: 1, // Request Area
     value: 'Integration',
+    icon: 'plug',
   },
   {
     id: 7,
     dataFieldTemplateID: 1, // Request Area
     value: 'Hardware',
+    icon: 'computer-classic',
   },
   {
     id: 8,
     dataFieldTemplateID: 1, // Request Area
     value: 'Identity and Access Management (IAM)',
+    icon: 'key',
   },
   {
     id: 9,
     dataFieldTemplateID: 1, // Request Area
     value: 'Network (B2B VPN)',
+    icon: 'buildings',
   },
   {
     id: 10,
     dataFieldTemplateID: 1, // Request Area
     value: 'Hosting Migration',
+    icon: 'suitcase',
   },
   {
     id: 11,
     dataFieldTemplateID: 1, // Request Area
     value: 'R&D',
+    icon: 'book-open-reader',
   },
   {
     id: 12,
     dataFieldTemplateID: 1, // Request Area
     value: 'Consulting or Professional Services',
+    icon: 'handshake',
   },
   {
     id: 13,

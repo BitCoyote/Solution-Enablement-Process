@@ -1,4 +1,4 @@
-import { DataFieldWithOptions } from './DataField';
+import { DataFieldWithOptionsAndSingleLocation } from './DataField';
 import { SequelizeTimestamps } from './Sequelize';
 
 export enum KnockoutFollowupType {
@@ -51,10 +51,9 @@ export interface KnockoutFollowupTemplate {
 }
 
 export interface KnockoutScreenWithDataFields extends KnockoutScreen {
-  dataFields: DataFieldWithOptions[];
+  knockoutScreenDataFields: DataFieldWithOptionsAndSingleLocation[];
 }
 export interface KnockoutScreenWithCompletion
   extends KnockoutScreenWithDataFields {
-  dataFields: DataFieldWithOptions[];
   complete: boolean;
 }

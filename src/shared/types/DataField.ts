@@ -1,4 +1,3 @@
-import { DepartmentID } from './Department';
 import { KnockoutTaskFollowup } from './Knockout';
 import { SequelizeTimestamps } from './Sequelize';
 
@@ -16,7 +15,12 @@ export enum DataFieldType {
   toggle = 'toggle',
   apmID = 'apmID',
 }
-
+export enum DataFieldLocationType {
+  'Department' = 'Department',
+  'DepartmentReview' = 'DepartmentReview',
+  'KnockoutScreen' = 'KnockoutScreen',
+  'Task' = 'Task',
+}
 export interface DataField extends SequelizeTimestamps {
   id: number;
   createdBy: string;
@@ -26,19 +30,37 @@ export interface DataField extends SequelizeTimestamps {
   sepID: number;
   dataFieldTemplateID?: number;
   value?: string | number | boolean;
-  knockoutScreenID?: number;
-  taskID?: number;
-  departmentID?: DepartmentID;
-  reviewTab: boolean;
+  icon?: string;
+}
+export interface DataFieldLocation extends SequelizeTimestamps {
+  id: number;
+  sepID: number;
+  dataFieldID: number;
+  locationID: number;
+  locationType: DataFieldLocationType;
   required: boolean;
+  readOnly: boolean;
+  dataFieldLocationTemplateID?: number;
 }
-
-export interface DataFieldWithOptions extends DataField {
+export interface DataFieldLocationTemplate {
+  id: number;
+  dataFieldTemplateID: number;
+  locationID: number;
+  locationType: DataFieldLocationType;
+  required: boolean;
+  readOnly: boolean;
+}
+export interface DataFieldWithOptionsAndLocations extends DataField {
   dataFieldOptions: DataFieldOption[];
+  dataFieldLocations: DataFieldLocation[];
+}
+export interface DataFieldWithOptionsAndSingleLocation extends DataField {
+  dataFieldOptions: DataFieldOption[];
+  dataFieldLocation: DataFieldLocation;
 }
 
-export interface DataFieldWithOptionsAndKnockoutFollowupTasks
-  extends DataFieldWithOptions {
+export interface DataFieldWithOptionsAndLocationsAndKnockoutFollowupTasks
+  extends DataFieldWithOptionsAndLocations {
   knockoutTaskFollowups: KnockoutTaskFollowup[];
 }
 
@@ -50,6 +72,7 @@ export interface DataFieldOption extends SequelizeTimestamps {
   dataFieldOptionTemplateID?: number;
   sepID: number;
   description?: string;
+  icon?: string;
 }
 
 export interface DataFieldOptionTemplate {
@@ -58,6 +81,7 @@ export interface DataFieldOptionTemplate {
   dataFieldTemplateID: number;
   selected?: boolean;
   description?: string;
+  icon?: string;
 }
 
 export interface DataFieldTemplate {
@@ -65,11 +89,7 @@ export interface DataFieldTemplate {
   name: string;
   description?: string;
   type: DataFieldType;
-  knockoutScreenTemplateID?: number;
-  taskTemplateID?: number;
-  departmentID?: DepartmentID;
-  reviewTab?: boolean;
-  required: boolean;
+  icon?: string;
 }
 export interface DataFieldOptionUpdate {
   /** The DataFieldOption id */

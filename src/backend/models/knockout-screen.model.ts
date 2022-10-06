@@ -60,8 +60,10 @@ export const initKnockoutScreen = (db: SequelizeType) => {
 
 /** Creates all the table associations for this model */
 export const knockoutScreenAssociations = (db: Database) => {
-  db.KnockoutScreen.hasMany(db.DataField, {
-    foreignKey: 'knockoutScreenID',
-    as: 'dataFields',
+  db.KnockoutScreen.belongsToMany(db.DataField, {
+    foreignKey: 'locationID',
+    as: 'knockoutScreenDataFields',
+    through: { model: 'DataFieldLocation', unique: false },
+    constraints: false,
   });
 };

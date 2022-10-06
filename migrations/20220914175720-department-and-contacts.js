@@ -13,9 +13,10 @@ module.exports = {
             return Promise.all([
                 queryInterface.createTable('Departments', {
                   id: {
-                    type: Sequelize.STRING,
+                    type: Sequelize.INTEGER,
                     primaryKey: true,
                     allowNull: false,
+                    autoIncrement: true
                   },
                   createdAt: {
                     type: Sequelize.DATE,
@@ -24,6 +25,14 @@ module.exports = {
                   updatedAt: {
                     type: Sequelize.DATE,
                     allowNull: false,
+                  },
+                  name: {
+                    allowNull: false,
+                    type: Sequelize.STRING
+                  },
+                  adAppRole: {
+                    allowNull: false,
+                    type: Sequelize.STRING
                   },
                 }, { transaction: t }),
                 queryInterface.createTable('DepartmentContacts', {
@@ -40,7 +49,7 @@ module.exports = {
                     allowNull: false
                   },
                   departmentID: {
-                    type: Sequelize.STRING,
+                    type: Sequelize.INTEGER,
                     allowNull: false,
                     references: {
                       key: 'id',

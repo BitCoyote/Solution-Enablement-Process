@@ -1,5 +1,5 @@
 import { Op, Transaction } from 'sequelize';
-import { DataFieldWithOptionsAndKnockoutFollowupTasks } from '../../shared/types/DataField';
+import { DataFieldWithOptionsAndLocationsAndKnockoutFollowupTasks } from '../../shared/types/DataField';
 import { KnockoutFollowupType } from '../../shared/types/Knockout';
 import { SEPPhase } from '../../shared/types/SEP';
 import { Task, TaskPhase, TaskStatus } from '../../shared/types/Task';
@@ -51,7 +51,7 @@ export const updateSEPProgress = async (
         const dataFields = sep.getDataValue('dataFields').map((df: any) => ({
           ...df,
           knockoutTaskFollowups: df.knockoutFollowups,
-        })) as DataFieldWithOptionsAndKnockoutFollowupTasks[];
+        })) as DataFieldWithOptionsAndLocationsAndKnockoutFollowupTasks[];
         const defaultTaskIDs = getDefaultEnabledTasks(dataFields);
         if (defaultTaskIDs.length > 0) {
           await db.Task.update(

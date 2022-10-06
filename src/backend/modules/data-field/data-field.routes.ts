@@ -48,7 +48,7 @@ const paths: Paths = {
               schema: {
                 type: 'array',
                 items: {
-                  $ref: '#/components/schemas/DataFieldWithOptions',
+                  $ref: '#/components/schemas/DataFieldWithOptionsAndLocations',
                 },
               },
             },

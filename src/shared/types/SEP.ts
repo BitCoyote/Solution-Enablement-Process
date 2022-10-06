@@ -1,7 +1,7 @@
 import { Activity } from './Activity';
 import { Attachment } from './Attachment';
 import { CommentExtendedWithReply } from './Comment';
-import { DataFieldWithOptions } from './DataField';
+import { DataFieldWithOptionsAndLocations } from './DataField';
 import { SequelizeTimestamps } from './Sequelize';
 import { TaskExtended } from './Task';
 import { User, UserShort } from './User';
@@ -49,7 +49,7 @@ export interface GetSEPExtendedResponse extends SEP {
   comments: CommentExtendedWithReply[];
   activities: Activity[];
   attachments: Attachment[];
-  dataFields: DataFieldWithOptions[];
+  dataFields: DataFieldWithOptionsAndLocations[];
 }
 export interface GetSEPResponse extends SEP {
   creator: UserShort;

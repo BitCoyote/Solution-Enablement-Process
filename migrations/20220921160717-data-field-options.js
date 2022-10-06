@@ -15,7 +15,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
-      },    
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -30,7 +30,7 @@ module.exports = {
         references: {
           key: 'id',
           model: 'SEPs',
-        }
+        },
       },
       dataFieldID: {
         type: Sequelize.INTEGER,
@@ -39,7 +39,7 @@ module.exports = {
           key: 'id',
           model: 'DataFields',
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       dataFieldOptionTemplateID: {
         type: Sequelize.INTEGER,
@@ -55,7 +55,11 @@ module.exports = {
       },
       description: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+      },
+      icon: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
     });
   },

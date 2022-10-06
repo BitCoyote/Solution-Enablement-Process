@@ -9,7 +9,7 @@ module.exports = {
       Example:
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
-    return queryInterface.createTable('DataFields', {
+    return queryInterface.createTable('DataFieldLocations', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -24,30 +24,6 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
-      deletedAt: {
-        type: Sequelize.DATE,
-        allowNull: true,
-      },                
-      createdBy: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        references: {
-          key: 'id',
-          model: 'Users',
-        },
-      },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      type: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      description: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
       sepID: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -56,18 +32,35 @@ module.exports = {
           model: 'SEPs',
         }
       },
-      dataFieldTemplateID: {
+      dataFieldID: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          key: 'id',
+          model: 'DataFields',
+        },
+        onDelete: 'CASCADE'
+      },
+      dataFieldLocationTemplateID: {
         type: Sequelize.INTEGER,
         allowNull: true,
       },
-      value: {
+      locationType: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
-      icon: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      }
+      locationID: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      readOnly: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
+      required: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
     });
   },
 
@@ -79,6 +72,7 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-    return queryInterface.dropTable('DataFields');
+    return queryInterface.dropTable('DataFieldLocations');
+
   }
 };

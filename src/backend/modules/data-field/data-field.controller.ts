@@ -60,6 +60,10 @@ const dataFieldController = {
           model: db.DataFieldOption,
           as: 'dataFieldOptions',
         },
+        {
+          model: db.DataFieldLocation,
+          as: 'dataFieldLocations',
+        },
       ],
     });
     return res.send(updatedFields);
