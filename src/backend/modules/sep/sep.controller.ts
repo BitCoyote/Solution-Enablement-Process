@@ -357,6 +357,12 @@ const sepController = {
             {
               model: db.DataFieldLocation,
               as: 'dataFieldLocations',
+              attributes: [
+                'locationType',
+                'locationID',
+                'readOnly',
+                'required',
+              ],
             },
           ],
         },
