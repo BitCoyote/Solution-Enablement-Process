@@ -22,6 +22,10 @@ describe('seps utils', () => {
         );
       });
       it('should enable all default tasks (based on knockout answers) when all knockout screens are complete', async () => {
+        await globals.db.SEP.update(
+          { phase: SEPPhase.knockout },
+          { where: { id: 3 } }
+        );
         await globals.db.DataField.update(
           { value: 'Hello' },
           { where: { sepID: 3 } }
@@ -59,7 +63,7 @@ describe('seps utils', () => {
         expect(
           ((await globals.db.SEP.findByPk(newSEP.id)) as SEP).phase
         ).toEqual(SEPPhase.design);
-      });
+      }, 10000);
       it('should update from the "design" phase to the "implement" phase when all design-phase enabled tasks are complete', async () => {
         const newSEP = (
           await globals.request.post('/sep').send({ name: 'My new sep' })
@@ -76,7 +80,7 @@ describe('seps utils', () => {
         expect(
           ((await globals.db.SEP.findByPk(newSEP.id)) as SEP).phase
         ).toEqual(SEPPhase.implement);
-      });
+      }, 10000);
       it('should update from the "implement" phase to the "complete" phase when all implement-phase enabled tasks are complete', async () => {
         const newSEP = (
           await globals.request.post('/sep').send({ name: 'My new sep' })
@@ -93,7 +97,7 @@ describe('seps utils', () => {
         expect(
           ((await globals.db.SEP.findByPk(newSEP.id)) as SEP).phase
         ).toEqual(SEPPhase.complete);
-      });
+      }, 10000);
       it('should lock tasks in the same phase if all tasks in the same phase are complete', async () => {
         const newSEP = (
           await globals.request.post('/sep').send({ name: 'My new sep' })

@@ -55,14 +55,23 @@ export const CommentSchema: Sequelize.ModelAttributes = {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  commentableType: {
-    type: Sequelize.STRING,
-    allowNull: false,
+  taskID: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+    references: {
+      key: 'id',
+      model: 'Tasks',
+    },
   },
-  commentableID: {
+  sepID: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    references: {
+      key: 'id',
+      model: 'SEPs',
+    },
   },
+
 };
 
 /** Initializes this model for use */
@@ -78,12 +87,12 @@ export const initComment = (db: SequelizeType) => {
 /** Creates all the table associations for this model */
 export const commentAssociations = (db: Database) => {
   db.Comment.belongsTo(db.SEP, {
-    foreignKey: 'commentableID',
+    foreignKey: 'sepID',
     constraints: false,
     as: 'sep',
   });
   db.Comment.belongsTo(db.Task, {
-    foreignKey: 'commentableID',
+    foreignKey: 'taskID',
     constraints: false,
     as: 'task',
   });

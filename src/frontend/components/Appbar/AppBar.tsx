@@ -23,7 +23,7 @@ const Logo = require('../../assets/img/constellation-logo.png');
 
 const pages = [
   {
-    text: 'MySEPs',
+    text: 'My SEPs',
     link: '/',
   },
   {

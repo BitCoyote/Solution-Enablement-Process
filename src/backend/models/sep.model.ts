@@ -74,7 +74,7 @@ export const sepAssociations = (db: Database) => {
     as: 'tasks',
   });
   db.SEP.hasMany(db.Comment, {
-    foreignKey: 'commentableID',
+    foreignKey: 'sepID',
     as: 'comments',
   });
   db.SEP.hasMany(db.Activity, {
