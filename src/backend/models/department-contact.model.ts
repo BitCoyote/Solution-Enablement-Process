@@ -26,7 +26,7 @@ export const DepartmentContactSchema: Sequelize.ModelAttributes = {
     },
   },
   departmentID: {
-    type: Sequelize.STRING,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       key: 'id',

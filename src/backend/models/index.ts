@@ -37,6 +37,11 @@ import {
   DataFieldOptionModel,
 } from './data-field-option.model';
 import {
+  initDataFieldLocation,
+  DataFieldLocationModel,
+  dataFieldLocationAssociations,
+} from './data-field-location.model';
+import {
   initKnockoutScreen,
   knockoutScreenAssociations,
   KnockoutScreenModel,
@@ -58,6 +63,7 @@ export default class Database {
   public Activity: typeof ActivityModel;
   public DataField: typeof DataFieldModel;
   public DataFieldOption: typeof DataFieldOptionModel;
+  public DataFieldLocation: typeof DataFieldLocationModel;
   public KnockoutScreen: typeof KnockoutScreenModel;
   public KnockoutFollowup: typeof KnockoutFollowupModel;
   public sequelize: Sequelize;
@@ -74,6 +80,7 @@ export default class Database {
     this.Activity = initActivity(db);
     this.DataField = initDataField(db);
     this.DataFieldOption = initDataFieldOption(db);
+    this.DataFieldLocation = initDataFieldLocation(db);
     this.KnockoutScreen = initKnockoutScreen(db);
     this.KnockoutFollowup = initKnockoutFollowup(db);
     this.sequelize = db;
@@ -87,5 +94,6 @@ export default class Database {
     dataFieldAssociations(this);
     userAssociations(this);
     knockoutScreenAssociations(this);
+    dataFieldLocationAssociations(this);
   }
 }

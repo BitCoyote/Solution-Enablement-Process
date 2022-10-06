@@ -56,6 +56,10 @@ export const DataFieldOptionSchema: Sequelize.ModelAttributes = {
     type: Sequelize.STRING,
     allowNull: true,
   },
+  icon: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
 };
 
 /** Initializes this model for use */

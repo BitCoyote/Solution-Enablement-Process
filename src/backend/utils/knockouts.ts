@@ -19,7 +19,14 @@ export const getKnockoutScreenList = async (
       include: [
         {
           model: db.DataField,
-          as: 'dataFields',
+          as: 'knockoutScreenDataFields',
+          through: {
+            where: {
+              locationType: 'KnockoutScreen',
+            },
+            attributes: ['locationType', 'required', 'readOnly'],
+            as: 'dataFieldLocation',
+          },
           include: [
             {
               model: db.DataFieldOption,
@@ -45,9 +52,9 @@ export const getKnockoutScreenList = async (
   ) {
     knockoutScreenSublist.forEach((knockoutScreen) => {
       let screenComplete = true;
-      knockoutScreen.dataFields.forEach((dataFieldForScreen) => {
+      knockoutScreen.knockoutScreenDataFields.forEach((dataFieldForScreen) => {
         if (
-          dataFieldForScreen.required &&
+          dataFieldForScreen.dataFieldLocation.required &&
           !dataFieldForScreen.value &&
           !dataFieldForScreen.dataFieldOptions.find(
             (dataFieldOptionForDataField) =>
@@ -63,8 +70,8 @@ export const getKnockoutScreenList = async (
       });
 
       // If this knockout screen has any followup screens based on the user's answers, dive into those to check if they've answered them all.
-      for (let i = 0; i < knockoutScreen.dataFields.length; i++) {
-        const dataFieldForScreen = knockoutScreen.dataFields[i];
+      for (let i = 0; i < knockoutScreen.knockoutScreenDataFields.length; i++) {
+        const dataFieldForScreen = knockoutScreen.knockoutScreenDataFields[i];
         const followupIDs = sepKnockoutScreenFollowups
           .filter((knockoutFollowup) => {
             return (

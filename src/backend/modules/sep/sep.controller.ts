@@ -1,6 +1,7 @@
 import express from 'express';
 import { Op, OrderItem } from 'sequelize';
 import { FindAndCountOptions } from 'sequelize/types';
+import { DataFieldLocationType } from '../../../shared/types/DataField';
 import { KnockoutFollowupType } from '../../../shared/types/Knockout';
 import { CreateSEPBody } from '../../../shared/types/SEP';
 import { TaskStatus } from '../../../shared/types/Task';
@@ -12,6 +13,7 @@ import {
   knockoutFollowupTemplates,
   taskTemplates,
   taskDependencyTemplates,
+  dataFieldLocationTemplates,
 } from '../../utils/template-data';
 const sepController = {
   getSEPs: async (
@@ -185,23 +187,50 @@ const sepController = {
           name: dataFieldTemplate.name,
           description: dataFieldTemplate.description,
           type: dataFieldTemplate.type,
-          knockoutScreenID: knockoutScreens.find(
-            (k) =>
-              k.knockoutScreenTemplateID ===
-              dataFieldTemplate.knockoutScreenTemplateID
-          )?.id,
-          taskID:
-            tasks.find(
-              (t) => t.taskTemplateID === dataFieldTemplate.taskTemplateID
-            )?.id || null,
           sepID: newSEP.id,
-          departmentID: dataFieldTemplate.departmentID || null,
-          reviewTab: dataFieldTemplate.reviewTab || false,
-          required: dataFieldTemplate.required || false,
           value: null,
           dataFieldTemplateID: dataFieldTemplate.id,
+          icon: dataFieldTemplate.icon,
         })),
         { transaction }
+      );
+      /** Get the id for the newly created location */
+      const getLocationID = (
+        locationType: DataFieldLocationType,
+        templateID: number
+      ) => {
+        if (
+          locationType === DataFieldLocationType.Department ||
+          locationType === DataFieldLocationType.DepartmentReview
+        ) {
+          return templateID;
+        } else if (locationType === DataFieldLocationType.KnockoutScreen) {
+          return knockoutScreens.find(
+            (k) => k.knockoutScreenTemplateID === templateID
+          )?.id;
+        } else if (locationType === DataFieldLocationType.Task) {
+          return tasks.find((t) => t.taskTemplateID === templateID)?.id;
+        }
+      };
+      // Create DataFieldLocations
+      await db.DataFieldLocation.bulkCreate(
+        dataFieldLocationTemplates.map((dataFieldLocationTemplate) => ({
+          dataFieldID: dataFields.find(
+            (d) =>
+              d.dataFieldTemplateID ===
+              dataFieldLocationTemplate.dataFieldTemplateID
+          )?.id,
+          sepID: newSEP.id,
+          locationID: getLocationID(
+            dataFieldLocationTemplate.locationType,
+            dataFieldLocationTemplate.locationID
+          ),
+          locationType: dataFieldLocationTemplate.locationType,
+          required: dataFieldLocationTemplate.required || false,
+          readOnly: dataFieldLocationTemplate.readOnly || false,
+          dataFieldLocationTemplateID: dataFieldLocationTemplate.id,
+        })),
+        { transaction, returning: [] }
       );
 
       // Create DataFieldOptions
@@ -214,8 +243,10 @@ const sepController = {
           )?.id,
           sepID: newSEP.id,
           value: dataFieldOptionTemplate.value,
+          dataFieldOptionTemplateID: dataFieldOptionTemplate.id,
           description: dataFieldOptionTemplate.description,
           selected: dataFieldOptionTemplate.selected || false,
+          icon: dataFieldOptionTemplate.icon,
         })),
         { transaction }
       );
@@ -322,6 +353,10 @@ const sepController = {
             {
               model: db.DataFieldOption,
               as: 'dataFieldOptions',
+            },
+            {
+              model: db.DataFieldLocation,
+              as: 'dataFieldLocations',
             },
           ],
         },

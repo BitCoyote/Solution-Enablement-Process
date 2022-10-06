@@ -17,7 +17,8 @@ module.exports = {
     return queryInterface.bulkInsert('Departments', departments.map((dept) => ({
       createdAt: now,
       updatedAt: now,
-      id: dept.name
+      name: dept.name,
+      adAppRole: 'Auth' + dept.name.replace(' ','').replace(' ','')
     })));
 
   },

@@ -1,7 +1,7 @@
 import { BackendTestingGlobals } from '../../../testing/types';
 import {
   DataFieldType,
-  DataFieldWithOptions,
+  DataFieldWithOptionsAndLocations,
 } from '../../shared/types/DataField';
 import { KnockoutFollowupType } from '../../shared/types/Knockout';
 import * as knockouts from './knockouts';
@@ -31,7 +31,7 @@ describe('knockouts util', () => {
   });
   describe('getDefaultEnabledTasks', () => {
     it('should return no tasks if I have not answered any data fields', () => {
-      const defaultDataField: DataFieldWithOptions = {
+      const defaultDataField: DataFieldWithOptionsAndLocations = {
         id: 1,
         createdAt: 'h',
         updatedAt: 'h',
@@ -39,8 +39,7 @@ describe('knockouts util', () => {
         name: 'Blorg',
         type: DataFieldType.select,
         sepID: 1,
-        reviewTab: false,
-        required: true,
+        dataFieldLocations: [],
         dataFieldOptions: [
           {
             id: 1,
@@ -86,7 +85,7 @@ describe('knockouts util', () => {
       expect(result.length).toEqual(0);
     });
     it('should return a list of tasks based on the data fields with values and followups', () => {
-      const defaultDataField: DataFieldWithOptions = {
+      const defaultDataField: DataFieldWithOptionsAndLocations = {
         id: 1,
         createdAt: 'h',
         updatedAt: 'h',
@@ -94,8 +93,7 @@ describe('knockouts util', () => {
         name: 'Blorg',
         type: DataFieldType.select,
         sepID: 1,
-        reviewTab: false,
-        required: true,
+        dataFieldLocations: [],
         dataFieldOptions: [
           {
             id: 1,

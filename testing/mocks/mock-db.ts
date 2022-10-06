@@ -3,7 +3,7 @@ import Database from "../../src/backend/models";
 import { SEP, SEPPhase } from "../../src/shared/types/SEP";
 import { Department, DepartmentID } from "../../src/shared/types/Department";
 import { Task, TaskDependency, TaskPhase, TaskStatus } from "../../src/shared/types/Task";
-import { DataField, DataFieldOption, DataFieldType } from "../../src/shared/types/DataField";
+import { DataField, DataFieldOption, DataFieldLocation, DataFieldType, DataFieldLocationType } from "../../src/shared/types/DataField";
 import { KnockoutFollowup, KnockoutFollowupType, KnockoutScreen } from "../../src/shared/types/Knockout";
 const testUserID = '774d6f78-5477-4f71-8f6e-fea599577a50';
 
@@ -20,6 +20,7 @@ interface TestData {
   TaskDependency: TaskDependency[],
   DataField: DataField[],
   DataFieldOption: DataFieldOption[],
+  DataFieldLocation: DataFieldLocation[],
   KnockoutScreen: KnockoutScreen[],
   KnockoutFollowup: KnockoutFollowup[],
 }
@@ -45,14 +46,14 @@ export const testData: TestData = {
     }
   ],
   Department: [
-    { ...baseObject, id: DepartmentID.legal },
-    { ...baseObject, id: DepartmentID.ea },
-    { ...baseObject, id: DepartmentID.sec },
-    { ...baseObject, id: DepartmentID.tps },
-    { ...baseObject, id: DepartmentID.ncs },
-    { ...baseObject, id: DepartmentID.supply },
-    { ...baseObject, id: DepartmentID.po },
-    { ...baseObject, id: DepartmentID.sa },
+    { ...baseObject, id: DepartmentID.legal, name: 'Legal', adAppRole: 'AuthLegal' },
+    { ...baseObject, id: DepartmentID.ea, name: 'EA', adAppRole: 'AuthEA'  },
+    { ...baseObject, id: DepartmentID.sec, name: 'Security', adAppRole: 'AuthSecurity'  },
+    { ...baseObject, id: DepartmentID.tps, name: 'Third Party Security', adAppRole: 'AuthThirdPartySecurity'  },
+    { ...baseObject, id: DepartmentID.ncs , name: 'Nuclear Cyber Security', adAppRole: 'AuthNuclearCyberSecurity' },
+    { ...baseObject, id: DepartmentID.supply , name: 'Supply', adAppRole: 'AuthSupply' },
+    { ...baseObject, id: DepartmentID.po, name: 'Portfolio Owner', adAppRole: 'AuthPortfolioOwner'  },
+    { ...baseObject, id: DepartmentID.sa , name: 'Solution Architect', adAppRole: 'AuthSolutionArchitect' },
   ],
   Task: [
     {
@@ -169,10 +170,7 @@ export const testData: TestData = {
       createdBy: 'system',
       name: 'Blorg',
       type: DataFieldType.select,
-      sepID: 1,
-      reviewTab: false,
-      required: true,
-      knockoutScreenID: 1
+      sepID: 1
     },
     {
       ...baseObject,
@@ -181,9 +179,6 @@ export const testData: TestData = {
       name: 'Blorg',
       type: DataFieldType.input,
       sepID: 1,
-      reviewTab: false,
-      required: true,
-      knockoutScreenID: 2
     },
     {
       ...baseObject,
@@ -191,10 +186,7 @@ export const testData: TestData = {
       createdBy: 'system',
       name: 'Blorg',
       type: DataFieldType.input,
-      sepID: 1,
-      reviewTab: false,
-      required: true,
-      knockoutScreenID: 3
+      sepID: 1
     },
     {
       ...baseObject,
@@ -202,10 +194,49 @@ export const testData: TestData = {
       createdBy: 'system',
       name: 'The only data input for SEP 3 to test knockout flow',
       type: DataFieldType.input,
-      sepID: 3,
-      reviewTab: false,
+      sepID: 3
+    },
+  ],
+  DataFieldLocation: [
+    {
+      ...baseObject,
+      id: 1,
+      sepID: 1,
+      dataFieldID: 1,
+      locationID: 1,
+      locationType: DataFieldLocationType.KnockoutScreen,
       required: true,
-      knockoutScreenID: 4
+      readOnly: false
+    },
+    {
+      ...baseObject,
+      id: 2,
+      sepID: 1,
+      dataFieldID: 2,
+      locationID: 2,
+      locationType: DataFieldLocationType.KnockoutScreen,
+      required: true,
+      readOnly: false
+    },
+    {
+      ...baseObject,
+      id: 3,
+      sepID: 1,
+      dataFieldID: 3,
+      locationID: 3,
+      locationType: DataFieldLocationType.KnockoutScreen,
+      required: true,
+      readOnly: false
+    },
+    {
+      ...baseObject,
+      id: 4,
+      sepID: 1,
+      dataFieldID: 4,
+      locationID: 4,
+      locationType: DataFieldLocationType.KnockoutScreen,
+      required: true,
+      readOnly: false
     },
   ],
   DataFieldOption: [

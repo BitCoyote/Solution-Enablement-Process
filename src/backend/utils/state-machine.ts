@@ -1,3 +1,4 @@
+import { DataFieldLocationType } from '../../shared/types/DataField';
 import {
   KnockoutFollowupTemplate,
   KnockoutFollowupType,
@@ -9,6 +10,7 @@ import {
   dataFieldOptionTemplates,
   knockoutFollowupTemplates,
   taskTemplates,
+  dataFieldLocationTemplates,
 } from './template-data';
 
 interface FollowupGroup {
@@ -26,7 +28,6 @@ export const toStateMachine = () => {
       },
     },
   };
-  // const starterScreens = knockoutScreenTemplates.filter(s => s.starter);
   knockoutScreenTemplates.forEach((screen) => {
     const screenTitle = `Knockout Screen ${screen.id}`;
     machineConfig.states[screenTitle] = {
@@ -35,16 +36,27 @@ export const toStateMachine = () => {
       description: screen.name,
       states: {},
     };
-    const dataFieldTemplatesForScreen = dataFieldTemplates.filter(
-      (d) => d.knockoutScreenTemplateID === screen.id
+    const dataFieldLocationTemplatesForScreen =
+      dataFieldLocationTemplates.filter(
+        (l) =>
+          l.locationType === DataFieldLocationType.KnockoutScreen &&
+          l.locationID === screen.id
+      );
+    const dataFieldTemplatesForScreen = dataFieldTemplates.filter((d) =>
+      dataFieldLocationTemplatesForScreen.find(
+        (l) => l.dataFieldTemplateID === d.id
+      )
     );
     const dataFieldStates: any = {};
     dataFieldTemplatesForScreen.forEach((dataFieldTemplateForScreen) => {
       const dataFieldTitle = `Data Field ${dataFieldTemplateForScreen.id}`;
+      const dataFieldLocation = dataFieldLocationTemplatesForScreen.find(
+        (l) => l.dataFieldTemplateID === dataFieldTemplateForScreen.id
+      );
       dataFieldStates[dataFieldTitle] = {
         description:
           dataFieldTemplateForScreen.name +
-          (dataFieldTemplateForScreen.required ? '*' : ''),
+          (dataFieldLocation?.required ? '*' : ''),
         on: {},
       };
       const knockoutFollowupTemplatesForDataField =
@@ -95,14 +107,14 @@ export const toStateMachine = () => {
                 `Missing followup task for knockout followup template id: ${followupTemplate.id}`
               );
             } else {
-              const departmentToAdd = followupTaskTemplate.departmentID;
+              const taskToAdd = `Task ${followupTaskTemplate.id}: ${followupTaskTemplate.name}`;
               if (
                 !(dataFieldStates[dataFieldTitle] as any).on[
                   value
-                ].actions.includes(departmentToAdd)
+                ].actions.includes(taskToAdd)
               ) {
                 (dataFieldStates[dataFieldTitle] as any).on[value].actions.push(
-                  departmentToAdd
+                  taskToAdd
                 );
               }
             }

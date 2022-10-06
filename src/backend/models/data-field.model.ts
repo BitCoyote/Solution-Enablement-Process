@@ -64,42 +64,9 @@ export const DataFieldSchema: Sequelize.ModelAttributes = {
     type: Sequelize.STRING,
     allowNull: true,
   },
-  knockoutScreenID: {
-    type: Sequelize.INTEGER,
-    allowNull: true,
-    references: {
-      key: 'id',
-      model: 'KnockoutScreens',
-    },
-    onDelete: 'SET NULL',
-  },
-  departmentID: {
+  icon: {
     type: Sequelize.STRING,
     allowNull: true,
-    references: {
-      key: 'id',
-      model: 'Departments',
-    },
-    onDelete: 'SET NULL',
-  },
-  taskID: {
-    type: Sequelize.INTEGER,
-    allowNull: true,
-    references: {
-      key: 'id',
-      model: 'Tasks',
-    },
-    onDelete: 'SET NULL',
-  },
-  reviewTab: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-  },
-  required: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
   },
 };
 
@@ -136,8 +103,30 @@ export const dataFieldAssociations = (db: Database) => {
     foreignKey: 'dataFieldID',
     as: 'dataFieldOptions',
   });
+  db.DataField.hasMany(db.DataFieldLocation, {
+    foreignKey: 'dataFieldID',
+    as: 'dataFieldLocations',
+  });
   db.DataField.hasMany(db.KnockoutFollowup, {
     foreignKey: 'dataFieldID',
     as: 'knockoutFollowups',
+  });
+  db.DataField.belongsToMany(db.KnockoutScreen, {
+    foreignKey: 'locationID',
+    as: 'knockoutScreenDataFields',
+    through: { model: 'DataFieldLocation', unique: false },
+    constraints: false,
+  });
+  db.DataField.belongsToMany(db.Department, {
+    foreignKey: 'locationID',
+    as: 'departmentDataFields',
+    through: { model: 'DataFieldLocation', unique: false },
+    constraints: false,
+  });
+  db.DataField.belongsToMany(db.Task, {
+    foreignKey: 'locationID',
+    as: 'taskDataFields',
+    through: { model: 'DataFieldLocation', unique: false },
+    constraints: false,
   });
 };

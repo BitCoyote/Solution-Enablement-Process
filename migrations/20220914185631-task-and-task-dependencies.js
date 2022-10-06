@@ -51,7 +51,7 @@ module.exports = {
                     allowNull: true
                   },
                   departmentID: {
-                    type: Sequelize.STRING,
+                    type: Sequelize.INTEGER,
                     allowNull: true,
                     references: {
                       key: 'id',

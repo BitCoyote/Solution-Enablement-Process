@@ -157,7 +157,12 @@ const taskController = {
         '$defaultReviewer.displayName$',
       ];
       /** The searchable fields that need to be converted to numbers before being searched */
-      const convertToNumber = ['id', '$dependentTaskCount$', '$sep.id$'];
+      const convertToNumber = [
+        'id',
+        '$dependentTaskCount$',
+        '$sep.id$',
+        'departmentID',
+      ];
       (options.where as any)[Op.or] = searchableFields
         .map((searchableField) => ({
           [searchableField]: {
