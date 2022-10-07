@@ -29,7 +29,7 @@ module.exports = {
           deletedAt: {
             type: Sequelize.DATE,
             allowNull: true,
-          },                
+          },
           createdBy: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -77,7 +77,7 @@ module.exports = {
           deletedAt: {
             type: Sequelize.DATE,
             allowNull: true,
-          },                
+          },
           createdBy: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -106,14 +106,22 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: false,
           },
-          commentableType: {
-            type: Sequelize.STRING,
-            allowNull: false
-          },
-          commentableID: {
+          taskID: {
             type: Sequelize.INTEGER,
-            allowNull: false
-          }
+            allowNull: true,
+            references: {
+              key: 'id',
+              model: 'Tasks',
+            },
+          },
+          sepID: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+              key: 'id',
+              model: 'SEPs',
+            },
+          }        
         }, { transaction: t }),
         queryInterface.createTable('Activities', {
           id: {
@@ -161,7 +169,15 @@ module.exports = {
           action: {
             type: Sequelize.STRING,
             allowNull: false
-          }
+          },
+          sepID: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+              key: 'id',
+              model: 'SEPs',
+            },
+          }        
         }, { transaction: t }),
       ]);
     });

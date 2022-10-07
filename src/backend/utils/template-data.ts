@@ -6,8 +6,8 @@ import {
 import {
   TaskDependencyTemplate,
   TaskPhase,
-  TaskStatus,
   TaskTemplate,
+  ValidTaskDependencyStatus,
 } from '../../shared/types/Task';
 import {
   DataFieldLocationTemplate,
@@ -264,172 +264,172 @@ export const taskDependencyTemplates: TaskDependencyTemplate[] = [
   {
     dependentTaskTemplateID: 4, // Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)
     taskTemplateID: 17, // Legal review complete
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 10, // update apl
     taskTemplateID: 22, // Design review complete (Security)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 10, // update apl
     taskTemplateID: 24, // Design review complete (EA)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 10, // update apl
     taskTemplateID: 25, // Design review complete (NCS)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 11, // production readiness
     taskTemplateID: 22, // Design review complete (Security)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 11, // production readiness
     taskTemplateID: 24, // Design review complete (EA)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 11, // production readiness
     taskTemplateID: 25, // Design review complete (NCS)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 12, // DR team review
     taskTemplateID: 22, // Design review complete (Security)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 12, // DR team review
     taskTemplateID: 24, // Design review complete (EA)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 12, // DR team review
     taskTemplateID: 25, // Design review complete (NCS)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 13, // app monitoring
     taskTemplateID: 22, // Design review complete (Security)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 13, // app monitoring
     taskTemplateID: 24, // Design review complete (EA)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 13, // app monitoring
     taskTemplateID: 25, // Design review complete (NCS)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 14, // Update ServiceNow
     taskTemplateID: 22, // Design review complete (Security)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 14, // Update ServiceNow
     taskTemplateID: 24, // Design review complete (EA)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 14, // Update ServiceNow
     taskTemplateID: 25, // Design review complete (NCS)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 18, // Review SRA
     taskTemplateID: 17, // legal review complete
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 19, // TPS Review Complete
     taskTemplateID: 18, // Review SRA
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 20, // Supply Review Complete
     taskTemplateID: 21, // Initiate Review Complete (Security)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 20, // Supply Review Complete
     taskTemplateID: 23, // Initiate Review Complete (EA)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 20, // Supply Review Complete
     taskTemplateID: 18, // Review SRA
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 20, // Supply Review Complete
     taskTemplateID: 4, // Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
     taskTemplateID: 17, // Legal Review complete
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
     taskTemplateID: 19, // TPS Review complete
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
     taskTemplateID: 4, // Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 21, // Initiate Review Complete (Security)
     taskTemplateID: 5, // Please complete the Project Security Questionaire (PSQ)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 22, // Design Review Complete (Security)
     taskTemplateID: 21, // Initiate Review Complete (Security)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 22, // Design Review Complete (Security)
     taskTemplateID: 7, // Please provide Security with the device to perform penetration testing.
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 23, // Initiate Review Complete (EA)
     taskTemplateID: 16, // Portfolio Owner Review Complete
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 23, // Initiate Review Complete (EA)
     taskTemplateID: 17, // Legal Review Complete
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 23, // Initiate Review Complete (EA)
     taskTemplateID: 19, // TPS Review Complete
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 24, // Design Review Complete (EA)
     taskTemplateID: 23, // Initiate Review Complete (EA)
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 24, // Design Review Complete (EA)
     taskTemplateID: 8, // Please provide a Level 2 (Conceptial/Logical) Diagram
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
   {
     dependentTaskTemplateID: 24, // Design Review Complete (EA)
     taskTemplateID: 9, // Please provide a Level 3 (Physical) Diagram
-    status: TaskStatus.complete,
+    status: ValidTaskDependencyStatus.complete,
   },
 ] // automatically apply ids since nothing points to the TaskDependencyTemplates
   .map((f, idx) => ({ ...f, id: idx + 1 }));

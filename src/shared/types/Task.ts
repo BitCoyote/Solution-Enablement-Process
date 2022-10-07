@@ -23,6 +23,11 @@ export enum TaskPhase {
   implement = 'implement',
 }
 
+export enum ValidTaskDependencyStatus {
+  inReview = 'inReview',
+  complete = 'complete',
+}
+
 export interface Task extends SequelizeTimestamps {
   id: number;
   createdBy: string;
@@ -62,14 +67,14 @@ export interface TaskDependency extends SequelizeTimestamps {
   id: number;
   taskID: number;
   dependentTaskID: number;
-  status: TaskStatus;
+  status: ValidTaskDependencyStatus;
 }
 
 export interface TaskDependencyTemplate {
   id: number;
   taskTemplateID: number;
   dependentTaskTemplateID: number;
-  status: TaskStatus;
+  status: ValidTaskDependencyStatus;
 }
 
 export interface TaskSearchRow {

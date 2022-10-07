@@ -2,7 +2,6 @@ import express from 'express';
 import { CountOptions, FindOptions, Op, OrderItem } from 'sequelize';
 import {
   CreateTaskBody,
-  TaskStatus,
   UpdateTaskBody,
   ValidTaskStatusUpdate,
 } from '../../../shared/types/Task';
@@ -194,11 +193,6 @@ const taskController = {
       const task = (await db.Task.findByPk(id, {
         include: [
           {
-            model: db.Task,
-            as: 'dependentTasks',
-            through: { attributes: ['status'] },
-          },
-          {
             model: db.SEP,
             as: 'sep',
           },
@@ -225,32 +219,6 @@ const taskController = {
       }
       // Update task status
       await task.update(updateBody, { transaction });
-
-      // Check if any dependent tasks can be moved from "pending" to "todo"
-      // TaskDependency.status works like an "at-least" hierarchy. So if TaskDependency.status === 'inReview', that means that the dependency is fulfilled if the parent task is in "inReview" or "complete" status.
-      const statusHierarchy = {
-        [TaskStatus.pending]: 0,
-        [TaskStatus.todo]: 1,
-        [TaskStatus.changesRequested]: 1, // "todo" and "changesRequested" are considered to be equal
-        [TaskStatus.inReview]: 2,
-        [TaskStatus.complete]: 3,
-      };
-      for (let i = 0; i < task.dependentTasks.length; i++) {
-        const dependentTask = task.dependentTasks[i];
-        const taskDependencyStatus = dependentTask.TaskDependency
-          .status as TaskStatus;
-        // The task dependency is fulfilled and the dependent task is still in "pending" status, move the dependent task to "todo" status!
-        if (
-          statusHierarchy[task.status as TaskStatus] >=
-            statusHierarchy[taskDependencyStatus] &&
-          dependentTask.status === TaskStatus.pending
-        ) {
-          await dependentTask.update(
-            { status: TaskStatus.todo },
-            { transaction }
-          );
-        }
-      }
       await updateSEPProgress(db, task.sepID, transaction);
     });
 
@@ -264,15 +232,7 @@ const taskController = {
     // roles middleware has already validated that the user has the proper permissions to make this update
     const task = await db.sequelize.transaction(async (transaction) => {
       const id = parseInt(req.params.id);
-      const task = (await db.Task.findByPk(id, {
-        include: [
-          {
-            model: db.Task,
-            as: 'dependentTasks',
-            through: { attributes: [] },
-          },
-        ],
-      })) as any;
+      const task = await db.Task.findByPk(id) as any;
       // Update task
       const updateBody: UpdateTaskBody = {
         enabled: req.body.enabled ?? task.enabled,
@@ -284,19 +244,6 @@ const taskController = {
         phase: req.body.phase ?? task.phase,
       };
       await task.update(updateBody, { transaction });
-
-      // Check if any dependent tasks can be moved from "pending" to "todo" if this task was disabled
-      if (!task.enabled) {
-        for (let i = 0; i < task.dependentTasks.length; i++) {
-          const dependentTask = task.dependentTasks[i];
-          if (dependentTask.status === TaskStatus.pending) {
-            await dependentTask.update(
-              { status: TaskStatus.todo },
-              { transaction }
-            );
-          }
-        }
-      }
       await updateSEPProgress(db, task.sepID, transaction);
       return task;
     });

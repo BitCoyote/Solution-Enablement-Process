@@ -33,6 +33,7 @@ export enum ActivityAction {
 export interface Activity extends SequelizeTimestamps {
   id: number;
   userID: string;
+  sepID: number;
   trackableType: TrackableType;
   trackableID: number;
   action: ActivityAction;

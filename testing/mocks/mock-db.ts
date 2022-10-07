@@ -2,7 +2,8 @@ import { User } from "../../src/shared/types/User";
 import Database from "../../src/backend/models";
 import { SEP, SEPPhase } from "../../src/shared/types/SEP";
 import { Department, DepartmentID } from "../../src/shared/types/Department";
-import { Task, TaskDependency, TaskPhase, TaskStatus } from "../../src/shared/types/Task";
+import { Task, TaskDependency, TaskPhase, TaskStatus, ValidTaskDependencyStatus } from "../../src/shared/types/Task";
+import { Comment } from "../../src/shared/types/Comment";
 import { DataField, DataFieldOption, DataFieldLocation, DataFieldType, DataFieldLocationType } from "../../src/shared/types/DataField";
 import { KnockoutFollowup, KnockoutFollowupType, KnockoutScreen } from "../../src/shared/types/Knockout";
 const testUserID = '774d6f78-5477-4f71-8f6e-fea599577a50';
@@ -23,6 +24,7 @@ interface TestData {
   DataFieldLocation: DataFieldLocation[],
   KnockoutScreen: KnockoutScreen[],
   KnockoutFollowup: KnockoutFollowup[],
+  Comment: Comment[]
 }
 
 /** Mock data to be inserted into testing database. 
@@ -42,18 +44,18 @@ export const testData: TestData = {
       ...baseObject, id: 2, name: 'Incredible SEP', phase: SEPPhase.design, createdBy: 'system', locked: false,
     },
     {
-      ...baseObject, id: 3, name: 'SEP to test phase and task update flow', phase: SEPPhase.knockout, createdBy: 'system', locked: false,
-    }
+      ...baseObject, id: 3, name: 'SEP to test phase and task update flow', phase: SEPPhase.implement, createdBy: 'system', locked: false,
+    },
   ],
   Department: [
     { ...baseObject, id: DepartmentID.legal, name: 'Legal', adAppRole: 'AuthLegal' },
-    { ...baseObject, id: DepartmentID.ea, name: 'EA', adAppRole: 'AuthEA'  },
-    { ...baseObject, id: DepartmentID.sec, name: 'Security', adAppRole: 'AuthSecurity'  },
-    { ...baseObject, id: DepartmentID.tps, name: 'Third Party Security', adAppRole: 'AuthThirdPartySecurity'  },
-    { ...baseObject, id: DepartmentID.ncs , name: 'Nuclear Cyber Security', adAppRole: 'AuthNuclearCyberSecurity' },
-    { ...baseObject, id: DepartmentID.supply , name: 'Supply', adAppRole: 'AuthSupply' },
-    { ...baseObject, id: DepartmentID.po, name: 'Portfolio Owner', adAppRole: 'AuthPortfolioOwner'  },
-    { ...baseObject, id: DepartmentID.sa , name: 'Solution Architect', adAppRole: 'AuthSolutionArchitect' },
+    { ...baseObject, id: DepartmentID.ea, name: 'EA', adAppRole: 'AuthEA' },
+    { ...baseObject, id: DepartmentID.sec, name: 'Security', adAppRole: 'AuthSecurity' },
+    { ...baseObject, id: DepartmentID.tps, name: 'Third Party Security', adAppRole: 'AuthThirdPartySecurity' },
+    { ...baseObject, id: DepartmentID.ncs, name: 'Nuclear Cyber Security', adAppRole: 'AuthNuclearCyberSecurity' },
+    { ...baseObject, id: DepartmentID.supply, name: 'Supply', adAppRole: 'AuthSupply' },
+    { ...baseObject, id: DepartmentID.po, name: 'Portfolio Owner', adAppRole: 'AuthPortfolioOwner' },
+    { ...baseObject, id: DepartmentID.sa, name: 'Solution Architect', adAppRole: 'AuthSolutionArchitect' },
   ],
   Task: [
     {
@@ -130,7 +132,7 @@ export const testData: TestData = {
       id: 1,
       taskID: 5,
       dependentTaskID: 4,
-      status: TaskStatus.complete
+      status: ValidTaskDependencyStatus.complete
     }
   ],
   KnockoutScreen: [
@@ -277,6 +279,25 @@ export const testData: TestData = {
       sepID: 3,
     },
   ],
+  Comment: [
+    {
+      ...baseObject,
+      id: 1,
+      createdBy: 'abc',
+      sepID: 1,
+      comment: 'Hello!',
+      departmentID: DepartmentID.legal
+    },
+    {
+      ...baseObject,
+      id: 2,
+      createdBy: testUserID,
+      sepID: 1,
+      comment: 'Hello!',
+      replyCommentID: 1,
+      departmentID: DepartmentID.legal
+    },
+  ]
 };
 
 export const seedTables = async (db: Database) => {

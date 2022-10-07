@@ -2,30 +2,31 @@ import { DepartmentID } from './Department';
 import { SequelizeTimestamps } from './Sequelize';
 import { UserShort } from './User';
 
-export enum CommentableType {
-  Task = 'Task',
-  SEP = 'SEP',
-}
-
 export interface Comment extends SequelizeTimestamps {
   id: number;
+  createdAt: string;
+  updatedAt: string;
   createdBy: string;
-  commentableType: CommentableType;
-  commentableID: number;
+  sepID: number;
   comment: string;
   replyCommentID?: number;
   departmentID?: DepartmentID;
+  taskID?: number;
   deletedAt?: string;
-}
-
-export interface UpdateCommentBody {
-  comment?: string;
 }
 
 export interface CommentExtended extends Comment {
   creator: UserShort;
+  replyComment?: CommentExtended;
 }
-export interface CommentExtendedWithReply extends Comment {
-  replyComment: CommentExtended;
-  creator: UserShort;
+
+export interface CreateCommentBody {
+  sepID: number;
+  comment: string;
+  replyCommentID?: number;
+  departmentID?: DepartmentID;
+  taskID?: number;
+}
+export interface UpdateCommentBody {
+  comment: string;
 }

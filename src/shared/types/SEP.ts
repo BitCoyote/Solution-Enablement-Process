@@ -1,6 +1,6 @@
 import { Activity } from './Activity';
 import { Attachment } from './Attachment';
-import { CommentExtendedWithReply } from './Comment';
+import { CommentExtended } from './Comment';
 import { DataFieldWithOptionsAndLocations } from './DataField';
 import { SequelizeTimestamps } from './Sequelize';
 import { TaskExtended } from './Task';
@@ -46,7 +46,7 @@ export interface CreateSEPBody {
 export interface GetSEPExtendedResponse extends SEP {
   creator: UserShort;
   tasks: TaskExtended[];
-  comments: CommentExtendedWithReply[];
+  comments: CommentExtended[];
   activities: Activity[];
   attachments: Attachment[];
   dataFields: DataFieldWithOptionsAndLocations[];

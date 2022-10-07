@@ -2,7 +2,7 @@ import { Op, Transaction } from 'sequelize';
 import { DataFieldWithOptionsAndLocationsAndKnockoutFollowupTasks } from '../../shared/types/DataField';
 import { KnockoutFollowupType } from '../../shared/types/Knockout';
 import { SEPPhase } from '../../shared/types/SEP';
-import { Task, TaskPhase, TaskStatus } from '../../shared/types/Task';
+import { Task, TaskPhase, TaskStatus, ValidTaskDependencyStatus } from '../../shared/types/Task';
 import Database from '../models';
 import { getDefaultEnabledTasks, getKnockoutScreenList } from './knockouts';
 
@@ -18,6 +18,14 @@ export const updateSEPProgress = async (
         model: db.Task,
         as: 'tasks',
         required: false,
+        include: [
+          {
+            model: db.Task,
+            as: 'parentTasks',
+            required: false,
+            through: { attributes: ['status'] },
+          },
+        ],
       },
       {
         model: db.DataField,
@@ -40,7 +48,8 @@ export const updateSEPProgress = async (
         ],
       },
     ],
-  });
+    transaction
+  }) as any;
   if (sep) {
     if (sep.phase === SEPPhase.knockout) {
       // SEP is in the knockout phase. Check if all knockout screens are complete.
@@ -76,6 +85,7 @@ export const updateSEPProgress = async (
                   },
                 },
               ],
+              transaction
             })
           )
             .filter((t: any) => t.parentTasks.length === 0)
@@ -121,6 +131,40 @@ export const updateSEPProgress = async (
           { phase: newPhase },
           { where: { id: sepID }, transaction }
         );
+      }
+      // Check if any dependent tasks can be moved from "pending" to "todo"
+      // TaskDependency.status works like an "at-least" hierarchy. So if TaskDependency.status === 'inReview', that means that the dependency is fulfilled if the parent task is in "inReview" or "complete" status.
+      const statusHierarchy = {
+        [TaskStatus.pending]: 0, // not a valid task dependency status
+        [TaskStatus.todo]: 0, // not a valid task dependency status
+        [TaskStatus.changesRequested]: 0, // not a valid task dependency status
+        [ValidTaskDependencyStatus.inReview]: 1,
+        [ValidTaskDependencyStatus.complete]: 2,
+      };
+      for (let i = 0; i < sep.tasks.length; i++) {
+        const task = sep.tasks[i];
+        // If all dependencies are fulfilled and the task is still in "pending" status, move the task to "todo" status!
+        if (task.status === TaskStatus.pending) {
+          let dependenciesFulfilled = true;
+          for (let k = 0; k < task.parentTasks.length; k++) {
+            const parentTask = task.parentTasks[k];
+            const taskDependencyStatus = parentTask.TaskDependency
+              .status as TaskStatus;
+              // dependencies are only counted if the parent task is enabled
+            if (
+              statusHierarchy[parentTask.status as TaskStatus] < statusHierarchy[taskDependencyStatus] && parentTask.enabled
+            ) {
+              dependenciesFulfilled = false;
+              break;
+            }
+          }
+          if (dependenciesFulfilled) {
+            await task.update(
+              { status: TaskStatus.todo },
+              { transaction }
+            );
+          }
+        }
       }
     }
   }
