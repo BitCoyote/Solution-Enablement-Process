@@ -219,7 +219,7 @@ const taskController = {
       }
       // Update task status
       await task.update(updateBody, { transaction });
-      await updateSEPProgress(db, task.sepID, transaction);
+      await updateSEPProgress(db, task.sepID, [task.id], transaction);
     });
 
     return res.send();
@@ -232,7 +232,7 @@ const taskController = {
     // roles middleware has already validated that the user has the proper permissions to make this update
     const task = await db.sequelize.transaction(async (transaction) => {
       const id = parseInt(req.params.id);
-      const task = await db.Task.findByPk(id) as any;
+      const task = (await db.Task.findByPk(id)) as any;
       // Update task
       const updateBody: UpdateTaskBody = {
         enabled: req.body.enabled ?? task.enabled,
@@ -244,7 +244,7 @@ const taskController = {
         phase: req.body.phase ?? task.phase,
       };
       await task.update(updateBody, { transaction });
-      await updateSEPProgress(db, task.sepID, transaction);
+      await updateSEPProgress(db, task.sepID, [task.id], transaction);
       return task;
     });
 
@@ -307,7 +307,7 @@ const taskController = {
         parseInt(req.params.id)
       )) as TaskModel;
       await task.destroy({ transaction });
-      await updateSEPProgress(db, task.sepID, transaction);
+      await updateSEPProgress(db, task.sepID, [task.id], transaction);
     });
     return res.send();
   },

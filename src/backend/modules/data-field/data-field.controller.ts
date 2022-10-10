@@ -49,7 +49,7 @@ const dataFieldController = {
           );
         }
       }
-      await updateSEPProgress(db, sepID, transaction);
+      await updateSEPProgress(db, sepID, [], transaction);
     });
     const dataFieldIDs = dataFields.map((df) => df.id);
     // Fields have been successfully updated. Send updated fields in response.
