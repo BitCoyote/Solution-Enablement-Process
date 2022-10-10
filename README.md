@@ -11,7 +11,7 @@ This repository contains both the backend and frontend code for the Constellatio
 
 ## Back-End
 * [Typescript](https://www.typescriptlang.org/)
-* [NodeJS v16.6.0](https://nodejs.org/en/)
+* [NodeJS v16.17.1](https://nodejs.org/en/)
 * [Express](https://expressjs.com/)
 * [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 * [Sequelize](https://sequelize.org/)
@@ -26,7 +26,7 @@ This repository contains both the backend and frontend code for the Constellatio
 
 If this is your first time setting up the application please see the [Environment Setup](#environment-setup) section before proceeding.
 
-Ensure you are using Node v16.6.0  by typing `node -v` in your terminal. Use [NVM](https://github.com/nvm-sh/nvm) or [NVM-Windows](https://github.com/coreybutler/nvm-windows) to manage separate Node versions!
+Ensure you are using Node v16.17.1  by typing `node -v` in your terminal. Use [NVM](https://github.com/nvm-sh/nvm) or [NVM-Windows](https://github.com/coreybutler/nvm-windows) to manage separate Node versions!
 
 From the project root folder, run `npm install` to install dependencies for both frontend and backend.
 
@@ -48,6 +48,8 @@ Install SQL Server on your machine:
   * You can start the database server by running `npm run docker:db:up`
   * You can stop the database server by running `npm run docker:db:down`
   * When you start the database server for the first time you will also need to run `npm run docker:db:init`. This will create the database from your `.env` settings. I recommend running as the SA user so that you don't need to worry about creating database users and permissions.
+  * If you need to drop your local database, you can run `npm run docker:db:destroy`
+  * `npm run docker:db:reset` will drop an existing database, recreate a new database, run migrations and seeds all in one command.
   * [Article for installing SQL Server on MacOS via docker container](https://adamwilbert.com/blog/2018/3/26/get-started-with-sql-server-on-macos-complete-with-a-native-gui)
   * The repository contains a [docker-compose.yml](docker-compose.yml)
  for running a SQL server on MacOS.

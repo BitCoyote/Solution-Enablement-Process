@@ -33,7 +33,9 @@
     "lint": "npm-run-all prettier eslint tslint",
     "docker:db:up": "docker compose up -d",
     "docker:db:down": "docker compose down",
-    "docker:db:init": "source .env && docker compose exec -i sep-db /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER_HOST -U $SQL_SERVER_USER -P $SQL_SERVER_PASS -Q \"CREATE DATABASE $SQL_SERVER_DB\""
+    "docker:db:init": "source .env && docker compose exec -i sep-db /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER_HOST -U $SQL_SERVER_USER -P $SQL_SERVER_PASS -Q \"CREATE DATABASE $SQL_SERVER_DB\"",
+    "docker:db:destroy": "cli-confirm \"Do you really want to destroy your local database?\" && source .env && docker compose exec -i sep-db /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER_HOST -U $SQL_SERVER_USER -P $SQL_SERVER_PASS -Q \"DROP DATABASE $SQL_SERVER_DB\"",
+    "docker:db:reset": "npm run docker:db:destroy && npm run docker:db:init && npm run migrate && npm run seed"
   },
   "jest-junit": {
     "outputDirectory": "./coverage/junit"
@@ -101,6 +103,7 @@
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
     "browserify": "^17.0.0",
+    "cli-confirm": "^1.0.1",
     "eslint": "^8.22.0",
     "eslint-plugin-react": "^7.30.1",
     "husky": "^8.0.1",
@@ -109,7 +112,7 @@
     "jest-junit": "^14.0.0",
     "jest-svg-transformer": "^1.0.0",
     "lint-staged": "^13.0.3",
-    "msw": "^0.45.0",
+    "msw": "^0.47.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
     "react": "^18.2.0",

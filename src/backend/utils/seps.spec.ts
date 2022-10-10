@@ -135,7 +135,7 @@ describe('seps utils', () => {
           where: { phase: 'initiate', sepID: newSEP.id, locked: false },
         });
         expect(unlockedTaskCount).toEqual(0);
-      });
+      }, 10000);
     });
   });
 });

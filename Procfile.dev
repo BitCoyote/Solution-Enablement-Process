@@ -1,0 +1,2 @@
+web: npm run dev-frontend
+api: npm run dev-backend
