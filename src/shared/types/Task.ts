@@ -113,6 +113,16 @@ export interface UpdateTaskBody {
   defaultReviewerID?: string;
   phase?: TaskPhase;
 }
+export interface UpdateMultipleTaskBody {
+  id: number;
+  enabled?: boolean;
+  review?: boolean;
+  name?: string;
+  description?: string;
+  assignedUserID?: string;
+  defaultReviewerID?: string;
+  phase?: TaskPhase;
+}
 
 export interface CreateTaskBody {
   sepID: number;

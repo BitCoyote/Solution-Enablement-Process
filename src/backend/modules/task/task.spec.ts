@@ -194,6 +194,17 @@ describe('task module', () => {
       expect(response.body[0].parentTasks).toBeDefined();
     });
   });
+  describe('PATCH /sep/{sepID}/tasks', () => {
+    it('should successfully update a list of tasks', async () => {
+      await globals.request
+        .patch(`/sep/1/tasks`)
+        .send([{ id: 1, description: 'Howdy!' }])
+        .expect(200);
+      expect((await globals.db.Task.findByPk(1))?.description).toEqual(
+        'Howdy!'
+      );
+    });
+  });
   describe('PATCH /task/{id}', () => {
     it('should successfully update a task', async () => {
       const response = await globals.request

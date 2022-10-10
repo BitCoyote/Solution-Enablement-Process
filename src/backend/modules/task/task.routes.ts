@@ -135,6 +135,39 @@ const paths: Paths = {
         },
       },
     },
+    patch: {
+      handler: taskController.updateMultipleTasks,
+      role: allAppRoles,
+      tags: ['Task'],
+      summary: 'Update multiple tasks',
+      description: 'Updates multiple tasks',
+      parameters: [
+        {
+          name: 'sepID',
+          in: 'path',
+          description: 'The SEP ID of the tasks being updated',
+        },
+      ],
+      requestBody: {
+        description: 'The attributes of the task to update',
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/UpdateMultipleTaskBody',
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'Success',
+        },
+      },
+    },
   },
   '/task/{id}': {
     patch: {
