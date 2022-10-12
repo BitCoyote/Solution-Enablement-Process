@@ -155,7 +155,7 @@ const paths: Paths = {
             res,
             next,
             db,
-            parseInt(req.params.sepID)
+            parseInt(req.params.id)
           );
         },
       ],
