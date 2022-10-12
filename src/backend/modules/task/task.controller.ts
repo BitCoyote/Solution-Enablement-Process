@@ -2,6 +2,7 @@ import express from 'express';
 import { CountOptions, FindOptions, Op, OrderItem } from 'sequelize';
 import {
   CreateTaskBody,
+  UpdateMultipleTaskBody,
   UpdateTaskBody,
   ValidTaskStatusUpdate,
 } from '../../../shared/types/Task';
@@ -249,6 +250,41 @@ const taskController = {
     });
 
     return res.send(task);
+  },
+  updateMultipleTasks: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    const tasks = req.body as UpdateMultipleTaskBody[];
+    // roles middleware has already validated that the user has the proper permissions to make this update
+    await db.sequelize.transaction(async (transaction) => {
+      for (let i = 0; i < tasks.length; i++) {
+        const task = tasks[i];
+        const updateBody: UpdateTaskBody = {
+          enabled: req.body.enabled ?? task.enabled,
+          review: req.body.enabled ?? task.review,
+          name: req.body.name ?? task.name,
+          description: req.body.description ?? task.description,
+          assignedUserID: req.body.assignedUserID ?? task.assignedUserID,
+          defaultReviewerID:
+            req.body.defaultReviewerID ?? task.defaultReviewerID,
+          phase: req.body.phase ?? task.phase,
+        };
+        await db.Task.update(updateBody, {
+          where: { sepID: req.params.sepID, id: task.id },
+          transaction,
+        });
+      }
+      await updateSEPProgress(
+        db,
+        req.body.sepID,
+        tasks.map((t) => t.id),
+        transaction
+      );
+    });
+
+    return res.send();
   },
   getTasksBySEPID: async (
     req: express.Request,
