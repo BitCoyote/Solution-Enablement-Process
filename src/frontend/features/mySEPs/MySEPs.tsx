@@ -8,6 +8,7 @@ import SepTableBody from '../../components/SepTable/SepTableBody';
 import { useGetUserQuery } from '../../services/usersSlice';
 import { useGetTasksQuery } from '../../services/tasksSlice/tasksSlice';
 import { TaskStatus } from '../../../shared/types/Task';
+import AttachmentUpload from '../../components/AttachmentUpload/AttachmentUpload';
 
 const AllSEPs = () => {
   const [searchText, setSearchText] = useState<string>('');
@@ -58,6 +59,7 @@ const AllSEPs = () => {
 
   return (
     <Box display="flex" flexDirection="column" flexGrow={1} pt="24px">
+      <AttachmentUpload/>
       <SearchBar
         title="My SEPs"
         searchText={searchText}

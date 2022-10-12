@@ -69,7 +69,8 @@ export const testData: TestData = {
       review: true,
       enabled: true,
       locked: false,
-      name: 'Really great task'
+      name: 'Really great task',
+      shortName: 'taskerino'
     },
     {
       ...baseObject,
@@ -82,7 +83,8 @@ export const testData: TestData = {
       review: true,
       locked: false,
       enabled: true,
-      name: 'Super great task'
+      name: 'Super great task',
+      shortName: 'taskerino'
     },
     {
       ...baseObject,
@@ -95,7 +97,8 @@ export const testData: TestData = {
       review: true,
       enabled: false,
       locked: false,
-      name: 'A task to be enabled by answering a knockout question'
+      name: 'A task to be enabled by answering a knockout question',
+      shortName: 'taskerino'
     },
     {
       ...baseObject,
@@ -109,7 +112,8 @@ export const testData: TestData = {
       review: true,
       locked: false,
       enabled: true,
-      name: 'A task that has a parent task'
+      name: 'A task that has a parent task',
+      shortName: 'taskerino'
     },
     {
       ...baseObject,
@@ -123,7 +127,8 @@ export const testData: TestData = {
       defaultReviewerID: 'abc',
       locked: false,
       enabled: true,
-      name: 'A parent task for task 4'
+      name: 'A parent task for task 4',
+      shortName: 'taskerino'
     }
   ],
   TaskDependency: [

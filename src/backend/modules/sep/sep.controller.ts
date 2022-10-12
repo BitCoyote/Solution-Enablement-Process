@@ -143,6 +143,7 @@ const sepController = {
           sepID: newSEP.id,
           review: taskTemplate.review,
           name: taskTemplate.name,
+          shortName: taskTemplate.shortName,
           description: taskTemplate.description,
           phase: taskTemplate.phase,
           status: TaskStatus.pending,
