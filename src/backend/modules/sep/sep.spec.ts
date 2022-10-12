@@ -1,4 +1,5 @@
 import { BackendTestingGlobals } from '../../../../testing/types';
+import { UpdateSEPBody } from '../../../shared/types/SEP';
 describe('sep module', () => {
   const globals = globalThis as unknown as BackendTestingGlobals;
 
@@ -128,6 +129,18 @@ describe('sep module', () => {
       expect(response.body.id).toEqual(1);
     });
   });
+  describe('PATCH /sep/{id}', () => {
+    it('should successfully update an SEP', async () => {
+      const response = await globals.request
+        .patch(`/sep/1`)
+        .send({ description: 'Cool!' } as UpdateSEPBody)
+        .expect(200);
+      const sep = await globals.db.SEP.findByPk(1);
+      expect(sep?.description).toEqual('Cool!');
+      expect(response.body.description).toEqual('Cool!');
+    });
+  });
+
   describe('GET /sep/{id}/extended', () => {
     it('should return an error when the sep is not in the database.', async () => {
       await globals.request.get(`/sep/999999999/extended`).expect(404);
