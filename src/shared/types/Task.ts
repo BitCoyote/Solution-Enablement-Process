@@ -33,6 +33,7 @@ export interface Task extends SequelizeTimestamps {
   createdBy: string;
   status: TaskStatus;
   name: string;
+  shortName: string;
   description?: string;
   sepID: number;
   departmentID?: DepartmentID;
@@ -59,6 +60,7 @@ export interface TaskTemplate {
   departmentID?: DepartmentID;
   review: boolean;
   name: string;
+  shortName: string;
   description?: string;
 }
 
@@ -108,6 +110,7 @@ export interface UpdateTaskBody {
   enabled?: boolean;
   review?: boolean;
   name?: string;
+  shortName?: string;
   description?: string;
   assignedUserID?: string;
   defaultReviewerID?: string;
@@ -118,6 +121,7 @@ export interface UpdateMultipleTaskBody {
   enabled?: boolean;
   review?: boolean;
   name?: string;
+  shortName?: string;
   description?: string;
   assignedUserID?: string;
   defaultReviewerID?: string;
@@ -127,6 +131,7 @@ export interface UpdateMultipleTaskBody {
 export interface CreateTaskBody {
   sepID: number;
   name: string;
+  shortName: string;
   phase: TaskPhase;
   departmentID?: string;
   enabled?: boolean;
