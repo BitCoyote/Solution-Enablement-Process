@@ -86,7 +86,36 @@ const paths: Paths = {
                 },
             },
 
-        }
+        },
+        delete: {
+            handler: attachmentController.deleteAttachment,
+            middleware: [
+                (req, res, next, db) => {
+                    mustOwnResource(
+                        req,
+                        res,
+                        next,
+                        db.Attachment,
+                        parseInt(req.params.id)
+                    );
+                }
+            ],
+            tags: ['Attachment'],
+            summary: 'Delete a attachment (soft-delete)',
+            description: 'Performs a soft-delete on a attachment',
+            parameters: [
+                {
+                    name: 'id',
+                    in: 'path',
+                    required: true,
+                },
+            ],
+            responses: {
+                '200': {
+                    description: 'Success',
+                },
+            },
+        },
     },
     '/sep/{sepID}/attachments': {
         get: {
@@ -229,50 +258,11 @@ const paths: Paths = {
                 },
             },
         },
-        delete: {
-            handler: attachmentController.deleteAttachment,
-            middleware: [
-                (req, res, next, db) => {
-                    mustOwnResource(
-                        req,
-                        res,
-                        next,
-                        db.Attachment,
-                        parseInt(req.params.id)
-                    );
-                }
-            ],
-            tags: ['Attachment'],
-            summary: 'Delete a attachment (soft-delete)',
-            description: 'Performs a soft-delete on a attachment',
-            parameters: [
-                {
-                    name: 'id',
-                    in: 'path',
-                    required: true,
-                },
-            ],
-            responses: {
-                '200': {
-                    description: 'Success',
-                },
-            },
-        },
     },
     '/attachment/download/{id}': {
         get: {
             handler: attachmentController.downloadAttachment,
             tags: ['Attachment'],
-            middleware: [
-                (req, res, next, db) => {
-                    mustBeRequestorOrResourceOwner(
-                        res,
-                        next,
-                        db,
-                        parseInt(req.params.sepID)
-                    );
-                },
-            ],
             parameters: [
                 {
                     name: 'id',

@@ -1,27 +1,5 @@
 import { PassThrough } from 'stream';
 import * as azureStorageUtils from './azure-storage';
-import {
-    BlobServiceClient,
-} from '@azure/storage-blob';
-
-jest.mock('@azure/storage-blob', () => {
-    return {
-        BlobServiceClient: {
-            fromConnectionString: () => ({
-                getContainerClient: () => ({
-                    getBlockBlobClient: () => ({
-                        download: jest.fn(() => 'downloadResponse'),
-                        upload: jest.fn(() => 'uploadResponse'),
-                        delete: jest.fn()
-                    }),
-                    createIfNotExists: jest.fn(),
-                    deleteIfExists: jest.fn()
-                })
-            })
-        }
-    }
-});
-
 describe('azure storage utils', () => {
     describe('getBlobServiceClient', () => {
         it('should return a new instance of BlobServiceClient when one does not exist yet', async () => {
@@ -35,12 +13,9 @@ describe('azure storage utils', () => {
         });
     });
 
-    describe.only('getContainer', () => {
+    describe('getContainer', () => {
         it('should return an instance of ContainerClient ', async () => {
-            jest.spyOn(BlobServiceClient, 'fromConnectionString').mockReturnValueOnce({} as any);
             const result = await azureStorageUtils.getContainer(1);
-            console.log('um')
-
             expect(result.getBlockBlobClient).toBeDefined();
             expect(result.createIfNotExists).toBeDefined();
         });
@@ -48,7 +23,7 @@ describe('azure storage utils', () => {
     describe('downloadBlob', () => {
         it('should download a blob ', async () => {
             const result = await azureStorageUtils.downloadBlob(1, 1);
-            expect(result).toEqual('downloadResponse');
+            expect(result.readableStreamBody).toBeDefined();
         });
     });
     describe('deleteContainer', () => {

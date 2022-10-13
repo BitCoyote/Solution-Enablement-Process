@@ -2,13 +2,11 @@ import { BlobServiceClient } from '@azure/storage-blob';
 import { PassThrough } from 'stream';
 
 let blobServiceClient: BlobServiceClient;
-
 /** Returns the blobServiceClient. If it does not exist, the blobServiceClient will be created and returned. */
 export const getBlobServiceClient = () => {
     if (blobServiceClient) {
         return blobServiceClient;
     }
-    console.log(BlobServiceClient)
     blobServiceClient = BlobServiceClient.fromConnectionString(
         process.env.AZURE_STORAGE_CONNECTION_STRING as string
     );
@@ -17,16 +15,11 @@ export const getBlobServiceClient = () => {
 
 /** Gets a container by sepID if it exists. If the container does not exist, this function will create the container and return it. */
 export const getContainer = async (sepID: number) => {
-    console.log('trying')
     const blobServiceClient = getBlobServiceClient();
-    console.log('that aint it', blobServiceClient)
-
     // Get a reference to a container
     const containerClient = blobServiceClient.getContainerClient(`sep-${sepID}`);
-    console.log('ummm', containerClient)
     // Container does not exist, create it!
     await containerClient.createIfNotExists();
-    console.log('waitin')
     return containerClient;
 };
 
