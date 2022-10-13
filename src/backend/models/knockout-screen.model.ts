@@ -26,9 +26,12 @@ export const KnockoutScreenSchema: Sequelize.ModelAttributes = {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      len: [1, 256],
+    },
   },
   description: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING(2048),
     allowNull: true,
   },
   sepID: {

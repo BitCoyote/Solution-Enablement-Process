@@ -26,10 +26,16 @@ export const DepartmentSchema: Sequelize.ModelAttributes = {
   name: {
     allowNull: false,
     type: Sequelize.STRING,
+    validate: {
+      len: [1, 256],
+    },
   },
   adAppRole: {
     allowNull: false,
     type: Sequelize.STRING,
+    validate: {
+      len: [1, 256],
+    },
   },
 };
 

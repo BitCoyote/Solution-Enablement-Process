@@ -28,6 +28,9 @@ export const KnockoutFollowupSchema: Sequelize.ModelAttributes = {
   value: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      len: [1, 256],
+    },
   },
   sepID: {
     type: Sequelize.INTEGER,

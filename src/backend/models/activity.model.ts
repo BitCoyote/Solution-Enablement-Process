@@ -34,6 +34,9 @@ export const ActivitySchema: Sequelize.ModelAttributes = {
   title: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      len: [1, 256],
+    },
   },
   description: {
     type: Sequelize.STRING,
@@ -54,6 +57,9 @@ export const ActivitySchema: Sequelize.ModelAttributes = {
   action: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      len: [1, 256],
+    },
   },
 };
 
