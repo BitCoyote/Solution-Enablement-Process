@@ -3,7 +3,7 @@ import { Op, OrderItem } from 'sequelize';
 import { FindAndCountOptions } from 'sequelize/types';
 import { DataFieldLocationType } from '../../../shared/types/DataField';
 import { KnockoutFollowupType } from '../../../shared/types/Knockout';
-import { CreateSEPBody } from '../../../shared/types/SEP';
+import { CreateSEPBody, UpdateSEPBody } from '../../../shared/types/SEP';
 import { TaskStatus } from '../../../shared/types/Task';
 import Database from '../../models';
 import {
@@ -392,6 +392,26 @@ const sepController = {
     if (!sep) {
       return res.status(404).send('Cannot find SEP.');
     }
+    return res.send(sep);
+  },
+  updateSEP: async (
+    req: express.Request,
+    res: express.Response,
+    db: Database
+  ): Promise<express.Response> => {
+    // roles middleware has already validated that the user has the proper permissions to make this update
+    const sep = await db.sequelize.transaction(async (transaction) => {
+      const id = parseInt(req.params.id);
+      const sep = (await db.SEP.findByPk(id)) as any;
+      // Update sep
+      const updateBody: UpdateSEPBody = {
+        name: req.body.name ?? sep.name,
+        description: req.body.description ?? sep.description,
+      };
+      await sep.update(updateBody, { transaction });
+      return sep;
+    });
+
     return res.send(sep);
   },
 };

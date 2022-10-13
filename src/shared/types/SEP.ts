@@ -33,7 +33,7 @@ export interface SEPSearchResult {
   seps: SEPSearchRow[];
 }
 
-export interface SEPUpdateBody {
+export interface UpdateSEPBody {
   name?: string;
   description?: string;
 }

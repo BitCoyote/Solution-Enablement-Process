@@ -1,5 +1,6 @@
 import sepController from './sep.controller';
 import { Paths } from '../../routes';
+import { mustBeRequestorOrResourceOwner } from '../../utils/authorization';
 
 const paths: Paths = {
   '/seps': {
@@ -140,6 +141,50 @@ const paths: Paths = {
             'application/json': {
               schema: {
                 $ref: '#/components/schemas/GetSEPResponse',
+              },
+            },
+          },
+        },
+      },
+    },
+    patch: {
+      handler: sepController.updateSEP,
+      middleware: [
+        (req, res, next, db) => {
+          mustBeRequestorOrResourceOwner(
+            res,
+            next,
+            db,
+            parseInt(req.params.id)
+          );
+        },
+      ],
+      tags: ['SEP'],
+      summary: 'Update an SEP',
+      description: 'Update an SEP',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          description: 'The id of the SEP to be updated',
+        },
+      ],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/UpdateSEPBody',
+            },
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'Returns the updated SEP',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/SEP',
               },
             },
           },
