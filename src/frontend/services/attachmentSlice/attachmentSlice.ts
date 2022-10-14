@@ -1,5 +1,6 @@
 import { sepAPI } from '../API';
 import { Attachment } from '../../../shared/types/Attachment';
+import { setSnackbarForEndpoint } from '../../utils/snackbar';
 
 export const attachmentSlice = sepAPI.injectEndpoints({
     endpoints: (builder) => ({
@@ -13,6 +14,12 @@ export const attachmentSlice = sepAPI.injectEndpoints({
                     body: data
                 };
             },
+            onQueryStarted: (arg, api) => {
+                setSnackbarForEndpoint(api, {
+                    successMessage: 'Attachment uploaded successfully!',
+                    errorMessage: 'There was a problem uploading your attachment.'
+                });
+            }
         }),
     }),
 });
