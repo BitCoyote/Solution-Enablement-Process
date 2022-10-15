@@ -82,7 +82,7 @@ export const sepAssociations = (db: Database) => {
     as: 'activities',
   });
   db.SEP.hasMany(db.Attachment, {
-    foreignKey: 'attachableID',
+    foreignKey: 'sepID',
     as: 'attachments',
   });
   db.SEP.hasMany(db.DataField, {

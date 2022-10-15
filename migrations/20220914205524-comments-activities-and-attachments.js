@@ -44,19 +44,27 @@ module.exports = {
           },
           url: {
             type: Sequelize.STRING,
-            allowNull: false,
+            allowNull: true,
           },
           mimeType: {
             type: Sequelize.STRING,
-            allowNull: false,
+            allowNull: true,
           },
-          attachableType: {
-            type: Sequelize.STRING,
-            allowNull: false
-          },
-          attachableID: {
+          sepID: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: false,
+            references: {
+              key: 'id',
+              model: 'SEPs',
+            },
+          },
+          taskID: {
+            type: Sequelize.INTEGER,
+            allowNull: true,
+            references: {
+              key: 'id',
+              model: 'Tasks',
+            },
           }
         }, { transaction: t }),
         queryInterface.createTable('Comments', {

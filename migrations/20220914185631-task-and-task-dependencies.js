@@ -91,6 +91,10 @@ module.exports = {
                     type: Sequelize.STRING,
                     allowNull: false
                   },
+                  shortName: {
+                    type: Sequelize.STRING,
+                    allowNull: false,
+                  },                
                   description: {
                     type: Sequelize.STRING(2048),
                     allowNull: true

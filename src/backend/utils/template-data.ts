@@ -37,6 +37,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.legal,
     review: true,
     name: 'Please provide more more detail around data that will be in scope for this review.',
+    shortName: 'Get Scope',
     defaultAssignee: 'requestor',
     description: `
     For help with my review, please provide:
@@ -71,6 +72,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.legal,
     review: false,
     name: 'Please update the APM data classification and regulatory information.',
+    shortName: 'APM Data Classification (Legal)',
   },
   {
     id: 3,
@@ -78,6 +80,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.po,
     review: false,
     name: 'Please update the APM data classification and regulatory information.',
+    shortName: 'APM Data Classification (Portfolio Owner)',
   },
   {
     id: 4,
@@ -85,6 +88,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.sec,
     review: true,
     name: 'Please have Vendor complete the Cloud Security Requirements Matrix (CSRM)',
+    shortName: 'CSRM',
     defaultAssignee: 'requestor',
     description: `Please download the most recent CSRM from <CSRM URL>. You will need to complete the first tab. Then Send the CSRM to complete the remaining questions. Please tell them not to spend more than about a minute on each question. If there are problems with any answers we will circle back with the vendor after the Security Review. Please attach the completed CSRM to this task when ready.`,
   },
@@ -94,6 +98,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.sec,
     review: true,
     name: 'Please complete the Project Security Questionaire (PSQ)',
+    shortName: 'PSQ',
     defaultAssignee: 'requestor',
     description: `Please download the most recent PSQ from <PSQ URL>. You can attached the completed PSQ to this task when ready.`,
   },
@@ -103,6 +108,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.sec,
     review: false,
     name: 'Please create a Security Exception for this request. See Detail for more information.',
+    shortName: 'Security Exception',
     defaultAssignee: 'requestor',
     description: `Security Exceptions are submitted in the ServiceNow system. <url> <Free form>`,
   },
@@ -112,6 +118,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.sec,
     review: true,
     name: 'Please provide Security with the device to perform penetration testing.',
+    shortName: 'Provide device',
     defaultAssignee: 'requestor',
   },
   {
@@ -120,6 +127,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.ea,
     review: true,
     name: 'Please provide a Level 2 (Conceptial/Logical) Diagram',
+    shortName: 'Level 2 Diagram',
     description:
       'Please provide a logical diagram depicting conceptual interactions with other applications systems and shared services. Please attach the diagram to this task when complete. See our resources on creating architecture diagrams (url) for sample diagrams and insturctions.',
     defaultAssignee: 'requestor',
@@ -130,6 +138,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.ea,
     review: true,
     name: 'Please provide a Level 3 (Physical) Diagram',
+    shortName: 'Level 3 Diagram',
     description:
       'Please provide  a physical diagram depicting details of physical compenents and infrastructure supporting the project deployment. Please attach the diagram to this task when complete. See our resources on creating architecture diagrams (url) for sample diagrams and insturctions. ',
     defaultAssignee: 'requestor',
@@ -140,6 +149,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.ea,
     review: false,
     name: 'Please update APL. See Details for more information.',
+    shortName: 'APL',
   },
   {
     id: 11,
@@ -147,6 +157,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.ea,
     review: false,
     name: 'Engage Production Readiness Process to determine if a Production Readiness Review is required.',
+    shortName: 'Production Readiness Process',
     description:
       'See Production Readiness Engagement URL <url> to determine requirements for presenting this effort for Production Readiness Review.',
     defaultAssignee: 'requestor',
@@ -157,6 +168,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.ea,
     review: false,
     name: 'Review request with the DR Team',
+    shortName: 'DR Team Review',
     description:
       'Contact the DR Team <DR Team Distribution List> to verify DR requirements are met for this request.',
     defaultAssignee: 'requestor',
@@ -167,6 +179,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.ea,
     review: false,
     name: 'Review request with the Application Monitoring Team',
+    shortName: 'Application Monitoring Team Review',
     description:
       'Contact the Application Monitoring Team <App Mon Team Distribution List> to assure appropriate monitoring is in place for this request. ',
     defaultAssignee: 'requestor',
@@ -177,6 +190,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.ea,
     review: false,
     name: 'Map/update Production Infrastructure in ServiceNow CMDB',
+    shortName: 'Production Infrastructure in ServiceNow CMDB',
     description:
       'Map all Production Ingrastructure Objects in ServiceNow CMDB (Including IaaS/PaaS)',
     defaultAssignee: 'requestor',
@@ -187,6 +201,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.sa,
     review: false,
     name: 'Solution Architect Review Complete',
+    shortName: 'SA Review',
   },
   {
     id: 16,
@@ -194,6 +209,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.po,
     review: false,
     name: 'Portfolio Owner Review Complete',
+    shortName: 'PO Review',
   },
   {
     id: 17,
@@ -201,6 +217,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.legal,
     review: false,
     name: 'Legal Review Complete',
+    shortName: 'Legal Review',
   },
   {
     id: 18,
@@ -208,6 +225,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.tps,
     review: false,
     name: 'Review SRA',
+    shortName: 'Review SRA',
   },
   {
     id: 19,
@@ -215,6 +233,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.tps,
     review: false,
     name: 'TPS Review Complete',
+    shortName: 'TPS Review'
   },
   {
     id: 20,
@@ -222,6 +241,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.supply,
     review: false,
     name: 'Supply Review Complete',
+    shortName: 'Supply Review',
   },
   {
     id: 21,
@@ -229,6 +249,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.sec,
     review: false,
     name: 'Initiate Review Complete',
+    shortName: 'Initiate Review',
   },
   {
     id: 22,
@@ -236,6 +257,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.sec,
     review: false,
     name: 'Design Review Complete',
+    shortName: 'Design Review (Security)',
   },
   {
     id: 23,
@@ -243,6 +265,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.ea,
     review: false,
     name: 'Initiate Review Complete',
+    shortName: 'Initiate Review',
   },
   {
     id: 24,
@@ -250,6 +273,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.ea,
     review: false,
     name: 'Design Review Complete',
+    shortName: 'Design Review (EA)',
   },
   {
     id: 25,
@@ -257,6 +281,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.ncs,
     review: false,
     name: 'Design Review Complete',
+    shortName: 'Design Review (NCS)'
   },
 ];
 
