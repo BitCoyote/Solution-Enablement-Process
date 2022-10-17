@@ -42,7 +42,7 @@ export const paths: Paths = {
   ...taskRoutes,
   ...knockoutRoutes,
   ...dataFieldRoutes,
-  ...commentRoutes
+  ...commentRoutes,
 };
 
 // This module receives the express app and applies the routes for the entire API.
