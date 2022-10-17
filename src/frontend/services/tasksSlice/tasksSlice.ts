@@ -24,9 +24,9 @@ export const tasksSlice = sepAPI.injectEndpoints({
       },
       onQueryStarted: (arg, api) => {
         setSnackbarForEndpoint(api, {
-          errorMessage: 'There was a problem getting the tasks.'
+          errorMessage: 'There was a problem getting the tasks.',
         });
-      }
+      },
     }),
   }),
 });

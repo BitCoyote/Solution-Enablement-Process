@@ -8,9 +8,9 @@ export const usersSlice = sepAPI.injectEndpoints({
       query: (id) => `users/${id}`,
       onQueryStarted: (arg, api) => {
         setSnackbarForEndpoint(api, {
-          errorMessage: 'There was a problem getting this user.'
+          errorMessage: 'There was a problem getting this user.',
         });
-      }
+      },
     }),
   }),
 });

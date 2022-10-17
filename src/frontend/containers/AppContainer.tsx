@@ -8,11 +8,18 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
-  ref,
+  ref
 ) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" sx={{cursor: 'pointer'}} {...props} />;
+  return (
+    <MuiAlert
+      elevation={6}
+      ref={ref}
+      variant="filled"
+      sx={{ cursor: 'pointer' }}
+      {...props}
+    />
+  );
 });
-
 
 const AppContainer = () => {
   const snackbar = useAppSelector(selectSnackbar);
@@ -21,7 +28,11 @@ const AppContainer = () => {
     <>
       <ResponsiveAppBar />
       <SepContainer />
-      <Snackbar key={snackbar?.text} open={!!snackbar} onClick={()=>dispatch(setSnackbar(null))}>
+      <Snackbar
+        key={snackbar?.text}
+        open={!!snackbar}
+        onClick={() => dispatch(setSnackbar(null))}
+      >
         <Alert severity={snackbar?.type}>{snackbar?.text}</Alert>
       </Snackbar>
     </>

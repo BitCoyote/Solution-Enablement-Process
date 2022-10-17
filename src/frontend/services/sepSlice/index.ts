@@ -15,9 +15,9 @@ export const sepSlice = sepAPI.injectEndpoints({
       query: (id) => `sep/${id}`,
       onQueryStarted: (arg, api) => {
         setSnackbarForEndpoint(api, {
-          errorMessage: 'There was a problem getting this SEP.'
+          errorMessage: 'There was a problem getting this SEP.',
         });
-      }
+      },
     }),
     findSeps: builder.query<SEPSearchResult, SearchParams>({
       query: (arg) => {
@@ -29,17 +29,17 @@ export const sepSlice = sepAPI.injectEndpoints({
       },
       onQueryStarted: (arg, api) => {
         setSnackbarForEndpoint(api, {
-          errorMessage: 'There was a problem getting the list of SEPs.'
+          errorMessage: 'There was a problem getting the list of SEPs.',
         });
-      }
+      },
     }),
     getSepExtended: builder.query<GetSEPExtendedResponse, number>({
       query: (id) => `sep/${id}/extended`,
       onQueryStarted: (arg, api) => {
         setSnackbarForEndpoint(api, {
-          errorMessage: 'There was a problem getting this SEP.'
+          errorMessage: 'There was a problem getting this SEP.',
         });
-      }
+      },
     }),
     createSep: builder.mutation<SEP, Partial<CreateSEPBody>>({
       query: ({ ...body }) => {
@@ -52,9 +52,9 @@ export const sepSlice = sepAPI.injectEndpoints({
       onQueryStarted: (arg, api) => {
         setSnackbarForEndpoint(api, {
           successMessage: 'SEP created succesfully!',
-          errorMessage: 'There was a problem creating your SEP.'
+          errorMessage: 'There was a problem creating your SEP.',
         });
-      }
+      },
     }),
   }),
 });

@@ -3,9 +3,9 @@ import { useUploadNewAttachmentMutation } from '../../services/attachmentSlice/a
 import './styles.css';
 
 /*  HEY FRONTEND DEVELOPER. :)
-** This is just a component Jordan built to make sure his backend for uploading attachments works.
-** Feel free to rework this component for the real Attachment uploading functionality
-*/
+ ** This is just a component Jordan built to make sure his backend for uploading attachments works.
+ ** Feel free to rework this component for the real Attachment uploading functionality
+ */
 const AttachmentUpload = () => {
   const [uploadAttachmentMutation] = useUploadNewAttachmentMutation();
   const uploadAttachment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +21,7 @@ const AttachmentUpload = () => {
         uploadAttachmentMutation({ sepID, data });
       }
     }
-  }
+  };
   return (
     <>
       <input onChange={uploadAttachment} type="file" name="attachment" />
