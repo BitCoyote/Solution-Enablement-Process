@@ -257,6 +257,7 @@ describe('task module', () => {
     it('should create a new task', async () => {
       const newTask: CreateTaskBody = {
         sepID: 1,
+        shortName: 'ok',
         name: 'blorg',
         phase: TaskPhase.initiate,
       };
@@ -271,6 +272,7 @@ describe('task module', () => {
       const newTask: CreateTaskBody = {
         sepID: 1,
         name: 'blorg',
+        shortName: 'ok',
         phase: TaskPhase.initiate,
         assignedUserID: 'system',
       };
@@ -284,6 +286,7 @@ describe('task module', () => {
       const newTask: CreateTaskBody = {
         sepID: 1,
         name: 'blorg',
+        shortName: 'ok',
         phase: TaskPhase.initiate,
       };
       const response = await globals.request

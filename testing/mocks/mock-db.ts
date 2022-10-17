@@ -6,6 +6,7 @@ import { Task, TaskDependency, TaskPhase, TaskStatus, ValidTaskDependencyStatus 
 import { Comment } from "../../src/shared/types/Comment";
 import { DataField, DataFieldOption, DataFieldLocation, DataFieldType, DataFieldLocationType } from "../../src/shared/types/DataField";
 import { KnockoutFollowup, KnockoutFollowupType, KnockoutScreen } from "../../src/shared/types/Knockout";
+import { Attachment } from "../../src/shared/types/Attachment";
 const testUserID = '774d6f78-5477-4f71-8f6e-fea599577a50';
 
 const baseObject = {
@@ -24,7 +25,8 @@ interface TestData {
   DataFieldLocation: DataFieldLocation[],
   KnockoutScreen: KnockoutScreen[],
   KnockoutFollowup: KnockoutFollowup[],
-  Comment: Comment[]
+  Comment: Comment[],
+  Attachment: Attachment[]
 }
 
 /** Mock data to be inserted into testing database. 
@@ -69,7 +71,8 @@ export const testData: TestData = {
       review: true,
       enabled: true,
       locked: false,
-      name: 'Really great task'
+      name: 'Really great task',
+      shortName: 'taskerino'
     },
     {
       ...baseObject,
@@ -82,7 +85,8 @@ export const testData: TestData = {
       review: true,
       locked: false,
       enabled: true,
-      name: 'Super great task'
+      name: 'Super great task',
+      shortName: 'taskerino'
     },
     {
       ...baseObject,
@@ -95,7 +99,8 @@ export const testData: TestData = {
       review: true,
       enabled: false,
       locked: false,
-      name: 'A task to be enabled by answering a knockout question'
+      name: 'A task to be enabled by answering a knockout question',
+      shortName: 'taskerino'
     },
     {
       ...baseObject,
@@ -109,7 +114,8 @@ export const testData: TestData = {
       review: true,
       locked: false,
       enabled: true,
-      name: 'A task that has a parent task'
+      name: 'A task that has a parent task',
+      shortName: 'taskerino'
     },
     {
       ...baseObject,
@@ -123,7 +129,8 @@ export const testData: TestData = {
       defaultReviewerID: 'abc',
       locked: false,
       enabled: true,
-      name: 'A parent task for task 4'
+      name: 'A parent task for task 4',
+      shortName: 'taskerino'
     }
   ],
   TaskDependency: [
@@ -297,6 +304,24 @@ export const testData: TestData = {
       replyCommentID: 1,
       departmentID: DepartmentID.legal
     },
+  ],
+  Attachment: [
+    {
+      ...baseObject,
+      id: 1,
+      createdBy: testUserID,
+      name: 'Cool File Attachment',
+      mimeType: 'image/png',
+      sepID: 1
+    },
+    {
+      ...baseObject,
+      id: 2,
+      createdBy: testUserID,
+      name: 'Cool URL Attachment',
+      url: 'https://google.com',
+      sepID: 1
+    }
   ]
 };
 

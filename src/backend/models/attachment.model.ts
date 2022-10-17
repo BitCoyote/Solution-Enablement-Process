@@ -41,19 +41,27 @@ export const AttachmentSchema: Sequelize.ModelAttributes = {
   },
   url: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   mimeType: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
-  attachableType: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  attachableID: {
+  sepID: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    references: {
+      key: 'id',
+      model: 'SEPs',
+    },
+  },
+  taskID: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+    references: {
+      key: 'id',
+      model: 'Tasks',
+    },
   },
 };
 
@@ -70,13 +78,18 @@ export const initAttachment = (db: SequelizeType) => {
 /** Creates all the table associations for this model */
 export const attachmentAssociations = (db: Database) => {
   db.Attachment.belongsTo(db.SEP, {
-    foreignKey: 'attachableID',
+    foreignKey: 'sepID',
     constraints: false,
     as: 'sep',
   });
   db.Attachment.belongsTo(db.Task, {
-    foreignKey: 'attachableID',
+    foreignKey: 'taskID',
     constraints: false,
     as: 'task',
   });
+  db.Attachment.belongsTo(db.User, {
+    foreignKey: 'createdBy',
+    as: 'creator',
+    constraints: false,
+  })
 };
