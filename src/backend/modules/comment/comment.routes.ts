@@ -69,14 +69,8 @@ const paths: Paths = {
       handler: commentController.updateComment,
       middleware: [
         (req, res, next, db) => {
-            mustOwnResource(
-              req,
-              res,
-              next,
-              db.Comment,
-              parseInt(req.params.id)
-            );
-          }
+          mustOwnResource(req, res, next, db.Comment, parseInt(req.params.id));
+        },
       ],
       tags: ['Comment'],
       summary: 'Update a comment',
@@ -116,14 +110,8 @@ const paths: Paths = {
       handler: commentController.deleteComment,
       middleware: [
         (req, res, next, db) => {
-            mustOwnResource(
-              req,
-              res,
-              next,
-              db.Comment,
-              parseInt(req.params.id)
-            );
-          }
+          mustOwnResource(req, res, next, db.Comment, parseInt(req.params.id));
+        },
       ],
       tags: ['Comment'],
       summary: 'Delete a comment (soft-delete)',
@@ -142,7 +130,6 @@ const paths: Paths = {
       },
     },
   },
-
 };
 
 export default paths;

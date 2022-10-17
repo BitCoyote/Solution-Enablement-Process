@@ -16,7 +16,6 @@ const rootReducer = combineReducers({
   counter: counterReducer,
   [sepAPI.reducerPath]: sepAPI.reducer,
   [microsoftAPI.reducerPath]: microsoftAPI.reducer,
-  
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
