@@ -1,6 +1,7 @@
 import { sepAPI } from '../API';
 import { TaskSearchResult } from '../../../shared/types/Task';
 import { SearchParams } from '../../../shared/types/SEP';
+import { setSnackbarForEndpoint } from '../../utils/snackbar';
 
 export const tasksSlice = sepAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,6 +22,11 @@ export const tasksSlice = sepAPI.injectEndpoints({
           },
         };
       },
+      onQueryStarted: (arg, api) => {
+        setSnackbarForEndpoint(api, {
+          errorMessage: 'There was a problem getting the tasks.'
+        });
+      }
     }),
   }),
 });

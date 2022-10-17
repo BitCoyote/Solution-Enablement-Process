@@ -38,10 +38,16 @@ export const AttachmentSchema: Sequelize.ModelAttributes = {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      len: [3, 256],
+    },
   },
   url: {
     type: Sequelize.STRING,
     allowNull: true,
+    validate: {
+      len: [3, 256],
+    },
   },
   mimeType: {
     type: Sequelize.STRING,
@@ -91,5 +97,5 @@ export const attachmentAssociations = (db: Database) => {
     foreignKey: 'createdBy',
     as: 'creator',
     constraints: false,
-  })
+  });
 };

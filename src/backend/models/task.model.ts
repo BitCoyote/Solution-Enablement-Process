@@ -95,10 +95,16 @@ export const TaskSchema: Sequelize.ModelAttributes = {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      len: [1, 256],
+    },
   },
   shortName: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      len: [1, 256],
+    },
   },
   description: {
     type: Sequelize.STRING(2048),

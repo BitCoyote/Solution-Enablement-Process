@@ -38,6 +38,9 @@ export const SEPSchema: Sequelize.ModelAttributes = {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      len: [1, 256],
+    },
   },
   phase: {
     type: Sequelize.STRING,

@@ -111,7 +111,7 @@ module.exports = {
             },
           },
           comment: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(2048),
             allowNull: false,
           },
           taskID: {

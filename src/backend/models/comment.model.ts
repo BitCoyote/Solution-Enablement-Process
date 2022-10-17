@@ -52,8 +52,11 @@ export const CommentSchema: Sequelize.ModelAttributes = {
     },
   },
   comment: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING(2048),
     allowNull: false,
+    validate: {
+      len: [1, 2048],
+    },
   },
   taskID: {
     type: Sequelize.INTEGER,
@@ -71,7 +74,6 @@ export const CommentSchema: Sequelize.ModelAttributes = {
       model: 'SEPs',
     },
   },
-
 };
 
 /** Initializes this model for use */
