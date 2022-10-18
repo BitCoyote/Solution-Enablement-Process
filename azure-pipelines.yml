@@ -106,14 +106,14 @@ steps:
       targetPath: '$(Build.ArtifactStagingDirectory)/npm-frontend'
       artifactName: frontend
     displayName: 'Publish frontend artifact'
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'SEP-Dev'
-    appType: 'webAppLinux'
-    appName: 'dev-sep'
-    deployToSlotOrASE: true
-    resourceGroupName: 'CZE-I-N-SEP0000-D-RGP-04'
-    slotName: 'production'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    runtimeStack: 'NODE|16-lts'
-    startUpCommand: 'npm run start-backend'
+  - task: AzureWebApp@1
+    inputs:
+      azureSubscription: 'SEP-Dev'
+      appType: 'webAppLinux'
+      appName: 'dev-sep'
+      deployToSlotOrASE: true
+      resourceGroupName: 'CZE-I-N-SEP0000-D-RGP-04'
+      slotName: 'production'
+      package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+      runtimeStack: 'NODE|16-lts'
+      startUpCommand: 'npm run start-backend'
