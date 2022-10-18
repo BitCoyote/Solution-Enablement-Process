@@ -1,7 +1,6 @@
 import { SequelizeTimestamps } from './Sequelize';
 import { UserShort } from './User';
 
-
 export interface Attachment extends SequelizeTimestamps {
   id: number;
   createdBy: string;
@@ -15,7 +14,6 @@ export interface Attachment extends SequelizeTimestamps {
 export interface AttachmentExtended extends Attachment {
   creator: UserShort;
 }
-
 
 export interface CreateURLAttachmentBody {
   sepID: number;

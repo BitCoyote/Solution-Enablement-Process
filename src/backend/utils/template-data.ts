@@ -233,7 +233,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.tps,
     review: false,
     name: 'TPS Review Complete',
-    shortName: 'TPS Review'
+    shortName: 'TPS Review',
   },
   {
     id: 20,
@@ -281,7 +281,7 @@ export const taskTemplates: TaskTemplate[] = [
     departmentID: DepartmentID.ncs,
     review: false,
     name: 'Design Review Complete',
-    shortName: 'Design Review (NCS)'
+    shortName: 'Design Review (NCS)',
   },
 ];
 

@@ -37,7 +37,10 @@
     "docker:db:down": "docker compose down",
     "docker:db:init": "source .env && docker compose exec -i sep-db /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER_HOST -U $SQL_SERVER_USER -P $SQL_SERVER_PASS -Q \"CREATE DATABASE $SQL_SERVER_DB\"",
     "docker:db:destroy": "cli-confirm \"Do you really want to destroy your local database?\" && source .env && docker compose exec -i sep-db /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER_HOST -U $SQL_SERVER_USER -P $SQL_SERVER_PASS -Q \"DROP DATABASE $SQL_SERVER_DB\"",
-    "docker:db:reset": "npm run docker:db:destroy && npm run docker:db:init && npm run migrate && npm run seed"
+    "docker:db:reset": "npm run docker:db:destroy && npm run docker:db:init && npm run migrate && npm run seed",
+    "win:db:init": "bash -c \"source .env && sqlcmd -S $SQL_SERVER_HOST -U $SQL_SERVER_USER -P $SQL_SERVER_PASS -v SQL_SERVER_DB=$SQL_SERVER_DB -Q 'create database [$(SQL_SERVER_DB)];'\"",
+    "win:db:destroy": "cli-confirm \"Do you really want to destroy your local database?\" && bash -c \"source .env && sqlcmd -S $SQL_SERVER_HOST -U $SQL_SERVER_USER -P $SQL_SERVER_PASS -v SQL_SERVER_DB=$SQL_SERVER_DB -Q 'alter database [$(SQL_SERVER_DB)] set single_user with rollback immediate; drop database [$(SQL_SERVER_DB)];'\"",
+    "win:db:reset": "npm run win:db:destroy && npm run win:db:init && npm run migrate && npm run seed"
   },
   "jest-junit": {
     "outputDirectory": "./coverage/junit"

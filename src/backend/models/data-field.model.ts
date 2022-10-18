@@ -39,10 +39,16 @@ export const DataFieldSchema: Sequelize.ModelAttributes = {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      len: [1, 256],
+    },
   },
   type: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      len: [1, 256],
+    },
   },
   description: {
     type: Sequelize.STRING,
@@ -67,6 +73,9 @@ export const DataFieldSchema: Sequelize.ModelAttributes = {
   icon: {
     type: Sequelize.STRING,
     allowNull: true,
+    validate: {
+      len: [1, 256],
+    },
   },
 };
 

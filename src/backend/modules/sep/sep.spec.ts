@@ -138,6 +138,10 @@ describe('sep module', () => {
       const sep = await globals.db.SEP.findByPk(1);
       expect(sep?.description).toEqual('Cool!');
       expect(response.body.description).toEqual('Cool!');
+      await globals.request
+        .patch(`/sep/1`)
+        .send({ name: 'Cool!' } as UpdateSEPBody)
+        .expect(200);
     });
   });
 
